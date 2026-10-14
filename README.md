@@ -26,41 +26,22 @@ everything works and modes are called `irrep5` etc.
 ## Install
 
 ```bash
-git clone https://github.com/Pravanop/DistortKit && cd DistortKit
-pip install .                    # numpy is the only requirement
-distortkit --help                # or: python3 -m distortkit --help
+pip install git+https://github.com/Pravanop/DistortKit.git
+distortkit --help
 ```
 
-Python 3.9+. Optional extras: `pip install ".[symmetrize]"` (pymatgen: give a POSCAR with no symmetry information explicit
-symmetry), `".[animate]"` (matplotlib + Pillow: GIFs), `".[build-tables]"` (spglib: only to rebuild the tables). They can
-also live in their own environment, which DistortKit finds by itself:
+That one command installs everything: the analysis (numpy), automatic symmetry assignment for a POSCAR without symmetry
+information (pymatgen), and GIF animations (matplotlib, Pillow). Python 3.9 or newer. From a clone instead:
+`git clone https://github.com/Pravanop/DistortKit && cd DistortKit && pip install .` (add `-e` to work on the code).
+`python3 -m distortkit` works the same as the `distortkit` command.
 
-```bash
-python3 -m venv ~/.venvs/distortkit && ~/.venvs/distortkit/bin/pip install pymatgen matplotlib pillow
-```
-
-The search order for an interpreter that has pymatgen (or matplotlib) is `$DISTORTKIT_PYTHON`, `$DISTORTKIT_PMG_PYTHON`, the
-current interpreter, `~/.venvs/distortkit/bin/python`. Without pymatgen the built-in symmetry detector does the same job.
-
-### Data tables
-
-| file in `distortkit/tables/` | what | where it comes from |
-|---|---|---|
-| `space_groups.json` | the 230 space groups, International Tables default settings | spglib's database (BSD-3), via `tools/build_tables.py` |
-| `wyckoff.json` | all 1731 Wyckoff positions with their letters | computed from the group operations by `tools/build_tables.py`; letters from spglib |
-| `data_isotropy.txt`, `data_irreps.txt` | irrep labels (X5+, R4+ ...) | ISOTROPY Software Suite (Stokes, Hatch, Campbell, BYU); unmodified; **please cite it** |
-
-`tools/verify_tables.py /path/to/iso` compares the two JSON tables with ISOTROPY's `data_space.txt` and `data_wyckoff.txt`
-(not distributed here): all 230 operation sets are identical and all 1731 Wyckoff positions are the same special positions,
-once ISOTROPY's different conventions for them are converted (it writes templates of centred groups in the primitive cell
-and, for monoclinic groups, with another unique axis). Letters of special positions in a structure are conventional up to the
-origin and basis choice of the group's normaliser (e.g. which axis of P2 is `1a`); DistortKit follows spglib/International Tables.
-To use another copy of the label tables set `ISODATA=/path/to/tables`.
+To keep the heavy packages in a separate environment, point `DISTORTKIT_PYTHON` at that interpreter; DistortKit then runs
+the symmetrisation and rendering helpers in it.
 
 ## Quick start
 
 ```bash
-# after `pip install .` use `distortkit ...`; from a source checkout: export PYTHONPATH=$PWD and use python3 -m distortkit
+# after `pip install` the command is `distortkit`; the examples below use python3 -m distortkit, which is the same
 
 # one command, from files (JSON, POSCAR/CONTCAR, or CIF with explicit symmetry operations)
 python3 -m distortkit compare parent.vasp child.vasp
@@ -232,7 +213,7 @@ Options: `--fraction 50%` or `0.5` (asked for at a terminal if omitted; `--ampli
 (default `animations/` next to the analysis file) and `--prefix`. An `animations_manifest.txt` lists the files. Look down
 an axis perpendicular to the atomic motion (e.g. `--view b` for motion along c) to see it best.
 
-Rendering needs matplotlib and Pillow; they can live in the same separate environment as pymatgen
+Rendering uses matplotlib and Pillow, which are installed with DistortKit; they can also live in a separate environment
 (`~/.venvs/distortkit`, found automatically; or set `DISTORTKIT_PYTHON`). Examples: `examples/hfo2/animations/`.
 
 ## When the structures are not group-subgroup related (`relate`)
@@ -396,8 +377,7 @@ parity at the standard origin, parity separates labels that otherwise share a fi
 * A label is reported only if its fingerprint matches; if two or more labels match, **all are listed**
   (`M2+/M3+`) and a note is added. Nothing is guessed.
 * In the cubic perovskite this gives R4+ (tilts), R4-, R5+, R1+, R3+ at R; X1+, X3-, X4-, X5+, X5- at X; GM4-,
-  GM5- at Gamma; and M5+, M5- at M. At M a few same-parity irreps stay ambiguous (M2+/M3+, M1+/M4+): telling them
-  apart needs the character tables, which are stored in a packed format I did not decode.
+  GM5- at Gamma; and M5+, M5- at M. At M a few same-parity irreps stay ambiguous (M2+/M3+, M1+/M4+).
 * **The +/- depends on the origin.** Labels refer to the standard origin of the parent group (as in ISOTROPY). The origin
   used is the equivalent standard origin *nearest to your coordinates*, and the report prints where it is (and
   which atom sits there). Putting the A site at the origin instead of the B site swaps R4+ for R5- in the
@@ -412,6 +392,21 @@ parity at the standard origin, parity separates labels that otherwise share a fi
   lattice; squared amplitudes of all modes add up to the squared total displacement.
 * Strain is `U - I` from `F = R U`, in the parent's Cartesian axes. The origin is chosen so the net displacement is
   zero.
+
+## Data tables
+
+| file in `distortkit/tables/` | what | where it comes from |
+|---|---|---|
+| `space_groups.json` | the 230 space groups, International Tables default settings | spglib's database (BSD-3), via `tools/build_tables.py` |
+| `wyckoff.json` | all 1731 Wyckoff positions with their letters | computed from the group operations by `tools/build_tables.py`; letters from spglib |
+| `data_isotropy.txt`, `data_irreps.txt` | irrep labels (X5+, R4+ ...) | ISOTROPY Software Suite (Stokes, Hatch, Campbell, BYU); unmodified; **please cite it** |
+
+`tools/verify_tables.py /path/to/iso` compares the two JSON tables with ISOTROPY's `data_space.txt` and `data_wyckoff.txt`
+(not distributed here): all 230 operation sets are identical and all 1731 Wyckoff positions are the same special positions,
+once ISOTROPY's different conventions for them are converted (it writes templates of centred groups in the primitive cell
+and, for monoclinic groups, with another unique axis). Letters of special positions in a structure are conventional up to the
+origin and basis choice of the group's normaliser (e.g. which axis of P2 is `1a`); DistortKit follows spglib/International Tables.
+To use another copy of the label tables set `ISODATA=/path/to/tables`.
 
 ## Limits
 

@@ -18,12 +18,13 @@ classifiers = [
     "Programming Language :: Python :: 3",
     "Topic :: Scientific/Engineering :: Physics",
 ]
-dependencies = ["numpy>=1.23"]
-
-[project.optional-dependencies]
-symmetrize = ["pymatgen"]            # give a POSCAR without symmetry information explicit symmetry
-animate = ["matplotlib", "pillow"]   # GIF animations
-build-tables = ["spglib"]            # only to rebuild distortkit/tables/*.json (tools/build_tables.py)
+dependencies = [
+    "numpy>=1.23",
+    "pymatgen",      # symmetry assignment for a structure without symmetry information
+    "matplotlib",    # GIF animations
+    "pillow",        # GIF animations
+    "spglib",        # also needed to rebuild the tables (tools/build_tables.py)
+]
 
 [project.scripts]
 distortkit = "distortkit.cli:main"

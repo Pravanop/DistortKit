@@ -38,7 +38,8 @@ contain only crystallographic facts (group operations and special positions). to
 against the ISOTROPY data tables: all 230 groups and all 1731 Wyckoff positions agree once ISOTROPY's different
 conventions (primitive-cell basis for centred groups, monoclinic axis, origin choice) are converted.
 
-3. Optional dependencies (not distributed with DistortKit)
----------------------------------------------------------
-numpy (required, BSD-3-Clause); pymatgen (MIT) for symmetrising a structure without symmetry information;
-matplotlib (PSF-based licence) and Pillow (HPND) for animated GIFs; spglib (BSD-3-Clause) only to rebuild the tables.
+3. Dependencies (installed by pip, not distributed with DistortKit)
+-------------------------------------------------------------------
+numpy (BSD-3-Clause); pymatgen (MIT) for symmetrising a structure without symmetry information; matplotlib
+(PSF-based licence) and Pillow (HPND) for animated GIFs; spglib (BSD-3-Clause) for the tables and, through pymatgen,
+for symmetry detection.

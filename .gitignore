@@ -9,3 +9,5 @@ venv/
 iso.log
 .pytest_cache/
 .coverage
+.idea/
+.vscode/
