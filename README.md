@@ -1,6 +1,6 @@
 # DistortKit
 
-A oen-source Python toolkit for analyzing crystal distortions, in the spirit of existing symmetry-mode analysis packages (DistortKit is an independent endeavour not affiliated to any previous efforts). Give it a
+An open-source Python toolkit for analyzing crystal distortions, in the spirit of existing symmetry-mode analysis packages (DistortKit is an independent endeavour not affiliated to any previous efforts). Give it a
 high-symmetry **parent** structure and a low-symmetry **child** and it reports, with no manual alignment,
 
 * the space group of both (number and Hermann-Mauguin symbol),
