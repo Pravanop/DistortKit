@@ -1,0 +1,55 @@
+# arrows = atomic displacements (modes GM2- + GM1+, amplitude 1.2443 A)
+# vectors are in Angstrom x 1; in VESTA use Properties > Vectors to change the arrow scale
+# atoms sit at the PARENT positions; moments are used only as a carrier for the displacement vectors
+data_distortkit_arrows
+_audit_creation_method 'distortkit (displacement vectors stored as moments)'
+_symmetry_space_group_name_H-M 'P 1'
+_symmetry_Int_Tables_number 1
+_space_group_magn.number_BNS 1.1
+_space_group_magn.name_BNS 'P 1'
+_cell_length_a 5.28320640
+_cell_length_b 4.99291970
+_cell_length_c 5.01954220
+_cell_angle_alpha 90.000000
+_cell_angle_beta 90.000000
+_cell_angle_gamma 90.000000
+loop_
+_space_group_symop_magn_operation.id
+_space_group_symop_magn_operation.xyz
+1 x,y,z,+1
+loop_
+_atom_site_label
+_atom_site_type_symbol
+_atom_site_fract_x
+_atom_site_fract_y
+_atom_site_fract_z
+_atom_site_occupancy
+Hf1 Hf 0.46814256 0.22714412 0.25000000 1.0
+Hf2 Hf 0.03185743 0.22714412 0.75000000 1.0
+Hf3 Hf 0.96814256 0.77285588 0.25000000 1.0
+Hf4 Hf 0.53185744 0.77285588 0.75000000 1.0
+O1 O 0.11472978 0.40304221 0.25000000 1.0
+O2 O 0.38527022 0.40304221 0.75000000 1.0
+O3 O 0.61472978 0.59695779 0.25000000 1.0
+O4 O 0.88527022 0.59695779 0.75000000 1.0
+O5 O 0.25000000 0.94951874 0.00000000 1.0
+O6 O 0.75000000 0.05048126 0.50000000 1.0
+O7 O 0.75000000 0.05048126 0.00000000 1.0
+O8 O 0.25000000 0.94951874 0.50000000 1.0
+loop_
+_atom_site_moment.label
+_atom_site_moment.crystalaxis_x
+_atom_site_moment.crystalaxis_y
+_atom_site_moment.crystalaxis_z
+Hf1 -0.00681151 0.03082827 0.23895173
+Hf2 0.00681151 0.03082827 0.23895173
+Hf3 -0.00681151 -0.03082827 0.23895173
+Hf4 0.00681151 -0.03082827 0.23895173
+O1 0.10362015 0.14346049 -0.47620638
+O2 -0.10362015 0.14346049 -0.47620638
+O3 0.10362015 -0.14346049 -0.47620638
+O4 -0.10362015 -0.14346049 -0.47620638
+O5 0.10270915 0.06381930 0.23725465
+O6 -0.10270915 -0.06381930 0.23725465
+O7 0.10270915 -0.06381930 0.23725465
+O8 -0.10270915 0.06381930 0.23725465

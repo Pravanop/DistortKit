@@ -1,0 +1,13 @@
+Pca21: HfO2 (x4), 12 atoms in the given cell, 12 in the primitive cell; Pca2_1 (#29)
+Pbca: HfO2 (x8), 24 atoms in the given cell, 24 in the primitive cell; Pbca (#61)
+
+Pca21 as parent of Pbca: no. The structures overlay (2 parent cell(s); rms 0.506 A, max 1.116 A, strain 0.006) but 4 operation(s) of the child are NOT operations of the parent
+    not in the parent [rotation]: (-x,-y,-z+0.904) has a rotation the parent does not have
+    not in the parent [rotation]: (x+0.500,-y,-z+0.404) has a rotation the parent does not have
+    not in the parent [rotation]: (-x+0.500,y,-z+0.904) has a rotation the parent does not have
+    not in the parent [rotation]: (x,y,-z+0.404) has a rotation the parent does not have
+Pbca as parent of Pca21: no. Pca21's primitive cell has 12 atoms, Pbca's has 24: not an integer multiple, so Pca21 cannot be a supercell distortion of Pbca
+
+verdict: no group-subgroup relation either way.
+  Pbca has symmetry that Pca21 lacks: the true parent has more symmetry than Pca21; look for a common parent
+  next: `relate --common` searches for a high-symmetry structure that both are distortions of, or pass one with --parent

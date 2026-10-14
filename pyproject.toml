@@ -1,0 +1,41 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "distortkit"
+version = "0.1.0"
+description = "Mode, strain and symmetry analysis of crystal distortions: parent/child decomposition, group-subgroup relations, common parents, Landau invariants"
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+authors = [{ name = "Pravan Omprakash" }]
+keywords = ["crystallography", "symmetry modes", "irreps", "phase transitions", "isotropy subgroups", "Landau theory"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Topic :: Scientific/Engineering :: Physics",
+]
+dependencies = ["numpy>=1.23"]
+
+[project.optional-dependencies]
+symmetrize = ["pymatgen"]            # give a POSCAR without symmetry information explicit symmetry
+animate = ["matplotlib", "pillow"]   # GIF animations
+build-tables = ["spglib"]            # only to rebuild distortkit/tables/*.json (tools/build_tables.py)
+
+[project.scripts]
+distortkit = "distortkit.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/Pravanop/DistortKit"
+
+[tool.setuptools.packages.find]
+include = ["distortkit*"]
+
+[tool.setuptools.package-data]
+distortkit = ["tables/*"]
+
+[tool.setuptools]
+license-files = ["LICENSE", "NOTICE"]

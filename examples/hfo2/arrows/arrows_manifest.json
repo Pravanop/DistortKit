@@ -1,0 +1,47 @@
+[
+ {
+  "file": "/Users/pravanomprakash/Library/Application Support/Claude/scratch-workspaces/9a2ffcd5-321c-410e-9c87-31f51240259b/899047df-55af-48eb-9c51-bc3e514e3ee6/scratch-2026-10-13-e0dad0/examples/hfo2/arrows/Pca21_01_GM2-.mcif",
+  "recipe": "mode GM2-",
+  "amplitude": 1.184414426059826,
+  "arrows": 12,
+  "atoms": 12,
+  "max_displacement": 0.47620638006939153,
+  "arrow_scale": 1.0
+ },
+ {
+  "file": "/Users/pravanomprakash/Library/Application Support/Claude/scratch-workspaces/9a2ffcd5-321c-410e-9c87-31f51240259b/899047df-55af-48eb-9c51-bc3e514e3ee6/scratch-2026-10-13-e0dad0/examples/hfo2/arrows/Pca21_02_GM1+.mcif",
+  "recipe": "mode GM1+",
+  "amplitude": 0.3815113564531656,
+  "arrows": 12,
+  "atoms": 12,
+  "max_displacement": 0.17696905589193865,
+  "arrow_scale": 1.0
+ },
+ {
+  "file": "/Users/pravanomprakash/Library/Application Support/Claude/scratch-workspaces/9a2ffcd5-321c-410e-9c87-31f51240259b/899047df-55af-48eb-9c51-bc3e514e3ee6/scratch-2026-10-13-e0dad0/examples/hfo2/arrows/Pca21_coupled_01_GM2-__GM1+.mcif",
+  "recipe": "modes GM2- + GM1+",
+  "amplitude": 1.2443425765284097,
+  "arrows": 12,
+  "atoms": 12,
+  "max_displacement": 0.5080261441718111,
+  "arrow_scale": 1.0
+ },
+ {
+  "file": "/Users/pravanomprakash/Library/Application Support/Claude/scratch-workspaces/9a2ffcd5-321c-410e-9c87-31f51240259b/899047df-55af-48eb-9c51-bc3e514e3ee6/scratch-2026-10-13-e0dad0/examples/hfo2/arrows/Pca21_polar_Hf_only_01_GM2-_on_Hf.mcif",
+  "recipe": "GM2-:Hf",
+  "amplitude": 0.47790346871490524,
+  "arrows": 4,
+  "atoms": 12,
+  "max_displacement": 0.23895173435745287,
+  "arrow_scale": 1.0
+ },
+ {
+  "file": "/Users/pravanomprakash/Library/Application Support/Claude/scratch-workspaces/9a2ffcd5-321c-410e-9c87-31f51240259b/899047df-55af-48eb-9c51-bc3e514e3ee6/scratch-2026-10-13-e0dad0/examples/hfo2/arrows/Pca21_polarHf_plus_halfGM1O_01_GM2-_on_Hf__GM1+_on_O_x0.5.mcif",
+  "recipe": "GM2-:Hf + GM1+:O*0.5",
+  "amplitude": 0.5135977756876436,
+  "arrows": 12,
+  "atoms": 12,
+  "max_displacement": 0.23895173435745287,
+  "arrow_scale": 1.0
+ }
+]

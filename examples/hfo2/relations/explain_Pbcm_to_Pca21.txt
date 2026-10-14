@@ -1,0 +1,14 @@
+parent Pbcm (#57); the child's 1-cell supercell is invariant under 8 of its operations (x 1 translations = 8 elements acting on the displacement field)
+
+1. HOW MUCH DOES EACH SYMMETRY EXPLAIN?  (largest group the whole displacement pattern obeys to within a tolerance)
+    tolerance  group of the pattern     elements  explains  breaks it (rms/atom)
+     0.0001 A  Pca2_1 (#29)                    4   100.00%        0.0000 A  (0.0000 A total)
+   the pattern has Pca2_1 (#29) symmetry at every tolerance: nothing further breaks it
+
+2. WHICH MODES DRIVE WHICH?  (isotropy-subgroup cascade of the 2 mode(s) above 0.02 A; 'allowed' = permitted by the symmetry kept so far; an operation counts as keeping a mode if it moves no atom of it by more than 5% of its largest displacement)
+   m2 GM1+: 0.3815 A  fully symmetric (allowed at any symmetry, e.g. breathing/isotropic strain-like)
+   level 1: m1 GM2- (1.1844 A) is PRIMARY
+      symmetry kept: Pca2_1 (#29)  (4 elements)
+      no further listed mode becomes allowed at this level
+   child: Pca2_1 (#29) (4 elements)
+   (allowed is not forced: the symmetry permits a coupling, the energetics decide how large it is)

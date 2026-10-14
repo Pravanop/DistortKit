@@ -1,0 +1,16 @@
+parent Fm-3m (#225); the child's 4-cell supercell is invariant under 48 of its operations (x 4 translations = 192 elements acting on the displacement field)
+
+1. HOW MUCH DOES EACH SYMMETRY EXPLAIN?  (largest group the whole displacement pattern obeys to within a tolerance)
+    tolerance  group of the pattern     elements  explains  breaks it (rms/atom)
+     0.0001 A  Pca2_1 (#29)                    4   100.00%        0.0000 A  (0.0000 A total)
+   the pattern has Pca2_1 (#29) symmetry at every tolerance: nothing further breaks it
+
+2. WHICH MODES DRIVE WHICH?  (isotropy-subgroup cascade of the 5 mode(s) above 0.02 A; 'allowed' = permitted by the symmetry kept so far; an operation counts as keeping a mode if it moves no atom of it by more than 5% of its largest displacement)
+   level 1: m2 X2- (0.9744 A) is PRIMARY
+      symmetry kept: P4_2/nmc (#137)  (32 elements)
+      no further listed mode becomes allowed at this level
+   level 2: m1 X5+ (1.2925 A) is INDEPENDENT (not allowed by X2- alone)
+      symmetry kept: Pca2_1 (#29)  (4 elements)
+      allowed once X2- + X5+ is frozen: m3 GM4- (0.4463 A), m4 X5- (0.4035 A), m5 X3- (0.1702 A)
+   child: Pca2_1 (#29) (4 elements)
+   (allowed is not forced: the symmetry permits a coupling, the energetics decide how large it is)

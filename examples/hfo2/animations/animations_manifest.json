@@ -1,0 +1,66 @@
+[
+ {
+  "file": "/Users/pravanomprakash/Library/Application Support/Claude/scratch-workspaces/9a2ffcd5-321c-410e-9c87-31f51240259b/899047df-55af-48eb-9c51-bc3e514e3ee6/scratch-2026-10-13-e0dad0/examples/hfo2/animations/polar_01_GM2-.gif",
+  "recipe": "modes GM2-",
+  "fraction": 1.0,
+  "max_amplitude": 1.184414426059826,
+  "frames": 24,
+  "fps": 12,
+  "oneway": false,
+  "view": "iso",
+  "size": [
+   640,
+   640
+  ],
+  "atoms_drawn": 22,
+  "bonds": 84
+ },
+ {
+  "file": "/Users/pravanomprakash/Library/Application Support/Claude/scratch-workspaces/9a2ffcd5-321c-410e-9c87-31f51240259b/899047df-55af-48eb-9c51-bc3e514e3ee6/scratch-2026-10-13-e0dad0/examples/hfo2/animations/coupled_01_GM2-__GM1+.gif",
+  "recipe": "modes GM2- + GM1+",
+  "fraction": 1.0,
+  "max_amplitude": 1.2443425765284097,
+  "frames": 24,
+  "fps": 12,
+  "oneway": false,
+  "view": "iso",
+  "size": [
+   640,
+   640
+  ],
+  "atoms_drawn": 22,
+  "bonds": 84
+ },
+ {
+  "file": "/Users/pravanomprakash/Library/Application Support/Claude/scratch-workspaces/9a2ffcd5-321c-410e-9c87-31f51240259b/899047df-55af-48eb-9c51-bc3e514e3ee6/scratch-2026-10-13-e0dad0/examples/hfo2/animations/polar_Hf_only_01_GM2-_on_Hf.gif",
+  "recipe": "GM2-:Hf",
+  "fraction": 1.0,
+  "max_amplitude": 0.47790346871490524,
+  "frames": 24,
+  "fps": 12,
+  "oneway": false,
+  "view": "iso",
+  "size": [
+   640,
+   640
+  ],
+  "atoms_drawn": 22,
+  "bonds": 84
+ },
+ {
+  "file": "/Users/pravanomprakash/Library/Application Support/Claude/scratch-workspaces/9a2ffcd5-321c-410e-9c87-31f51240259b/899047df-55af-48eb-9c51-bc3e514e3ee6/scratch-2026-10-13-e0dad0/examples/hfo2/animations/polar_half_arrows_viewB_01_GM2-.gif",
+  "recipe": "modes GM2-",
+  "fraction": 0.5,
+  "max_amplitude": 0.592207213029913,
+  "frames": 24,
+  "fps": 12,
+  "oneway": true,
+  "view": "b",
+  "size": [
+   640,
+   640
+  ],
+  "atoms_drawn": 22,
+  "bonds": 84
+ }
+]

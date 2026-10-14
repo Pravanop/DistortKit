@@ -1,0 +1,5 @@
+file                                           selection                        max %   max(A) frames  fps
+polar_01_GM2-.gif                              modes GM2-                       100.0   1.1844     24   12
+coupled_01_GM2-__GM1+.gif                      modes GM2- + GM1+                100.0   1.2443     24   12
+polar_Hf_only_01_GM2-_on_Hf.gif                GM2-:Hf                          100.0   0.4779     24   12
+polar_half_arrows_viewB_01_GM2-.gif            modes GM2-                        50.0   0.5922     24   12

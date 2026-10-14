@@ -1,0 +1,7 @@
+Pbcm: HfO2 (x4), 12 atoms in the given cell, 12 in the primitive cell; Pbcm (#57)
+Pbca: HfO2 (x8), 24 atoms in the given cell, 24 in the primitive cell; Pbca (#61)
+
+Pbcm as parent of Pbca: yes. 2 parent cell(s); rms displacement 0.369 A, max 0.635 A, strain 0.015; every operation of the child is an operation of the parent (8 of 8; index 1)
+Pbca as parent of Pbcm: no. Pbcm's primitive cell has 12 atoms, Pbca's has 24: not an integer multiple, so Pbcm cannot be a supercell distortion of Pbca
+
+verdict: Pbca is a distortion of Pbcm: Pbcm can be the parent (a group-subgroup relation); run `compare Pbcm Pbca` for the modes.

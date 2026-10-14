@@ -1,0 +1,24 @@
+order parameters (192 operations on a 4-cell supercell): m1 X5+ (dim 6, 1.2925 A), m2 X2- (dim 3, 0.9744 A), m3 GM4- (dim 3, 0.4463 A)
+
+1. ALLOWED TERMS up to degree 4  (independent invariants; 'new' = not a product of lower-degree ones)
+   degree 2: GM4-^2                        1 invariant(s), 1 new
+   degree 2: X2-^2                         1 invariant(s), 1 new
+   degree 2: X5+^2                         1 invariant(s), 1 new
+   degree 3: X5+ X2- GM4-                  1 invariant(s), 1 new
+   degree 3: X5+^3                         1 invariant(s), 1 new
+   degree 4: GM4-^4                        2 invariant(s), 1 new
+   degree 4: X2-^2 GM4-^2                  2 invariant(s), 1 new
+   degree 4: X2-^4                         2 invariant(s), 1 new
+   degree 4: X5+^2 GM4-^2                  4 invariant(s), 3 new
+   degree 4: X5+^2 X2- GM4-                2 invariant(s), 2 new
+   degree 4: X5+^2 X2-^2                   4 invariant(s), 3 new
+   degree 4: X5+^4                         5 invariant(s), 4 new
+
+2. COUPLINGS LINEAR IN A MODE: what the other measured modes would induce in it
+   X5+ <- X2- GM4- (degree 3, 1 invariant(s)): pushes it only 59% along the measured direction (not fully induced: its own terms set its direction)
+   X2- <- X5+ GM4- (degree 3, 1 invariant(s)): induces exactly the measured direction (100% match)
+      (+ 1 higher-order active; --all lists them)
+   GM4- <- X5+ X2- (degree 3, 1 invariant(s)): induces exactly the measured direction (100% match)
+      (+ 1 higher-order active; --all lists them)
+
+(coefficients of the free energy are free: these say which terms exist, not how large they are; a trilinear term is symmetric in its modes, so it does not say which of them drives: see `explain` for that)

@@ -1,0 +1,11 @@
+Pbcm: HfO2 (x4), 12 atoms in the given cell, 12 in the primitive cell; Pbcm (#57)
+Pca21: HfO2 (x4), 12 atoms in the given cell, 12 in the primitive cell; Pca2_1 (#29)
+
+Pbcm as parent of Pca21: yes. 1 parent cell(s); rms displacement 0.359 A, max 0.508 A, strain 0.016; every operation of the child is an operation of the parent (4 of 8; index 2)
+Pca21 as parent of Pbcm: no. The structures overlay (1 parent cell(s); rms 0.363 A, max 0.513 A, strain 0.016) but 4 operation(s) of the child are NOT operations of the parent
+    not in the parent [rotation]: (-x,-y,-z+0.904) has a rotation the parent does not have
+    not in the parent [rotation]: (x+0.500,-y,-z+0.404) has a rotation the parent does not have
+    not in the parent [rotation]: (-x+0.500,y,-z+0.904) has a rotation the parent does not have
+    not in the parent [rotation]: (x,y,-z+0.404) has a rotation the parent does not have
+
+verdict: Pca21 is a distortion of Pbcm: Pbcm can be the parent (a group-subgroup relation); run `compare Pbcm Pca21` for the modes.

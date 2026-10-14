@@ -1,0 +1,6 @@
+file                                         selection                            amp(A)  arrows  longest(A)
+Pca21_01_GM2-.mcif                           mode GM2-                           +1.1844  12/12       0.4762
+Pca21_02_GM1+.mcif                           mode GM1+                           +0.3815  12/12       0.1770
+Pca21_coupled_01_GM2-__GM1+.mcif             modes GM2- + GM1+                   +1.2443  12/12       0.5080
+Pca21_polar_Hf_only_01_GM2-_on_Hf.mcif       GM2-:Hf                             +0.4779   4/12       0.2390
+Pca21_polarHf_plus_halfGM1O_01_GM2-_on_Hf__GM1+_on_O_x0.5.mcif GM2-:Hf + GM1+:O*0.5                +0.5136  12/12       0.2390
