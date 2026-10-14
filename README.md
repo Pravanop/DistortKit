@@ -112,6 +112,74 @@ ma.space_group()                             # Pm-3m (#221) with the setting tra
 ma.irrep_labels()                            # {irrep index: IrrepLabel}
 ```
 
+## Use it from Python
+
+Everything the command line does is a function call: the CLI is a thin wrapper. The commands and their Python entry points:
+
+| command | Python |
+|---|---|
+| `compare` | `distortkit.analyze(parent_file, child_file)` (files) or `distortkit.compare(parent, child)` (`Structure` objects) |
+| `show`, `freeze` | `distortkit.freeze.Freezer` (`build`, `legend`), `freeze.run`, `freeze.run_mcif`, `animate.run_gif` |
+| `relate` | `distortkit.relate.relate(a, b, common=True, ...)` |
+| `explain` | `distortkit.explain.report`, `.ladder`, `.cascade` |
+| `invariants` | `distortkit.invariants.compute` |
+| `modes`, `isotropy`, `distort` | `distortkit.ModeAnalysis` (irreps at one k-point) |
+| `symmetrize`, `check` | `distortkit.symmetrize`, `distortkit.checks` |
+
+```python
+from fractions import Fraction
+from distortkit import analyze, compare, read_structure, ModeAnalysis, Structure
+from distortkit.freeze import Freezer
+from distortkit.relate import relate
+from distortkit import explain, invariants
+
+H = "examples/hfo2/"
+
+# 1. parent + child files -> the full analysis (what `distortkit compare` prints)
+res = analyze(H + "Pbcm.cif", H + "Pca21.cif")         # POSCAR / CIF / JSON; a parent without symmetry info is symmetrised
+print(res.report(min_amp=0.05))
+cmp = res.comparison                                    # the result object
+print(cmp.parent_sg.label(), "->", cmp.child_sg.label())          # Pbcm (#57) -> Pca2_1 (#29)
+for m in cmp.modes:                                     # symmetry-adapted modes, largest first
+    name = m.label.text if m.label is not None and m.label.candidates else f"irrep{m.irrep.index}"
+    print(m.id, name, ",".join(map(str, m.k)), f"{m.amplitude:.4f} A")      # m1 GM2- 0,0,0 1.1844 A
+
+# 2. the same from Structure objects; save the analysis for the steps below
+parent, child = read_structure(H + "Pbcm.cif"), read_structure(H + "Pca21.cif")
+cmp = compare(parent, child)                            # strain, modes, atoms: cmp.strain, cmp.modes, cmp.atom_rows() ...
+cmp.save("analysis.json")
+
+# 3. build structures along the distortion
+fz = Freezer.load("analysis.json")
+print(fz.legend())                                      # the modes, sites and atoms you can select
+half, info = fz.build(["GM2-*0.5"])                     # polar mode at half the amplitude found in the child
+with open("POSCAR_half", "w") as fh:
+    fh.write(half.to_poscar())                          # or half.to_cif()
+
+# 4. how are two structures related? (group-subgroup either way, why not, a common parent)
+rel = relate(parent, child, names=("Pbcm", "Pca21"))
+print(rel.verdict, rel.ab.ops.summary())                # a>b: every operation of the child is an operation of the parent ...
+
+# 5. what does each symmetry explain, which modes drive which, which couplings are allowed
+fz = Freezer.load(H + "fluorite_to_Pca21_analysis.json")
+text, ladder, cascade = explain.report(fz)
+print([(lv.driver_name, lv.sg.label()) for lv in cascade.levels])   # [('X5+', 'Pbca (#61)'), ('X2-', 'Pca2_1 (#29)')]
+inv = invariants.compute(fz, ["X5+", "X2-", "GM4-"])
+print([inv.term_name(t.degrees) for t in inv.terms if sum(t.degrees) == 3 and t.n_new])   # ['X5+ X2- GM4-', 'X5+^3']
+
+# 6. low level: the irreps at one k-point of a parent, and a child frozen from one of them
+parent = Structure.from_json("examples/srtio3_cubic.json")
+ma = ModeAnalysis(parent, (Fraction(1, 2),) * 3)        # the R point
+print(ma.space_group().label(), [(ir.index, ir.dim) for ir in ma.irreps])
+ir = ma.irreps[4]                                       # the 3-dimensional oxygen tilt irrep (index 5 in `distortkit modes`)
+iso = ma.isotropy_subgroups(ir)[0]                      # first isotropy subgroup (order-parameter direction iso.opd)
+tilted = ma.child_structure(ma.displacement(ir, iso.opd), 0.5)      # amplitude in Angstrom
+print(iso.point_group, ma.child_space_group(iso).label())           # 4/mmm I4/mcm (#140)
+```
+
+The result objects hold plain numpy arrays and dataclasses (displacements per atom, per site and per mode, strain, labels,
+subgroups), so they plug into your own scripts; `cmp.to_dict()` is the JSON the CLI prints with `--json`.
+
 ## Building structures along the distortion (freeze modes and atoms)
 
 You can only choose what to freeze after reading the analysis, so this is a second step. `compare` writes an
