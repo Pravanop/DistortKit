@@ -1,3 +1,5 @@
+import contextlib
+import io
 import os
 import re
 import sys
@@ -22,7 +24,8 @@ class TestReadmePython(unittest.TestCase):
             os.chdir(d)
             try:
                 ns = {}
-                exec(compile(block, "README.md", "exec"), ns)
+                with contextlib.redirect_stdout(io.StringIO()):
+                    exec(compile(block, "README.md", "exec"), ns)
                 self.assertTrue(os.path.getsize("POSCAR_half") > 100)
                 self.assertEqual(ns["cmp"].child_sg.number, 29)
                 self.assertEqual(ns["rel"].verdict, "a>b")

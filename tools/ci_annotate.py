@@ -19,8 +19,23 @@ def main(path, limit=9, size=1800):
         b = b.strip()
         if not b.startswith(("FAIL:", "ERROR:")):
             continue
-        head = b.splitlines()[0]
-        tail = b[-(size - len(head) - 10):] if len(b) > size else b[len(head):]
+        lines = b.splitlines()
+        head = lines[0]
+        # header, then the traceback frames' last lines and the exception message (the test's own printed output can
+        # follow the block and must not hide it)
+        keep, seen_tb = [head], False
+        for i, ln in enumerate(lines[1:], start=1):
+            if ln.startswith("Traceback"):
+                seen_tb = True
+                keep.append(ln)
+            elif seen_tb:
+                keep.append(ln)
+                if ln and not ln.startswith(" "):                 # the exception line
+                    keep += [x for x in lines[i + 1:i + 6] if x.strip()][:4]
+                    break
+        text = "\n".join(keep)
+        head_len = len(head)
+        tail = text[head_len:][-(size - head_len):]
         print(f"::error title={esc(head[:120])}::{esc(head + chr(10) + tail)}")
         n += 1
         if n >= limit:

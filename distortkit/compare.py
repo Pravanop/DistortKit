@@ -747,7 +747,7 @@ def compare(parent: Structure, child: Structure, *, tol=1e-3, strain_tol=0.12, m
         strain_forbidden=forbidden, child_point_group=point_group_name(Rcs, cprim.lattice),
         child_n_ops=len(cops), child_in_parent=bool(in_parent), modes=modes,
         total_displacement=float(np.sqrt(total2)),
-        unexplained=float(np.sqrt(max(done_power - explained_total, 0.0))),
+        unexplained=_residual_amplitude(done_power, explained_total),
         neglected=float(np.sqrt(neglected2)), n_neglected=int(n_neglected),
         star_checks=star_checks, displacement_cart=u3, parent_sg=parent_sg, child_sg=child_sg,
         ops_check=ops_check, sites=sites, atom_positions=np.array([[prim.frac[a] + T for T in cs.cells] for a in range(n_par)]),
@@ -759,6 +759,13 @@ def compare(parent: Structure, child: Structure, *, tol=1e-3, strain_tol=0.12, m
         from .checks import Finding
         result.findings.append(Finding("info", "alignment", align_note))
     return result
+
+
+def _residual_amplitude(total_power, explained_power):
+    """sqrt of the power the modes do not explain.  A difference of two nearly equal numbers is rounding noise (1e-16
+    relative), and the square root would turn that into ~1e-8, so differences below 1e-12 of the total count as zero."""
+    d = total_power - explained_power
+    return float(np.sqrt(d)) if d > 1e-12 * max(abs(total_power), 1e-30) else 0.0
 
 
 def _fit_subgroup(ma, ir, result, opd_tol):
