@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Phonon Viewer</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='6' cy='12' r='3.5' fill='%23e8590c'/%3E%3Ccircle cx='18' cy='12' r='3.5' fill='%23e8590c' opacity='.55'/%3E%3Cpath d='M9 12h6' stroke='%23e8590c' stroke-width='2'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+<header class="top">
+  <div class="brand"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><circle cx="6" cy="12" r="3" fill="currentColor"/><circle cx="18" cy="12" r="3" fill="currentColor" opacity=".55"/><path d="M9 12h6" stroke="currentColor" stroke-width="2"/></svg>Phonon Viewer</div>
+  <div class="grow"></div>
+  <button id="theme" class="btn ghost" title="Toggle dark / light" aria-label="Toggle theme">◐</button>
+  <input id="file" type="file" hidden>
+</header>
+
+<div class="app">
+  <aside class="side" id="side">
+    <div class="openbar">
+      <button id="open" class="btn primary" title="Open a phonopy band.yaml or a phononwebsite .json (or just drop it on the page)">Open file…</button>
+      <div id="filename" class="filename" title="">No file loaded</div>
+    </div>
+    <details open>
+      <summary>Data</summary>
+      <div class="sec">
+        <div class="hint">Open a phonopy <code>band.yaml</code> or a phononwebsite <code>.json</code> with the button above, or drop it anywhere on the page. Files stay in your browser.</div>
+        <label class="row">Examples
+          <select id="demo">
+            <option value="">choose…</option>
+            <optgroup label="Bundled (spring models, from phonopy)">
+              <option value="examples/nacl_springs.yaml">NaCl (spring model)</option>
+              <option value="examples/graphene_springs.yaml">Graphene (spring model)</option>
+            </optgroup>
+            <optgroup label="Real DFT data (loaded from phononwebsite)">
+              <option value="https://henriquemiranda.github.io/phononwebsite/data/localdb/graphene/data.json">Graphene</option>
+              <option value="https://henriquemiranda.github.io/phononwebsite/data/localdb/mos2_bulk/data.json">Bulk MoS₂</option>
+              <option value="https://henriquemiranda.github.io/phononwebsite/data/localdb/mos2_singlelayer/data.json">Monolayer MoS₂</option>
+              <option value="https://henriquemiranda.github.io/phononwebsite/data/localdb/mote2_bulk/data.json">Bulk MoTe₂</option>
+              <option value="https://henriquemiranda.github.io/phononwebsite/data/localdb/mote2_singlelayer/data.json">Monolayer MoTe₂</option>
+              <option value="https://henriquemiranda.github.io/phononwebsite/data/contribdb/hbn_bulk/data.json">Bulk hBN</option>
+              <option value="https://henriquemiranda.github.io/phononwebsite/data/contribdb/tise2_bulk/data.json">Bulk TiSe₂</option>
+            </optgroup>
+          </select>
+        </label>
+        <div class="credit">Real-data examples are loaded live from <a href="https://henriquemiranda.github.io/phononwebsite/" target="_blank" rel="noopener">phononwebsite</a>: graphene, MoS₂ and MoTe₂ (H. Miranda), hBN (F. Paleari <i>et al.</i>, <a href="https://doi.org/10.1103/PhysRevLett.122.187401" target="_blank" rel="noopener">PRL 122, 187401</a>, 2018) and TiSe₂ (M. Calandra &amp; F. Mauri, <a href="https://doi.org/10.1103/PhysRevLett.106.196406" target="_blank" rel="noopener">PRL 106, 196406</a>, 2011).</div>
+        <div id="cellinfo" class="cellinfo"></div>
+      </div>
+    </details>
+
+    <details open>
+      <summary>Mode</summary>
+      <div class="sec">
+        <div class="readout"><span id="freq" class="big">–</span><select id="unit" aria-label="Frequency unit"><option>THz</option><option value="cm-1">cm⁻¹</option><option>meV</option></select><span id="imag" class="badge bad" hidden>imaginary</span></div>
+        <div id="qlabel" class="muted small"></div>
+        <label class="row">q-point <input id="qrange" type="range" min="0" max="0" value="0"><input id="qnum" type="number" min="1" value="1" class="num"></label>
+        <label class="row">Band <input id="brange" type="range" min="1" max="1" value="1"><input id="bnum" type="number" min="1" value="1" class="num"></label>
+        <label class="check"><input id="massscale" type="checkbox"> Divide by √mass <span class="muted small">(eigenvector → displacement)</span></label>
+        <label class="check" title="phonopy writes eigenvectors of the dynamical matrix that includes the atomic positions in its phase. Untick for data whose eigenvectors use lattice translations only."><input id="basisphase" type="checkbox" checked> Atom positions in the Bloch phase <span class="muted small">(phonopy)</span></label>
+      </div>
+    </details>
+
+    <details open>
+      <summary>Animation</summary>
+      <div class="sec">
+        <div class="row"><button id="play" class="btn primary">Pause</button><span class="muted small">Space</span></div>
+        <label class="row">Amplitude <input id="amp" type="range" min="0" max="2" step="0.01" value="0.4"><output id="ampout" class="num">0.40 Å</output></label>
+        <label class="row">Speed <input id="speed" type="range" min="0.1" max="4" step="0.05" value="1"><output id="speedout" class="num">1.0×</output></label>
+        <label class="check"><input id="arrows" type="checkbox"> Displacement arrows</label>
+        <div id="arrowopts" class="sub" hidden>
+          <label class="row">Arrows <select id="arrowmode"><option value="peak">peak (fixed)</option><option value="live">follow motion</option></select></label>
+          <label class="row">Length <input id="arrowlen" type="range" min="0.3" max="4" step="0.05" value="1.5"><output id="arrowlenout" class="num">1.5 Å</output></label>
+        </div>
+      </div>
+    </details>
+
+    <details open>
+      <summary>Supercell</summary>
+      <div class="sec">
+        <div class="row reps"><input id="nx" type="number" min="1" max="12" value="2" aria-label="a repeats"><span>×</span><input id="ny" type="number" min="1" max="12" value="2" aria-label="b repeats"><span>×</span><input id="nz" type="number" min="1" max="12" value="2" aria-label="c repeats"></div>
+        <label class="check"><input id="autofit" type="checkbox" checked> Fit to q <span class="muted small">(smallest supercell where the wave is periodic)</span></label>
+        <div id="seam" class="note" hidden>q is not periodic in this supercell, so atoms on opposite faces move differently.</div>
+        <label class="check"><input id="wrap" type="checkbox" checked> Wrap atoms into the cell</label>
+        <label class="check"><input id="complete" type="checkbox" checked> Repeat atoms on cell faces</label>
+      </div>
+    </details>
+
+    <details open>
+      <summary>View</summary>
+      <div class="sec">
+        <div class="row">Look down
+          <div class="chips" id="snap">
+            <button data-look="a" title="Look down a (press again for the opposite side)">a</button><button data-look="b">b</button><button data-look="c">c</button>
+            <button data-look="a*">a*</button><button data-look="b*">b*</button><button data-look="c*">c*</button>
+            <button data-look="x">x</button><button data-look="y">y</button><button data-look="z">z</button>
+          </div>
+        </div>
+        <form id="uvwform" class="row"><input id="uvw" placeholder="[u v w]  or  (h k l)" aria-label="direction"><button class="btn" type="submit">Go</button></form>
+        <div class="row"><button id="resetview" class="btn">Reset view</button><button id="fit" class="btn">Fit</button></div>
+        <label class="row">Projection <select id="proj"><option value="ortho">orthographic</option><option value="persp">perspective</option></select></label>
+        <label class="row">Axes <select id="gizmo"><option value="lattice">a, b, c</option><option value="reciprocal">a*, b*, c*</option><option value="cartesian">x, y, z</option><option value="off">off</option></select></label>
+        <label class="row">Cell <select id="cell"><option value="unit">unit cell</option><option value="super">supercell</option><option value="all">every cell</option><option value="off">off</option></select></label>
+        <label class="row">Background <input id="bg" type="color" value="#ffffff"></label>
+      </div>
+    </details>
+
+    <details>
+      <summary>Style</summary>
+      <div class="sec">
+        <label class="row">Atoms <select id="look"><option value="ballstick">ball and stick</option><option value="spacefill">space filling</option><option value="sticks">sticks</option></select></label>
+        <label class="row">Atom size <input id="atomscale" type="range" min="0.4" max="2" step="0.05" value="1"></label>
+        <label class="check"><input id="bonds" type="checkbox" checked> Bonds</label>
+        <label class="row">Bond radius <input id="bondr" type="range" min="0.02" max="0.3" step="0.01" value="0.09"></label>
+        <label class="row">Bond length <input id="bondtol" type="range" min="0.9" max="1.6" step="0.01" value="1.15"><output id="bondtolout" class="num">1.15</output></label>
+        <label class="check"><input id="splitbonds" type="checkbox" checked> Colour bonds by atom</label>
+        <div id="elements" class="elements"></div>
+      </div>
+    </details>
+
+    <details>
+      <summary>Export</summary>
+      <div class="sec">
+        <div class="exp">
+          <h4>Image</h4>
+          <div class="row"><select id="pngscale"><option value="1">1× (window)</option><option value="2" selected>2×</option><option value="3">3×</option><option value="4">4×</option></select>
+            <label class="check inline"><input id="pngtransp" type="checkbox"> transparent</label></div>
+          <div class="row"><button id="png" class="btn primary">Save PNG</button><button id="pngcopy" class="btn">Copy</button></div>
+        </div>
+        <div class="exp">
+          <h4>Animation</h4>
+          <div class="row">Size <select id="animw"><option value="480">480 px</option><option value="720" selected>720 px</option><option value="1080">1080 px</option></select>
+            <select id="animar"><option value="1">1:1</option><option value="1.7778">16:9</option><option value="view" selected>as window</option></select></div>
+          <div class="row">Frames <input id="gframes" type="number" min="8" max="120" value="36" class="num"> at <input id="gfps" type="number" min="5" max="50" value="24" class="num"> fps</div>
+          <label class="check"><input id="animgizmo" type="checkbox" checked> include axes</label>
+          <div class="row"><button id="gif" class="btn primary">Save GIF</button><button id="video" class="btn">Save video</button></div>
+          <div class="row"><label class="inline">Video cycles <input id="vcycles" type="number" min="1" max="20" value="3" class="num"></label><button id="xyz" class="btn" title="One cycle of the displaced atoms as extended XYZ">XYZ</button></div>
+          <div id="progress" class="progress" hidden><div id="bar"></div><button id="cancel" class="btn small">Cancel</button></div>
+        </div>
+        <div class="exp">
+          <h4>Band plot</h4>
+          <div class="row"><button id="plotpng" class="btn">Save plot PNG</button></div>
+        </div>
+      </div>
+    </details>
+
+    <details>
+      <summary>Controls</summary>
+      <div class="sec help">
+        <div><b>Rotate</b> drag · <b>roll</b> Alt-drag · <b>pan</b> Shift/right-drag · <b>zoom</b> wheel or pinch · <b>fit</b> double-click</div>
+        <div><b>Space</b> play/pause · <b>←/→</b> q-point · <b>↑/↓</b> band · <b>1–6</b> look down a b c a* b* c* · <b>0</b> reset view</div>
+        <div>Band plot: click or drag to pick a mode.</div>
+      </div>
+    </details>
+    <div class="about">Part of <a href="https://github.com/Pravanop/DistortKit" target="_blank" rel="noopener">DistortKit</a> · reads <a href="https://henriquemiranda.github.io/phononwebsite/" target="_blank" rel="noopener">phononwebsite</a> files, independent of it · three.js and gifenc (MIT)</div>
+  </aside>
+
+  <main class="stage" id="stage">
+    <section class="view3d" id="view3d">
+      <canvas id="gl"></canvas>
+      <div class="overlay tl chips" id="snap2">
+        <button data-look="a" title="Look down a (again: opposite side)">a</button><button data-look="b">b</button><button data-look="c">c</button>
+      </div>
+      <div class="overlay tr"><div id="chip" class="chip"></div></div>
+      <div class="overlay bc transport">
+        <button id="prevq" class="icon" title="Previous q-point (←)">⏮</button>
+        <button id="play2" class="icon" title="Play / pause (Space)">⏸</button>
+        <button id="nextq" class="icon" title="Next q-point (→)">⏭</button>
+      </div>
+    </section>
+    <div id="welcome" class="welcome">
+      <div class="card" id="dropzone">
+        <svg viewBox="0 0 48 48" width="52" height="52" aria-hidden="true"><path d="M24 33V11M24 11l-9 9M24 11l9 9" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 31v7a3 3 0 003 3h26a3 3 0 003-3v-7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
+        <h2>Open a phonon calculation</h2>
+        <p>Drag a <code>band.yaml</code> file onto this page, or</p>
+        <p><button class="btn primary big" id="welcomeopen">Choose file…</button></p>
+        <p class="muted small">Reads phonopy <code>band.yaml</code> and phononwebsite <code>.json</code> (also gzipped). Your file is read in the browser and never uploaded.</p>
+        <details class="howto">
+          <summary>How do I get a band.yaml?</summary>
+          <p>With phonopy, ask for the eigenvectors in the band configuration:</p>
+<pre>BAND = AUTO
+EIGENVECTORS = .TRUE.</pre>
+          <p>then run <code>phonopy -p band.conf</code>. The <code>band.yaml</code> it writes is the file to open.</p>
+        </details>
+        <div class="examples"><span class="muted small">No file handy? Try an example:</span>
+          <button class="btn small" data-demo="examples/nacl_springs.yaml" data-label="NaCl">NaCl</button>
+          <button class="btn small" data-demo="examples/graphene_springs.yaml" data-label="Graphene">Graphene</button>
+          <button class="btn small" data-demo="https://henriquemiranda.github.io/phononwebsite/data/localdb/mos2_bulk/data.json" data-label="Bulk MoS₂">Bulk MoS₂ (DFT)</button>
+        </div>
+        <p class="muted small credit-line">DFT example data from <a href="https://henriquemiranda.github.io/phononwebsite/" target="_blank" rel="noopener">phononwebsite</a> (H. Miranda).</p>
+      </div>
+    </div>
+    <div class="splitter" id="splitter" role="separator" aria-orientation="vertical" title="Drag to resize"></div>
+    <section class="plot" id="plotbox">
+      <div class="plotbar">
+        <label class="check inline"><input id="weights" type="checkbox"> Colour by species</label>
+        <span id="legend" class="legend"></span>
+        <span class="grow"></span>
+        <span id="tip" class="tip"></span>
+      </div>
+      <div class="plotwrap"><canvas id="band"></canvas></div>
+      <div class="modes" id="modespanel">
+        <div class="modeshead"><span>Modes at this q-point</span><span class="muted small" id="modeshint">click to select</span></div>
+        <div class="modelist" id="modelist" role="listbox" aria-label="Modes at the selected q-point"></div>
+      </div>
+    </section>
+  </main>
+</div>
+<div id="loading" class="loading" hidden role="status"><div class="spin"></div><div><b id="loadname">Reading…</b><div class="muted small" id="loadmsg"></div></div></div>
+<div id="errdlg" class="modal" hidden role="alertdialog" aria-labelledby="errtitle" aria-describedby="errmsg">
+  <div class="card">
+    <h3 id="errtitle">Could not open the file</h3>
+    <p id="errmsg"></p>
+    <div class="row end"><button id="errclose" class="btn">Close</button><button id="erropen" class="btn primary">Choose another file…</button></div>
+  </div>
+</div>
+<div id="drop" class="drop" hidden><div>Drop to open</div></div>
+<div id="toast" class="toast" hidden></div>
+<script type="module" src="js/main.js"></script>
+</body>
+</html>

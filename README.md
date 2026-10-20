@@ -283,6 +283,22 @@ an axis perpendicular to the atomic motion (e.g. `--view b` for motion along c) 
 Rendering uses matplotlib and Pillow, which are installed with DistortKit; they can also live in a separate environment
 (`~/.venvs/distortkit`, found automatically; or set `DISTORTKIT_PYTHON`). Examples: `examples/hfo2/animations/`.
 
+## Phonon viewer (web)
+
+`viewer/` is a browser app for looking at phonon modes: open a phonopy `band.yaml` (or a phononwebsite `.json`), click a point
+on the band structure, and the atoms move. It runs entirely in the browser (nothing is uploaded), and is published at
+<https://pravanop.github.io/DistortKit/>.
+
+* views along a, b, c, a\*, b\*, c\*, x, y, z or any `[uvw]` / `(hkl)`, with an axes gizmo that turns with the crystal;
+* supercells fitted to the wavevector, displacement arrows, bonds, element colours;
+* export to PNG (transparent background if you like), GIF, MP4/WebM video and XYZ, plus the band plot as PNG;
+* imaginary (unstable) modes are flagged, and a per-mode list shows each mode's species composition.
+
+To run it locally: `python3 viewer/tools/serve.py` and open <http://localhost:8123>. Its conventions (phase, mass weighting),
+tests and limits are in [viewer/README.md](viewer/README.md). It is independent of the analysis commands above for now; showing
+DistortKit's symmetry modes in it is planned. The idea and part of the data formats come from
+[phononwebsite](https://henriquemiranda.github.io/phononwebsite/) (H. Miranda); this viewer is separate and not affiliated with it.
+
 ## When the structures are not group-subgroup related (`relate`)
 
 `relate A B` says how two structures (any setting, any atom order) are related, and what to do when they are not.
@@ -507,6 +523,8 @@ isotropy subgroups of the tilt irrep, the invariants against the Molien formula,
 positions, pymatgen and built-in symmetrisation, the POSCAR-without-symmetry pipeline, and the CLI. Tests that need
 pymatgen or spglib skip themselves if no interpreter with it is found.
 
+The web viewer has its own tests, which need only Node.js: `node --test viewer/tests/viewer.test.mjs`.
+
 ## Licence, citation, acknowledgements
 
 The code is MIT-licensed ([LICENSE](LICENSE)). The two ISOTROPY label tables keep their own terms: the ISOTROPY manual
@@ -514,5 +532,5 @@ allows distribution provided publications using the suite acknowledge it, see [N
 the irrep labels, please cite *H. T. Stokes, D. M. Hatch and B. J. Campbell, ISOTROPY Software Suite, iso.byu.edu*. The
 space-group and Wyckoff tables use spglib (A. Togo, K. Shinohara, I. Tanaka, arXiv:1808.01590) and the conventions of the
 International Tables for Crystallography, Vol. A. The package also acknowledges the code provided by M-Cube Lab Member, 
-Eric Montafur Morales for mcif file generation. This project was ideated by the repository owner, but completely written using GenAI tools.
+Eric Montafur Morales for mcif file generation. The phonon viewer reads the file formats of, and offers example data from, phononwebsite by H. Miranda (graphene, MoS2, MoTe2), F. Paleari et al., PRL 122, 187401 (2018) (hBN) and M. Calandra and F. Mauri, PRL 106, 196406 (2011) (TiSe2); it bundles three.js (MIT) and gifenc (MIT). This project was ideated by the repository owner, but completely written using GenAI tools.
 The repository owner takes full responsibility for any errors in the package.

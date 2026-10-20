@@ -21,3 +21,13 @@ jobs:
       - name: Report failing tests
         if: failure()
         run: python tools/ci_annotate.py test.log
+
+  viewer:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Run the viewer tests
+        run: node --test viewer/tests/viewer.test.mjs
