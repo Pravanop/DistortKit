@@ -35,11 +35,36 @@ spaced by index. `?demo=<name>` and `?url=<file>` in the address bar remain as s
 * **Supercells that match q.** *Fit to q* picks the smallest supercell in which the wave is periodic (K point of a hexagonal cell:
   3×3, or 6×6 to keep the view large) and closes the cell faces with periodic images, so there is no visible seam. A warning appears
   if the chosen supercell does not fit q.
-* **Band plot.** Click or drag to select a mode; arrow keys step q and band; hover shows the frequency and q; imaginary branches
+* **Band plot.** Click to select a mode; drag a box to zoom (double-click, Esc or the Reset zoom button restores the full view; Shift-drag scrubs along q); arrow keys step q and band; hover shows the frequency and q; imaginary branches
   are drawn below a dashed zero line and flagged; optional colouring by species; THz / cm⁻¹ / meV. A per-mode list for the
   current q-point shows each mode's species composition.
 * **Layout.** One responsive page (resizable split, stacked on narrow screens, light and dark themes) instead of a scrolling box
   that covers the crystal.
+
+## Symmetry of each mode (from DistortKit)
+
+Pick a mode and open the **Symmetry** section. Press **Analyse this q-point** and the viewer works out, for that q-point, every
+band's irrep (X₂⁻, with its dimension and the atoms it moves), the child space group that freezing it in leads to and the direction
+in irrep space, whether the mode is unstable (only unstable modes drive a transition), and the full list of child symmetries that
+irrep allows, with the one this mode gives highlighted. The mode list then shows each band's irrep, and small triangles under the
+band plot mark the q-points analysed so far.
+
+**It runs in your browser, nothing is uploaded and nothing needs installing.** DistortKit's analysis is plain Python with numpy, so
+the page runs it with [Pyodide](https://pyodide.org) (CPython compiled to WebAssembly) in a background thread: the page stays
+usable and a **Cancel** button stops it. The first time, the browser downloads the Python runtime and numpy (about 20 MB) from the
+jsDelivr CDN and keeps them; DistortKit itself (about 1 MB) comes from this site. The cost is the size of the q-point's symmetry
+star: the X point of the HfO₂ example took about 11 s here; points on symmetry lines or in general positions need a supercell too
+large for this analysis and are reported as "not analysed" with the reason.
+
+*Use symmetry-adapted modes* (on by default, once a q-point has been analysed) swaps the file's eigenvectors for symmetry-adapted
+ones in degenerate levels. A phonon code writes an arbitrary mixture there, so one band can be a blend of two irreps; the adapted modes
+are one irrep each, and a rigid translation (an acoustic mode at Γ) is reported as changing nothing.
+
+The same analysis is available from the command line, which suits many files or q-points (`distortkit phonons band.yaml`, see the
+main README). Its JSON can be opened with **Open a precomputed symmetry file…** (or together with the `band.yaml`); it is refused if it was
+made for a different band structure. The example *HfO₂ fluorite, with symmetry* in the Examples menu loads such a file: a spring
+model with the geometry and symmetry of fluorite HfO₂ and a soft X₂⁻ mode (imaginary, about −3 THz, leading to P4₂/nmc), as in the
+real material; the frequencies are not DFT.
 
 ## Conventions
 
@@ -73,8 +98,11 @@ js/scene.js                  three.js scene, own arcball/roll/pan camera, axes g
 js/bandplot.js               canvas band structure
 js/export.js                 PNG, GIF (gifenc), video (MediaRecorder), XYZ
 js/main.js                   state and UI wiring
+js/symmetry.js               symmetry data: parsing, per-mode lookup, live fill-in (no rendering; unit tested)
+js/symworker.js              background worker: Pyodide + DistortKit (distortkit/web.py) for the in-browser analysis
 vendor/                      three.js (tree-shaken, MIT) and gifenc (MIT); rebuild with tools/vendor.sh
 tools/make_demo.py           writes the bundled demo band.yaml with phonopy (spring-model force constants)
+tools/build_py_bundle.py     packs distortkit/ into py/distortkit.zip for the worker (serve.py does it on the fly; the Pages workflow at deploy)
 tools/make_reference.py      verifies the displacement convention independently and writes tests/ref_nacl.json
 tests/viewer.test.mjs        node --test (parsers, supercells, bonds, views, the verified reference field)
 ```
@@ -85,6 +113,8 @@ node --test viewer/tests/viewer.test.mjs
 
 ## Known limits
 
+* The symmetry analysis needs internet the first time (to fetch the Python runtime from a CDN), covers only q-points whose star needs a
+  small supercell (Γ, X, L of an fcc cell, not points along lines), and can take a minute or more for the larger ones.
 * Only phonopy `band.yaml` and phononwebsite JSON are read so far (no `band.hdf5`, Quantum ESPRESSO, ABINIT, VASP outputs yet).
 * The whole file is read into memory; a multi-hundred-MB `band.yaml` is parsed in seconds but needs a few GB of browser memory.
 * The structure is the cell in the file (a primitive cell for phonopy), so e.g. fcc is shown as a rhombohedral block; there is no

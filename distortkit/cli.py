@@ -310,6 +310,27 @@ def cmd_check(args):
     sys.exit(1 if checks.has_errors(findings) else 0)
 
 
+def cmd_phonons(args):
+    from . import phonons as _ph
+    bd = _ph.read_band_yaml(args.bandfile)
+    only = set(int(x) - 1 for x in args.qpoints.split(",")) if args.qpoints else None
+    if only is not None:  # analyse just the q-points asked for (1-based, as printed)
+        keep = sorted(only)
+        bd = _ph.BandData(bd.lattice, bd.species, bd.masses, bd.frac, bd.qpts[keep], bd.dist[keep], bd.freq[keep], bd.eig[keep],
+                          [(keep.index(i), lab) for i, lab in bd.ticks if i in keep])
+    res = _ph.analyze_band_yaml(bd, max_cells=args.max_cells, max_dim=args.max_dim, labels=not args.no_labels, tol=args.tol, opd_tol=args.opd_tol,
+                                mass_scale=not args.no_mass_scale, basis_phase=not args.lattice_phase,
+                                progress=lambda i, n: print(f"# analysed q-point {i}/{n}", file=sys.stderr, end="\r"))
+    print(file=sys.stderr)
+    out = args.out or os.path.splitext(args.bandfile)[0] + "_symmetry.json"
+    _ph.save(res, out)
+    if args.json:
+        print(json.dumps(res, indent=1))
+    else:
+        print(_ph.report(res, subgroups=not args.no_subgroups))
+        print(f"\nfull results written to {out}")
+
+
 def main(argv=None):
     p = argparse.ArgumentParser(prog="distortkit", description=__doc__)
     sub = p.add_subparsers(dest="cmd", required=True)
@@ -450,6 +471,20 @@ cell:      --cell parent (default, undistorted lattice) | child (strain scaled w
     sp.add_argument("--outdir", help="default: a 'frozen' folder next to the analysis file"); sp.add_argument("--prefix")
     sp.add_argument("--no-symmetry", action="store_true", help="skip the space-group detection of each output")
     sp.add_argument("--sym-tol", type=float, default=1e-3); sp.set_defaults(fn=cmd_freeze)
+    sp = sub.add_parser("phonons", help="irrep and child symmetry of every phonon of a phonopy band.yaml (written with eigenvectors)")
+    sp.add_argument("bandfile", help="phonopy band.yaml")
+    sp.add_argument("--qpoints", help="only these q-points (1-based numbers as printed, comma separated), e.g. 5,15")
+    sp.add_argument("--max-cells", type=int, default=16, help="skip q-points whose star needs a larger supercell (default 16)")
+    sp.add_argument("--tol", type=float, default=1e-3, help="atomic matching tolerance in Angstrom")
+    sp.add_argument("--opd-tol", type=float, default=0.05, help="how closely a mode's direction must match an isotropy subgroup (default 0.05)")
+    sp.add_argument("--max-dim", type=int, default=6, help="do not enumerate isotropy subgroups of irreps larger than this (they can take minutes); default 6")
+    sp.add_argument("--no-labels", action="store_true", help="skip standard irrep labels (faster)")
+    sp.add_argument("--no-mass-scale", action="store_true", help="the eigenvectors are already displacements (do not divide by sqrt(mass))")
+    sp.add_argument("--lattice-phase", action="store_true", help="eigenvectors use lattice-translation phases only (not phonopy's convention)")
+    sp.add_argument("--no-subgroups", action="store_true", help="do not list every irrep's isotropy subgroups")
+    sp.add_argument("--out", help="JSON file to write (default: <bandfile>_symmetry.json)")
+    sp.add_argument("--json", action="store_true", help="print the JSON instead of the text report")
+    sp.set_defaults(fn=cmd_phonons)
     sp = sub.add_parser("symmetrize", help="find the space group of a structure and write an idealised CIF with symmetry operations")
     sp.add_argument("structure"); sp.add_argument("--out"); sp.add_argument("--tol", type=float, default=1e-3)
     sp.add_argument("--symprec", type=_symprec, default="auto"); sp.add_argument("--angle-tolerance", type=float, default=5.0)

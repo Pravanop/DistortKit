@@ -1,0 +1,5082 @@
+{
+ "format": "distortkit-phonon-symmetry",
+ "version": 1,
+ "parent": {
+  "space_group": "Fm-3m (#225)",
+  "n_atoms": 3,
+  "species": [
+   "Hf",
+   "O",
+   "O"
+  ]
+ },
+ "settings": {
+  "max_cells": 16,
+  "max_dim": 6,
+  "tol": 0.001,
+  "opd_tol": 0.05,
+  "mass_scale": true,
+  "basis_phase": true
+ },
+ "ticks": [
+  [
+   0,
+   "\u0393"
+  ],
+  [
+   4,
+   "X"
+  ],
+  [
+   9,
+   "W"
+  ],
+  [
+   14,
+   "L"
+  ],
+  [
+   19,
+   "\u0393"
+  ]
+ ],
+ "stars": [
+  {
+   "k": [
+    "0",
+    "0",
+    "0"
+   ],
+   "star_size": 1,
+   "n_cells": 1,
+   "parent": "Fm-3m (#225)",
+   "irreps": [
+    {
+     "index": 1,
+     "label": "GM4-",
+     "label_certain": true,
+     "dim": 3,
+     "kind": "real",
+     "species": [
+      "Hf",
+      "O"
+     ],
+     "note": "",
+     "subgroups": [
+      {
+       "index": 1,
+       "opd": "(a,0,0)",
+       "fix_dim": 1,
+       "point_group": "4mm",
+       "n_conjugates": 3,
+       "space_group": "I4mm (#107)",
+       "number": 107
+      },
+      {
+       "index": 2,
+       "opd": "(a,a,-a)",
+       "fix_dim": 1,
+       "point_group": "3m",
+       "n_conjugates": 4,
+       "space_group": "R3m (#160)",
+       "number": 160
+      },
+      {
+       "index": 3,
+       "opd": "(0,a,-a)",
+       "fix_dim": 1,
+       "point_group": "mm2",
+       "n_conjugates": 6,
+       "space_group": "Imm2 (#44)",
+       "number": 44
+      },
+      {
+       "index": 4,
+       "opd": "(a,b,-b)",
+       "fix_dim": 2,
+       "point_group": "m",
+       "n_conjugates": 6,
+       "space_group": "Cm (#8)",
+       "number": 8
+      },
+      {
+       "index": 5,
+       "opd": "(a,b,0)",
+       "fix_dim": 2,
+       "point_group": "m",
+       "n_conjugates": 3,
+       "space_group": "Cm (#8)",
+       "number": 8
+      },
+      {
+       "index": 6,
+       "opd": "(a,b,c)",
+       "fix_dim": 3,
+       "point_group": "1",
+       "n_conjugates": 1,
+       "space_group": "P1 (#1)",
+       "number": 1
+      }
+     ]
+    },
+    {
+     "index": 2,
+     "label": "GM5+",
+     "label_certain": true,
+     "dim": 3,
+     "kind": "real",
+     "species": [
+      "O"
+     ],
+     "note": "",
+     "subgroups": [
+      {
+       "index": 1,
+       "opd": "(a,1.402a,-0.186a)",
+       "fix_dim": 1,
+       "point_group": "-3m",
+       "n_conjugates": 4,
+       "space_group": "R-3m (#166)",
+       "number": 166
+      },
+      {
+       "index": 2,
+       "opd": "(a,0,0)",
+       "fix_dim": 1,
+       "point_group": "mmm",
+       "n_conjugates": 3,
+       "space_group": "Immm (#71)",
+       "number": 71
+      },
+      {
+       "index": 3,
+       "opd": "(a,b,-0.133b)",
+       "fix_dim": 2,
+       "point_group": "2/m",
+       "n_conjugates": 6,
+       "space_group": "C2/m (#12)",
+       "number": 12
+      },
+      {
+       "index": 4,
+       "opd": "(a,b,c)",
+       "fix_dim": 3,
+       "point_group": "-1",
+       "n_conjugates": 1,
+       "space_group": "P-1 (#2)",
+       "number": 2
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "k": [
+    "0",
+    "1/2",
+    "1/2"
+   ],
+   "star_size": 3,
+   "n_cells": 4,
+   "parent": "Fm-3m (#225)",
+   "irreps": [
+    {
+     "index": 1,
+     "label": "X3-",
+     "label_certain": true,
+     "dim": 3,
+     "kind": "real",
+     "species": [
+      "Hf"
+     ],
+     "note": "",
+     "subgroups": [
+      {
+       "index": 1,
+       "opd": "(a,0,0)",
+       "fix_dim": 1,
+       "point_group": "4/mmm",
+       "n_conjugates": 3,
+       "space_group": "P4/nmm (#129)",
+       "number": 129
+      },
+      {
+       "index": 2,
+       "opd": "(a,-a,a)",
+       "fix_dim": 1,
+       "point_group": "-43m",
+       "n_conjugates": 4,
+       "space_group": "P-43m (#215)",
+       "number": 215
+      },
+      {
+       "index": 3,
+       "opd": "(a,-a,0)",
+       "fix_dim": 1,
+       "point_group": "4/mmm",
+       "n_conjugates": 6,
+       "space_group": "P4_2/mcm (#132)",
+       "number": 132
+      },
+      {
+       "index": 4,
+       "opd": "(a,-a,b)",
+       "fix_dim": 2,
+       "point_group": "-42m",
+       "n_conjugates": 6,
+       "space_group": "P-42m (#111)",
+       "number": 111
+      },
+      {
+       "index": 5,
+       "opd": "(a,0,b)",
+       "fix_dim": 2,
+       "point_group": "mmm",
+       "n_conjugates": 3,
+       "space_group": "Pccm (#49)",
+       "number": 49
+      },
+      {
+       "index": 6,
+       "opd": "(a,b,c)",
+       "fix_dim": 3,
+       "point_group": "222",
+       "n_conjugates": 1,
+       "space_group": "P222 (#16)",
+       "number": 16
+      }
+     ]
+    },
+    {
+     "index": 2,
+     "label": "X2-",
+     "label_certain": true,
+     "dim": 3,
+     "kind": "real",
+     "species": [
+      "O"
+     ],
+     "note": "",
+     "subgroups": [
+      {
+       "index": 1,
+       "opd": "(a,0,0)",
+       "fix_dim": 1,
+       "point_group": "4/mmm",
+       "n_conjugates": 3,
+       "space_group": "P4_2/nmc (#137)",
+       "number": 137
+      },
+      {
+       "index": 2,
+       "opd": "(a,a,-a)",
+       "fix_dim": 1,
+       "point_group": "-43m",
+       "n_conjugates": 4,
+       "space_group": "P-43m (#215)",
+       "number": 215
+      },
+      {
+       "index": 3,
+       "opd": "(a,-a,0)",
+       "fix_dim": 1,
+       "point_group": "4/mmm",
+       "n_conjugates": 6,
+       "space_group": "P4/nbm (#125)",
+       "number": 125
+      },
+      {
+       "index": 4,
+       "opd": "(a,a,b)",
+       "fix_dim": 2,
+       "point_group": "-42m",
+       "n_conjugates": 6,
+       "space_group": "P-42m (#111)",
+       "number": 111
+      },
+      {
+       "index": 5,
+       "opd": "(0,a,b)",
+       "fix_dim": 2,
+       "point_group": "mmm",
+       "n_conjugates": 3,
+       "space_group": "Pban (#50)",
+       "number": 50
+      },
+      {
+       "index": 6,
+       "opd": "(a,b,c)",
+       "fix_dim": 3,
+       "point_group": "222",
+       "n_conjugates": 1,
+       "space_group": "P222 (#16)",
+       "number": 16
+      }
+     ]
+    },
+    {
+     "index": 3,
+     "label": "X1+",
+     "label_certain": true,
+     "dim": 3,
+     "kind": "real",
+     "species": [
+      "O"
+     ],
+     "note": "",
+     "subgroups": [
+      {
+       "index": 1,
+       "opd": "(a,0.851a,0.928a)",
+       "fix_dim": 1,
+       "point_group": "m-3m",
+       "n_conjugates": 4,
+       "space_group": "Pm-3m (#221)",
+       "number": 221
+      },
+      {
+       "index": 2,
+       "opd": "(a,-0.081a,0)",
+       "fix_dim": 1,
+       "point_group": "4/mmm",
+       "n_conjugates": 3,
+       "space_group": "P4/mmm (#123)",
+       "number": 123
+      },
+      {
+       "index": 3,
+       "opd": "(a,0.851a,b)",
+       "fix_dim": 2,
+       "point_group": "4/mmm",
+       "n_conjugates": 6,
+       "space_group": "P4/mmm (#123)",
+       "number": 123
+      },
+      {
+       "index": 4,
+       "opd": "(a,b,c)",
+       "fix_dim": 3,
+       "point_group": "mmm",
+       "n_conjugates": 1,
+       "space_group": "Pmmm (#47)",
+       "number": 47
+      }
+     ]
+    },
+    {
+     "index": 4,
+     "label": "X5-",
+     "label_certain": true,
+     "dim": 6,
+     "kind": "real",
+     "species": [
+      "Hf",
+      "O"
+     ],
+     "note": "",
+     "subgroups": [
+      {
+       "index": 1,
+       "opd": "(a,0,0,0,0,0)",
+       "fix_dim": 1,
+       "point_group": "mmm",
+       "n_conjugates": 6,
+       "space_group": "Pmmn (#59)",
+       "number": 59
+      },
+      {
+       "index": 2,
+       "opd": "(a,a,0,-a,-a,0)",
+       "fix_dim": 1,
+       "point_group": "4/mmm",
+       "n_conjugates": 6,
+       "space_group": "P4_2/mnm (#136)",
+       "number": 136
+      },
+      {
+       "index": 3,
+       "opd": "(a,-a,0,-a,a,0)",
+       "fix_dim": 1,
+       "point_group": "4/mmm",
+       "n_conjugates": 6,
+       "space_group": "P4/nmm (#129)",
+       "number": 129
+      },
+      {
+       "index": 4,
+       "opd": "(0,0,a,0,0,a)",
+       "fix_dim": 1,
+       "point_group": "mmm",
+       "n_conjugates": 6,
+       "space_group": "Cmcm (#63)",
+       "number": 63
+      },
+      {
+       "index": 5,
+       "opd": "(a,a,a,-a,a,a)",
+       "fix_dim": 1,
+       "point_group": "23",
+       "n_conjugates": 8,
+       "space_group": "P2_13 (#198)",
+       "number": 198
+      },
+      {
+       "index": 6,
+       "opd": "(0,a,b,a,0,b)",
+       "fix_dim": 2,
+       "point_group": "mmm",
+       "n_conjugates": 3,
+       "space_group": "Pnnm (#58)",
+       "number": 58
+      },
+      {
+       "index": 7,
+       "opd": "(0,a,b,-a,0,-b)",
+       "fix_dim": 2,
+       "point_group": "mmm",
+       "n_conjugates": 3,
+       "space_group": "Pmmn (#59)",
+       "number": 59
+      },
+      {
+       "index": 8,
+       "opd": "(a,b,0,-b,a,0)",
+       "fix_dim": 2,
+       "point_group": "mmm",
+       "n_conjugates": 6,
+       "space_group": "Pnma (#62)",
+       "number": 62
+      },
+      {
+       "index": 9,
+       "opd": "(0,a,0,b,0,0)",
+       "fix_dim": 2,
+       "point_group": "2/m",
+       "n_conjugates": 3,
+       "space_group": "P2_1/m (#11)",
+       "number": 11
+      },
+      {
+       "index": 10,
+       "opd": "(0,0,a,-a,a,0)",
+       "fix_dim": 1,
+       "point_group": "3m",
+       "n_conjugates": 16,
+       "space_group": "R3m (#160)",
+       "number": 160
+      },
+      {
+       "index": 11,
+       "opd": "(0,0,0,a,-a,-a)",
+       "fix_dim": 1,
+       "point_group": "32",
+       "n_conjugates": 16,
+       "space_group": "R32 (#155)",
+       "number": 155
+      },
+      {
+       "index": 12,
+       "opd": "(0,a,b,-b,0,-a)",
+       "fix_dim": 2,
+       "point_group": "2/m",
+       "n_conjugates": 12,
+       "space_group": "C2/m (#12)",
+       "number": 12
+      },
+      {
+       "index": 13,
+       "opd": "(0,a,-a,a,b,-a)",
+       "fix_dim": 2,
+       "point_group": "mm2",
+       "n_conjugates": 12,
+       "space_group": "Amm2 (#38)",
+       "number": 38
+      },
+      {
+       "index": 14,
+       "opd": "(0,a,a,-a,b,-a)",
+       "fix_dim": 2,
+       "point_group": "mm2",
+       "n_conjugates": 12,
+       "space_group": "Aem2 (#39)",
+       "number": 39
+      },
+      {
+       "index": 15,
+       "opd": "(a,0,b,0,c,b)",
+       "fix_dim": 3,
+       "point_group": "2/m",
+       "n_conjugates": 6,
+       "space_group": "P2_1/m (#11)",
+       "number": 11
+      },
+      {
+       "index": 16,
+       "opd": "(a,b,0,-b,c,0)",
+       "fix_dim": 3,
+       "point_group": "2/m",
+       "n_conjugates": 6,
+       "space_group": "P2_1/c (#14)",
+       "number": 14
+      },
+      {
+       "index": 17,
+       "opd": "(a,b,c,-b,-a,c)",
+       "fix_dim": 3,
+       "point_group": "mm2",
+       "n_conjugates": 6,
+       "space_group": "Pmn2_1 (#31)",
+       "number": 31
+      },
+      {
+       "index": 18,
+       "opd": "(a,b,c,-b,a,c)",
+       "fix_dim": 3,
+       "point_group": "222",
+       "n_conjugates": 2,
+       "space_group": "P2_12_12_1 (#19)",
+       "number": 19
+      },
+      {
+       "index": 19,
+       "opd": "(a,a,b,-b,b,a)",
+       "fix_dim": 2,
+       "point_group": "3",
+       "n_conjugates": 16,
+       "space_group": "R3 (#146)",
+       "number": 146
+      },
+      {
+       "index": 20,
+       "opd": "(0,a,b,-b,c,-a)",
+       "fix_dim": 3,
+       "point_group": "m",
+       "n_conjugates": 12,
+       "space_group": "Cm (#8)",
+       "number": 8
+      },
+      {
+       "index": 21,
+       "opd": "(0,a,-a,b,c,-b)",
+       "fix_dim": 3,
+       "point_group": "2",
+       "n_conjugates": 12,
+       "space_group": "C2 (#5)",
+       "number": 5
+      },
+      {
+       "index": 22,
+       "opd": "(a,b,c,-b,d,c)",
+       "fix_dim": 4,
+       "point_group": "2",
+       "n_conjugates": 6,
+       "space_group": "P2_1 (#4)",
+       "number": 4
+      },
+      {
+       "index": 23,
+       "opd": "(a,0,b,0,c,d)",
+       "fix_dim": 4,
+       "point_group": "-1",
+       "n_conjugates": 3,
+       "space_group": "P-1 (#2)",
+       "number": 2
+      },
+      {
+       "index": 24,
+       "opd": "(a,b,c,b,a,d)",
+       "fix_dim": 4,
+       "point_group": "m",
+       "n_conjugates": 3,
+       "space_group": "Pc (#7)",
+       "number": 7
+      },
+      {
+       "index": 25,
+       "opd": "(a,b,c,-b,-a,d)",
+       "fix_dim": 4,
+       "point_group": "m",
+       "n_conjugates": 3,
+       "space_group": "Pm (#6)",
+       "number": 6
+      },
+      {
+       "index": 26,
+       "opd": "(a,b,c,d,e,f)",
+       "fix_dim": 6,
+       "point_group": "1",
+       "n_conjugates": 1,
+       "space_group": "P1 (#1)",
+       "number": 1
+      }
+     ]
+    },
+    {
+     "index": 5,
+     "label": "X5+",
+     "label_certain": true,
+     "dim": 6,
+     "kind": "real",
+     "species": [
+      "O"
+     ],
+     "note": "",
+     "subgroups": [
+      {
+       "index": 1,
+       "opd": "(a,1.759a,-0.246a,2.228a,0.692a,1.623a)",
+       "fix_dim": 1,
+       "point_group": "m-3",
+       "n_conjugates": 8,
+       "space_group": "Pa-3 (#205)",
+       "number": 205
+      },
+      {
+       "index": 2,
+       "opd": "(a,0.246a,-0.029a,0.046a,0.027a,-0.053a)",
+       "fix_dim": 1,
+       "point_group": "mmm",
+       "n_conjugates": 6,
+       "space_group": "Pnnm (#58)",
+       "number": 58
+      },
+      {
+       "index": 3,
+       "opd": "(a,-0.628a,0.638a,0.858a,0.093a,0.388a)",
+       "fix_dim": 1,
+       "point_group": "4/mmm",
+       "n_conjugates": 6,
+       "space_group": "P4_2/ncm (#138)",
+       "number": 138
+      },
+      {
+       "index": 4,
+       "opd": "(a,1.667a,-0.372a,0.578a,-1.776a,-0.119a)",
+       "fix_dim": 1,
+       "point_group": "4/mmm",
+       "n_conjugates": 6,
+       "space_group": "P4/mbm (#127)",
+       "number": 127
+      },
+      {
+       "index": 5,
+       "opd": "(a,-1.811a,29.986a,-13.317a,-10.218a,-22.926a)",
+       "fix_dim": 1,
+       "point_group": "mmm",
+       "n_conjugates": 6,
+       "space_group": "Cmce (#64)",
+       "number": 64
+      },
+      {
+       "index": 6,
+       "opd": "(a,-3.198a,1.326a,-4.546a,1.032a,-0.129a)",
+       "fix_dim": 1,
+       "point_group": "-3m",
+       "n_conjugates": 16,
+       "space_group": "R-3m (#166)",
+       "number": 166
+      },
+      {
+       "index": 7,
+       "opd": "(a,b,1.487a-15.737b,11.669a+13.797b,-79.557a-38.289b,-11.725a+6.185b)",
+       "fix_dim": 2,
+       "point_group": "mmm",
+       "n_conjugates": 3,
+       "space_group": "Pccn (#56)",
+       "number": 56
+      },
+      {
+       "index": 8,
+       "opd": "(a,b,25.334a-17.926b,19.466a-24.543b,0.126a-2.749b,21.817a-8.044b)",
+       "fix_dim": 2,
+       "point_group": "mmm",
+       "n_conjugates": 3,
+       "space_group": "Pbam (#55)",
+       "number": 55
+      },
+      {
+       "index": 9,
+       "opd": "(a,b,13.307a-20.699b,73.387a-12.111b,-105.954a-27.208b,22.045a-7.991b)",
+       "fix_dim": 2,
+       "point_group": "2/m",
+       "n_conjugates": 3,
+       "space_group": "P2_1/c (#14)",
+       "number": 14
+      },
+      {
+       "index": 10,
+       "opd": "(a,b,c,-47.999a+28.963b+2.906c,-13.181a+7.969b+0.580c,-37.958a+22.767b+1.876c)",
+       "fix_dim": 3,
+       "point_group": "mmm",
+       "n_conjugates": 2,
+       "space_group": "Pbca (#61)",
+       "number": 61
+      },
+      {
+       "index": 11,
+       "opd": "(a,b,0.312a-0.317b,-0.176a+1.367b,0.813a-0.069b,1.001a+0.354b)",
+       "fix_dim": 2,
+       "point_group": "-3",
+       "n_conjugates": 16,
+       "space_group": "R-3 (#148)",
+       "number": 148
+      },
+      {
+       "index": 12,
+       "opd": "(a,b,c,-18.345a-4.533b-0.525c,-0.154a-0.057b+0.757c,2.949a+0.700b-0.634c)",
+       "fix_dim": 3,
+       "point_group": "2/m",
+       "n_conjugates": 12,
+       "space_group": "C2/m (#12)",
+       "number": 12
+      },
+      {
+       "index": 13,
+       "opd": "(a,b,c,d,0.004a+0.012b-0.218c+0.275d,-0.079a-0.090b-0.417c+0.789d)",
+       "fix_dim": 4,
+       "point_group": "2/m",
+       "n_conjugates": 6,
+       "space_group": "P2_1/c (#14)",
+       "number": 14
+      },
+      {
+       "index": 14,
+       "opd": "(a,b,c,d,e,f)",
+       "fix_dim": 6,
+       "point_group": "-1",
+       "n_conjugates": 1,
+       "space_group": "P-1 (#2)",
+       "number": 2
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "k": [
+    "0",
+    "0",
+    "1/2"
+   ],
+   "star_size": 4,
+   "n_cells": 8,
+   "parent": "Fm-3m (#225)",
+   "irreps": [
+    {
+     "index": 1,
+     "label": "L2-",
+     "label_certain": true,
+     "dim": 4,
+     "kind": "real",
+     "species": [
+      "Hf",
+      "O"
+     ],
+     "note": "",
+     "subgroups": [
+      {
+       "index": 1,
+       "opd": "(0,a,0,0)",
+       "fix_dim": 1,
+       "point_group": "-3m",
+       "n_conjugates": 4,
+       "space_group": "R-3m (#166)",
+       "number": 166
+      },
+      {
+       "index": 2,
+       "opd": "(a,a,a,-a)",
+       "fix_dim": 1,
+       "point_group": "m-3m",
+       "n_conjugates": 4,
+       "space_group": "Fm-3m (#225)",
+       "number": 225
+      },
+      {
+       "index": 3,
+       "opd": "(a,-a,a,-a)",
+       "fix_dim": 1,
+       "point_group": "m-3m",
+       "n_conjugates": 4,
+       "space_group": "Fd-3m (#227)",
+       "number": 227
+      },
+      {
+       "index": 4,
+       "opd": "(0,0,a,-a)",
+       "fix_dim": 1,
+       "point_group": "mmm",
+       "n_conjugates": 12,
+       "space_group": "Cmmm (#65)",
+       "number": 65
+      },
+      {
+       "index": 5,
+       "opd": "(a,b,a,-a)",
+       "fix_dim": 2,
+       "point_group": "-3m",
+       "n_conjugates": 16,
+       "space_group": "R-3m (#166)",
+       "number": 166
+      },
+      {
+       "index": 6,
+       "opd": "(a,a,b,-b)",
+       "fix_dim": 2,
+       "point_group": "mmm",
+       "n_conjugates": 6,
+       "space_group": "Immm (#71)",
+       "number": 71
+      },
+      {
+       "index": 7,
+       "opd": "(a,-a,b,-b)",
+       "fix_dim": 2,
+       "point_group": "mmm",
+       "n_conjugates": 6,
+       "space_group": "Imma (#74)",
+       "number": 74
+      },
+      {
+       "index": 8,
+       "opd": "(a,0,b,0)",
+       "fix_dim": 2,
+       "point_group": "2/m",
+       "n_conjugates": 6,
+       "space_group": "P2/m (#10)",
+       "number": 10
+      },
+      {
+       "index": 9,
+       "opd": "(a,b,c,-c)",
+       "fix_dim": 3,
+       "point_group": "2/m",
+       "n_conjugates": 12,
+       "space_group": "C2/m (#12)",
+       "number": 12
+      },
+      {
+       "index": 10,
+       "opd": "(a,b,c,d)",
+       "fix_dim": 4,
+       "point_group": "-1",
+       "n_conjugates": 1,
+       "space_group": "P-1 (#2)",
+       "number": 2
+      }
+     ]
+    },
+    {
+     "index": 2,
+     "label": "L1+",
+     "label_certain": true,
+     "dim": 4,
+     "kind": "real",
+     "species": [
+      "O"
+     ],
+     "note": "",
+     "subgroups": [
+      {
+       "index": 1,
+       "opd": "(0,a,0,0)",
+       "fix_dim": 1,
+       "point_group": "-3m",
+       "n_conjugates": 4,
+       "space_group": "R-3m (#166)",
+       "number": 166
+      },
+      {
+       "index": 2,
+       "opd": "(a,a,a,a)",
+       "fix_dim": 1,
+       "point_group": "m-3m",
+       "n_conjugates": 4,
+       "space_group": "Fm-3m (#225)",
+       "number": 225
+      },
+      {
+       "index": 3,
+       "opd": "(a,-a,a,a)",
+       "fix_dim": 1,
+       "point_group": "m-3m",
+       "n_conjugates": 4,
+       "space_group": "Fd-3m (#227)",
+       "number": 227
+      },
+      {
+       "index": 4,
+       "opd": "(0,0,a,a)",
+       "fix_dim": 1,
+       "point_group": "mmm",
+       "n_conjugates": 12,
+       "space_group": "Cmmm (#65)",
+       "number": 65
+      },
+      {
+       "index": 5,
+       "opd": "(a,b,a,a)",
+       "fix_dim": 2,
+       "point_group": "-3m",
+       "n_conjugates": 16,
+       "space_group": "R-3m (#166)",
+       "number": 166
+      },
+      {
+       "index": 6,
+       "opd": "(a,a,b,b)",
+       "fix_dim": 2,
+       "point_group": "mmm",
+       "n_conjugates": 6,
+       "space_group": "Immm (#71)",
+       "number": 71
+      },
+      {
+       "index": 7,
+       "opd": "(a,-a,b,b)",
+       "fix_dim": 2,
+       "point_group": "mmm",
+       "n_conjugates": 6,
+       "space_group": "Imma (#74)",
+       "number": 74
+      },
+      {
+       "index": 8,
+       "opd": "(0,a,0,b)",
+       "fix_dim": 2,
+       "point_group": "2/m",
+       "n_conjugates": 6,
+       "space_group": "P2/m (#10)",
+       "number": 10
+      },
+      {
+       "index": 9,
+       "opd": "(a,b,c,c)",
+       "fix_dim": 3,
+       "point_group": "2/m",
+       "n_conjugates": 12,
+       "space_group": "C2/m (#12)",
+       "number": 12
+      },
+      {
+       "index": 10,
+       "opd": "(a,b,c,d)",
+       "fix_dim": 4,
+       "point_group": "-1",
+       "n_conjugates": 1,
+       "space_group": "P-1 (#2)",
+       "number": 2
+      }
+     ]
+    },
+    {
+     "index": 3,
+     "label": null,
+     "label_certain": false,
+     "dim": 8,
+     "kind": "real",
+     "species": [
+      "Hf",
+      "O"
+     ],
+     "note": "isotropy subgroups not enumerated (dimension 8 > max_dim=6)",
+     "subgroups": []
+    },
+    {
+     "index": 4,
+     "label": null,
+     "label_certain": false,
+     "dim": 8,
+     "kind": "real",
+     "species": [
+      "O"
+     ],
+     "note": "isotropy subgroups not enumerated (dimension 8 > max_dim=6)",
+     "subgroups": []
+    }
+   ]
+  }
+ ],
+ "qpoints": [
+  {
+   "index": 0,
+   "q": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "star": [
+    "0",
+    "0",
+    "0"
+   ],
+   "bands": [
+    {
+     "band": 0,
+     "freq": -0.0,
+     "irrep": 1,
+     "label": "GM4-",
+     "dim": 3,
+     "weight": 1.0,
+     "outside": 7.23e-32,
+     "weights": {
+      "1": 1.0
+     },
+     "degenerate_with": [
+      1,
+      2
+     ],
+     "adapted": true,
+     "rigid": true,
+     "eigenvector": [
+      [
+       [
+        0.92085754,
+        0.0
+       ],
+       [
+        -5.42431126e-15,
+        0.0
+       ],
+       [
+        1.46346764e-16,
+        0.0
+       ]
+      ],
+      [
+       [
+        0.275700372,
+        0.0
+       ],
+       [
+        4.09263308e-17,
+        0.0
+       ],
+       [
+        4.48473615e-17,
+        0.0
+       ]
+      ],
+      [
+       [
+        0.275700372,
+        0.0
+       ],
+       [
+        4.09263308e-17,
+        0.0
+       ],
+       [
+        4.48473615e-17,
+        0.0
+       ]
+      ]
+     ],
+     "snapshots": [
+      {
+       "part": "re",
+       "share": 1.0,
+       "opd": [
+        1.0,
+        -0.0,
+        -0.0
+       ],
+       "residual": null,
+       "subgroup": null
+      }
+     ]
+    },
+    {
+     "band": 1,
+     "freq": 0.0,
+     "irrep": 1,
+     "label": "GM4-",
+     "dim": 3,
+     "weight": 1.0,
+     "outside": 1.16e-30,
+     "weights": {
+      "1": 1.0
+     },
+     "degenerate_with": [
+      0,
+      2
+     ],
+     "adapted": true,
+     "rigid": true,
+     "eigenvector": [
+      [
+       [
+        1.56421506e-14,
+        0.0
+       ],
+       [
+        -0.92085754,
+        0.0
+       ],
+       [
+        4.96325408e-15,
+        0.0
+       ]
+      ],
+      [
+       [
+        3.28933356e-17,
+        0.0
+       ],
+       [
+        -0.275700372,
+        0.0
+       ],
+       [
+        2.21342235e-15,
+        0.0
+       ]
+      ],
+      [
+       [
+        3.28933356e-17,
+        0.0
+       ],
+       [
+        -0.275700372,
+        0.0
+       ],
+       [
+        2.21342235e-15,
+        0.0
+       ]
+      ]
+     ],
+     "snapshots": [
+      {
+       "part": "re",
+       "share": 1.0,
+       "opd": [
+        0.0,
+        1.0,
+        -0.0
+       ],
+       "residual": null,
+       "subgroup": null
+      }
+     ]
+    },
+    {
+     "band": 2,
+     "freq": 0.0,
+     "irrep": 1,
+     "label": "GM4-",
+     "dim": 3,
+     "weight": 1.0,
+     "outside": 4.11e-31,
+     "weights": {
+      "1": 1.0
+     },
+     "degenerate_with": [
+      0,
+      1
+     ],
+     "adapted": true,
+     "rigid": true,
+     "eigenvector": [
+      [
+       [
+        -7.43858246e-15,
+        0.0
+       ],
+       [
+        -1.02467597e-15,
+        0.0
+       ],
+       [
+        -0.92085754,
+        0.0
+       ]
+      ],
+      [
+       [
+        -3.93305067e-17,
+        0.0
+       ],
+       [
+        -4.28208529e-16,
+        0.0
+       ],
+       [
+        -0.275700372,
+        0.0
+       ]
+      ],
+      [
+       [
+        -3.93305067e-17,
+        0.0
+       ],
+       [
+        -4.28208529e-16,
+        0.0
+       ],
+       [
+        -0.275700372,
+        0.0
+       ]
+      ]
+     ],
+     "snapshots": [
+      {
+       "part": "re",
+       "share": 1.0,
+       "opd": [
+        -0.0,
+        0.0,
+        1.0
+       ],
+       "residual": null,
+       "subgroup": null
+      }
+     ]
+    },
+    {
+     "band": 3,
+     "freq": 12.004703,
+     "irrep": 1,
+     "label": "GM4-",
+     "dim": 3,
+     "weight": 1.0,
+     "outside": 9.31e-32,
+     "weights": {
+      "1": 1.0
+     },
+     "degenerate_with": [
+      4,
+      5
+     ],
+     "adapted": true,
+     "rigid": false,
+     "eigenvector": [
+      [
+       [
+        -0.389899205,
+        0.0
+       ],
+       [
+        2.74730688e-16,
+        0.0
+       ],
+       [
+        3.64353849e-16,
+        0.0
+       ]
+      ],
+      [
+       [
+        0.651144611,
+        0.0
+       ],
+       [
+        -4.47800303e-16,
+        0.0
+       ],
+       [
+        -4.05376985e-16,
+        0.0
+       ]
+      ],
+      [
+       [
+        0.651144611,
+        0.0
+       ],
+       [
+        -4.47800303e-16,
+        0.0
+       ],
+       [
+        -4.05376985e-16,
+        0.0
+       ]
+      ]
+     ],
+     "snapshots": [
+      {
+       "part": "re",
+       "share": 1.0,
+       "opd": [
+        1.0,
+        0.0,
+        0.0
+       ],
+       "residual": 9.072358851933012e-16,
+       "subgroup": {
+        "index": 1,
+        "opd": "(a,0,0)",
+        "fix_dim": 1,
+        "point_group": "4mm",
+        "n_conjugates": 3,
+        "space_group": "I4mm (#107)",
+        "number": 107
+       }
+      }
+     ]
+    },
+    {
+     "band": 4,
+     "freq": 12.004703,
+     "irrep": 1,
+     "label": "GM4-",
+     "dim": 3,
+     "weight": 1.0,
+     "outside": 7.34e-31,
+     "weights": {
+      "1": 1.0
+     },
+     "degenerate_with": [
+      3,
+      5
+     ],
+     "adapted": true,
+     "rigid": false,
+     "eigenvector": [
+      [
+       [
+        2.5581081e-17,
+        0.0
+       ],
+       [
+        0.389899205,
+        0.0
+       ],
+       [
+        -6.19618e-15,
+        0.0
+       ]
+      ],
+      [
+       [
+        -4.02283954e-17,
+        0.0
+       ],
+       [
+        -0.651144611,
+        0.0
+       ],
+       [
+        9.73224369e-17,
+        0.0
+       ]
+      ],
+      [
+       [
+        -4.02283954e-17,
+        0.0
+       ],
+       [
+        -0.651144611,
+        0.0
+       ],
+       [
+        9.73224369e-17,
+        0.0
+       ]
+      ]
+     ],
+     "snapshots": [
+      {
+       "part": "re",
+       "share": 1.0,
+       "opd": [
+        0.0,
+        1.0,
+        0.0
+       ],
+       "residual": 2.396416172692931e-15,
+       "subgroup": {
+        "index": 1,
+        "opd": "(a,0,0)",
+        "fix_dim": 1,
+        "point_group": "4mm",
+        "n_conjugates": 3,
+        "space_group": "I4mm (#107)",
+        "number": 107
+       }
+      }
+     ]
+    },
+    {
+     "band": 5,
+     "freq": 12.004703,
+     "irrep": 1,
+     "label": "GM4-",
+     "dim": 3,
+     "weight": 1.0,
+     "outside": 3.7e-31,
+     "weights": {
+      "1": 1.0
+     },
+     "degenerate_with": [
+      3,
+      4
+     ],
+     "adapted": true,
+     "rigid": false,
+     "eigenvector": [
+      [
+       [
+        4.41120375e-17,
+        0.0
+       ],
+       [
+        6.02898008e-15,
+        0.0
+       ],
+       [
+        0.389899205,
+        0.0
+       ]
+      ],
+      [
+       [
+        -8.87409293e-17,
+        0.0
+       ],
+       [
+        -3.24349446e-17,
+        0.0
+       ],
+       [
+        -0.651144611,
+        0.0
+       ]
+      ],
+      [
+       [
+        -8.87409293e-17,
+        0.0
+       ],
+       [
+        -3.24349446e-17,
+        0.0
+       ],
+       [
+        -0.651144611,
+        0.0
+       ]
+      ]
+     ],
+     "snapshots": [
+      {
+       "part": "re",
+       "share": 1.0,
+       "opd": [
+        -0.0,
+        0.0,
+        1.0
+       ],
+       "residual": 1.993247380032598e-15,
+       "subgroup": {
+        "index": 1,
+        "opd": "(a,0,0)",
+        "fix_dim": 1,
+        "point_group": "4mm",
+        "n_conjugates": 3,
+        "space_group": "I4mm (#107)",
+        "number": 107
+       }
+      }
+     ]
+    },
+    {
+     "band": 6,
+     "freq": 13.539091,
+     "irrep": 2,
+     "label": "GM5+",
+     "dim": 3,
+     "weight": 1.0,
+     "outside": 1.71e-31,
+     "weights": {
+      "2": 1.0
+     },
+     "degenerate_with": [
+      7,
+      8
+     ],
+     "adapted": true,
+     "rigid": false,
+     "eigenvector": [
+      [
+       [
+        -1.56944878e-16,
+        0.0
+       ],
+       [
+        -2.80058311e-18,
+        0.0
+       ],
+       [
+        0.0,
+        0.0
+       ]
+      ],
+      [
+       [
+        0.707106781,
+        0.0
+       ],
+       [
+        1.29330251e-16,
+        0.0
+       ],
+       [
+        -8.07477129e-17,
+        0.0
+       ]
+      ],
+      [
+       [
+        -0.707106781,
+        0.0
+       ],
+       [
+        -1.29330251e-16,
+        0.0
+       ],
+       [
+        8.07477129e-17,
+        0.0
+       ]
+      ]
+     ],
+     "snapshots": [
+      {
+       "part": "re",
+       "share": 1.0,
+       "opd": [
+        1.0,
+        -0.0,
+        0.0
+       ],
+       "residual": 6.840849161472752e-16,
+       "subgroup": {
+        "index": 2,
+        "opd": "(a,0,0)",
+        "fix_dim": 1,
+        "point_group": "mmm",
+        "n_conjugates": 3,
+        "space_group": "Immm (#71)",
+        "number": 71
+       }
+      }
+     ]
+    },
+    {
+     "band": 7,
+     "freq": 13.539091,
+     "irrep": 2,
+     "label": "GM5+",
+     "dim": 3,
+     "weight": 1.0,
+     "outside": 1.43e-31,
+     "weights": {
+      "2": 1.0
+     },
+     "degenerate_with": [
+      6,
+      8
+     ],
+     "adapted": true,
+     "rigid": false,
+     "eigenvector": [
+      [
+       [
+        7.3534193e-17,
+        0.0
+       ],
+       [
+        1.31217165e-18,
+        0.0
+       ],
+       [
+        0.0,
+        0.0
+       ]
+      ],
+      [
+       [
+        -4.00915442e-18,
+        0.0
+       ],
+       [
+        -0.561561752,
+        0.0
+       ],
+       [
+        0.42970734,
+        0.0
+       ]
+      ],
+      [
+       [
+        4.00915442e-18,
+        0.0
+       ],
+       [
+        0.561561752,
+        0.0
+       ],
+       [
+        -0.42970734,
+        0.0
+       ]
+      ]
+     ],
+     "snapshots": [
+      {
+       "part": "re",
+       "share": 1.0,
+       "opd": [
+        -0.0,
+        1.0,
+        -0.0
+       ],
+       "residual": 1.2897179215215028e-16,
+       "subgroup": {
+        "index": 4,
+        "opd": "(a,b,c)",
+        "fix_dim": 3,
+        "point_group": "-1",
+        "n_conjugates": 1,
+        "space_group": "P-1 (#2)",
+        "number": 2
+       }
+      }
+     ]
+    },
+    {
+     "band": 8,
+     "freq": 13.539091,
+     "irrep": 2,
+     "label": "GM5+",
+     "dim": 3,
+     "weight": 1.0,
+     "outside": 7.59e-32,
+     "weights": {
+      "2": 1.0
+     },
+     "degenerate_with": [
+      6,
+      7
+     ],
+     "adapted": true,
+     "rigid": false,
+     "eigenvector": [
+      [
+       [
+        -1.10728628e-16,
+        0.0
+       ],
+       [
+        -1.97588305e-18,
+        0.0
+       ],
+       [
+        0.0,
+        0.0
+       ]
+      ],
+      [
+       [
+        3.01510197e-17,
+        0.0
+       ],
+       [
+        -0.42970734,
+        0.0
+       ],
+       [
+        -0.561561752,
+        0.0
+       ]
+      ],
+      [
+       [
+        -3.01510197e-17,
+        0.0
+       ],
+       [
+        0.42970734,
+        0.0
+       ],
+       [
+        0.561561752,
+        0.0
+       ]
+      ]
+     ],
+     "snapshots": [
+      {
+       "part": "re",
+       "share": 1.0,
+       "opd": [
+        0.0,
+        -0.0,
+        1.0
+       ],
+       "residual": 1.4650917776107633e-17,
+       "subgroup": {
+        "index": 4,
+        "opd": "(a,b,c)",
+        "fix_dim": 3,
+        "point_group": "-1",
+        "n_conjugates": 1,
+        "space_group": "P-1 (#2)",
+        "number": 2
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "q": [
+    0.125,
+    0.0,
+    0.125
+   ],
+   "skipped": "its star needs a 256-cell supercell (limit 16)"
+  },
+  {
+   "index": 2,
+   "q": [
+    0.25,
+    0.0,
+    0.25
+   ],
+   "skipped": "its star needs a 32-cell supercell (limit 16)"
+  },
+  {
+   "index": 3,
+   "q": [
+    0.375,
+    0.0,
+    0.375
+   ],
+   "skipped": "its star needs a 256-cell supercell (limit 16)"
+  },
+  {
+   "index": 4,
+   "q": [
+    0.5,
+    0.0,
+    0.5
+   ],
+   "star": [
+    "0",
+    "1/2",
+    "1/2"
+   ],
+   "bands": [
+    {
+     "band": 0,
+     "freq": -3.027433,
+     "irrep": 2,
+     "label": "X2-",
+     "dim": 3,
+     "weight": 1.0,
+     "outside": 7.45e-30,
+     "weights": {
+      "2": 1.0
+     },
+     "degenerate_with": [],
+     "adapted": false,
+     "rigid": false,
+     "eigenvector": null,
+     "snapshots": [
+      {
+       "part": "re",
+       "share": 1.0,
+       "opd": [
+        -1.0,
+        0.0,
+        0.0
+       ],
+       "residual": 4.8850366898543676e-15,
+       "subgroup": {
+        "index": 1,
+        "opd": "(a,0,0)",
+        "fix_dim": 1,
+        "point_group": "4/mmm",
+        "n_conjugates": 3,
+        "space_group": "P4_2/nmc (#137)",
+        "number": 137
+       }
+      }
+     ]
+    },
+    {
+     "band": 1,
+     "freq": 1.715746,
+     "irrep": 4,
+     "label": "X5-",
+     "dim": 6,
+     "weight": 1.0,
+     "outside": 1.47e-30,
+     "weights": {
+      "4": 1.0
+     },
+     "degenerate_with": [
+      2
+     ],
+     "adapted": true,
+     "rigid": false,
+     "eigenvector": [
+      [
+       [
+        -0.644536696,
+        -3.69642542e-33
+       ],
+       [
+        0.0,
+        0.0
+       ],
+       [
+        0.644536696,
+        1.76554257e-33
+       ]
+      ],
+      [
+       [
+        1.25915823e-17,
+        -0.205636145
+       ],
+       [
+        0.0,
+        0.0
+       ],
+       [
+        -1.25915823e-17,
+        0.205636145
+       ]
+      ],
+      [
+       [
+        -3.7774747e-17,
+        0.205636145
+       ],
+       [
+        0.0,
+        0.0
+       ],
+       [
+        3.7774747e-17,
+        -0.205636145
+       ]
+      ]
+     ],
+     "snapshots": [
+      {
+       "part": "re",
+       "share": 1.0,
+       "opd": [
+        -0.0,
+        1.0,
+        0.0,
+        -0.0,
+        0.0,
+        0.0
+       ],
+       "residual": 1.2164732882197696e-14,
+       "subgroup": {
+        "index": 1,
+        "opd": "(a,0,0,0,0,0)",
+        "fix_dim": 1,
+        "point_group": "mmm",
+        "n_conjugates": 6,
+        "space_group": "Pmmn (#59)",
+        "number": 59
+       }
+      }
+     ]
+    },
+    {
+     "band": 2,
+     "freq": 1.715746,
+     "irrep": 4,
+     "label": "X5-",
+     "dim": 6,
+     "weight": 1.0,
+     "outside": 8.63e-31,
+     "weights": {
+      "4": 1.0
+     },
+     "degenerate_with": [
+      1
+     ],
+     "adapted": true,
+     "rigid": false,
+     "eigenvector": [
+      [
+       [
+        0.644536696,
+        4.34864753e-33
+       ],
+       [
+        0.0,
+        0.0
+       ],
+       [
+        0.644536696,
+        2.41776468e-33
+       ]
+      ],
+      [
+       [
+        1.25915823e-17,
+        -0.205636145
+       ],
+       [
+        0.0,
+        0.0
+       ],
+       [
+        1.25915823e-17,
+        -0.205636145
+       ]
+      ],
+      [
+       [
+        -3.7774747e-17,
+        0.205636145
+       ],
+       [
+        0.0,
+        0.0
+       ],
+       [
+        -3.7774747e-17,
+        0.205636145
+       ]
+      ]
+     ],
+     "snapshots": [
+      {
+       "part": "re",
+       "share": 1.0,
+       "opd": [
+        -0.0,
+        0.0,
+        -0.0,
+        1.0,
+        0.0,
+        0.0
+       ],
+       "residual": 9.680989430247902e-15,
+       "subgroup": {
+        "index": 1,
+        "opd": "(a,0,0,0,0,0)",
+        "fix_dim": 1,
+        "point_group": "mmm",
+        "n_conjugates": 6,
+        "space_group": "Pmmn (#59)",
+        "number": 59
+       }
+      }
+     ]
+    },
+    {
+     "band": 3,
+     "freq": 5.538189,
+     "irrep": 1,
+     "label": "X3-",
+     "dim": 3,
+     "weight": 1.0,
+     "outside": 2.35e-30,
+     "weights": {
+      "1": 1.0
+     },
+     "degenerate_with": [],
+     "adapted": false,
+     "rigid": false,
+     "eigenvector": null,
+     "snapshots": [
+      {
+       "part": "re",
+       "share": 1.0,
+       "opd": [
+        -0.0,
+        1.0,
+        0.0
+       ],
+       "residual": 1.7789106523705837e-15,
+       "subgroup": {
+        "index": 1,
+        "opd": "(a,0,0)",
+        "fix_dim": 1,
+        "point_group": "4/mmm",
+        "n_conjugates": 3,
+        "space_group": "P4/nmm (#129)",
+        "number": 129
+       }
+      }
+     ]
+    },
+    {
+     "band": 4,
+     "freq": 7.206731,
+     "irrep": 3,
+     "label": "X1+",
+     "dim": 3,
+     "weight": 1.0,
+     "outside": 1.07e-30,
+     "weights": {
+      "3": 1.0
+     },
+     "degenerate_with": [],
+     "adapted": false,
+     "rigid": false,
+     "eigenvector": null,
+     "snapshots": [
+      {
+       "part": "re",
+       "share": 1.0,
+       "opd": [
+        0.996765,
+        -0.080374,
+        -0.0
+       ],
+       "residual": 1.3795625817722551e-15,
+       "subgroup": {
+        "index": 2,
+        "opd": "(a,-0.081a,0)",
+        "fix_dim": 1,
+        "point_group": "4/mmm",
+        "n_conjugates": 3,
+        "space_group": "P4/mmm (#123)",
+        "number": 123
+       }
+      }
+     ]
+    },
+    {
+     "band": 5,
+     "freq": 7.517955,
+     "irrep": 5,
+     "label": "X5+",
+     "dim": 6,
+     "weight": 1.0,
+     "outside": 3.7e-31,
+     "weights": {
+      "5": 1.0
+     },
+     "degenerate_with": [
+      6
+     ],
+     "adapted": true,
+     "rigid": false,
+     "eigenvector": [
+      [
+       [
+        0.0,
+        0.0
+       ],
+       [
+        0.0,
+        0.0
+       ],
+       [
+        0.0,
+        0.0
+       ]
+      ],
+      [
+       [
+        3.83069448e-17,
+        -0.625599885
+       ],
+       [
+        0.0,
+        0.0
+       ],
+       [
+        2.01811226e-17,
+        -0.329582743
+       ]
+      ],
+      [
+       [
+        1.14920834e-16,
+        -0.625599885
+       ],
+       [
+        0.0,
+        0.0
+       ],
+       [
+        6.05433677e-17,
+        -0.329582743
+       ]
+      ]
+     ],
+     "snapshots": [
+      {
+       "part": "re",
+       "share": 1.0,
+       "opd": [
+        0.007608,
+        -0.0,
+        0.101245,
+        0.558339,
+        -0.806113,
+        0.167723
+       ],
+       "residual": 2.1097966811637993e-16,
+       "subgroup": {
+        "index": 9,
+        "opd": "(a,b,13.307a-20.699b,73.387a-12.111b,-105.954a-27.208b,22.045a-7.991b)",
+        "fix_dim": 2,
+        "point_group": "2/m",
+        "n_conjugates": 3,
+        "space_group": "P2_1/c (#14)",
+        "number": 14
+       }
+      }
+     ]
+    },
+    {
+     "band": 6,
+     "freq": 7.517955,
+     "irrep": 5,
+     "label": "X5+",
+     "dim": 6,
+     "weight": 1.0,
+     "outside": 6.89e-31,
+     "weights": {
+      "5": 1.0
+     },
+     "degenerate_with": [
+      5
+     ],
+     "adapted": true,
+     "rigid": false,
+     "eigenvector": [
+      [
+       [
+        0.0,
+        0.0
+       ],
+       [
+        0.0,
+        0.0
+       ],
+       [
+        0.0,
+        0.0
+       ]
+      ],
+      [
+       [
+        2.01811226e-17,
+        -0.329582743
+       ],
+       [
+        0.0,
+        0.0
+       ],
+       [
+        -3.83069448e-17,
+        0.625599885
+       ]
+      ],
+      [
+       [
+        6.05433677e-17,
+        -0.329582743
+       ],
+       [
+        0.0,
+        0.0
+       ],
+       [
+        -1.14920834e-16,
+        0.625599885
+       ]
+      ]
+     ],
+     "snapshots": [
+      {
+       "part": "re",
+       "share": 1.0,
+       "opd": [
+        -0.002533,
+        0.028369,
+        -0.620916,
+        -0.529443,
+        -0.503503,
+        -0.282536
+       ],
+       "residual": 1.8536364454373883e-16,
+       "subgroup": {
+        "index": 9,
+        "opd": "(a,b,13.307a-20.699b,73.387a-12.111b,-105.954a-27.208b,22.045a-7.991b)",
+        "fix_dim": 2,
+        "point_group": "2/m",
+        "n_conjugates": 3,
+        "space_group": "P2_1/c (#14)",
+        "number": 14
+       }
+      }
+     ]
+    },
+    {
+     "band": 7,
+     "freq": 11.872998,
+     "irrep": 4,
+     "label": "X5-",
+     "dim": 6,
+     "weight": 1.0,
+     "outside": 1.11e-30,
+     "weights": {
+      "4": 1.0
+     },
+     "degenerate_with": [
+      8
+     ],
+     "adapted": true,
+     "rigid": false,
+     "eigenvector": [
+      [
+       [
+        0.290813425,
+        -6.84112076e-35
+       ],
+       [
+        0.0,
+        0.0
+       ],
+       [
+        -0.290813425,
+        -2.07844026e-33
+       ]
+      ],
+      [
+       [
+        2.79070227e-17,
+        -0.455756268
+       ],
+       [
+        0.0,
+        0.0
+       ],
+       [
+        -2.79070227e-17,
+        0.455756268
+       ]
+      ],
+      [
+       [
+        -8.37210682e-17,
+        0.455756268
+       ],
+       [
+        0.0,
+        0.0
+       ],
+       [
+        8.37210682e-17,
+        -0.455756268
+       ]
+      ]
+     ],
+     "snapshots": [
+      {
+       "part": "re",
+       "share": 1.0,
+       "opd": [
+        -0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ],
+       "residual": 1.3077816071509635e-14,
+       "subgroup": {
+        "index": 1,
+        "opd": "(a,0,0,0,0,0)",
+        "fix_dim": 1,
+        "point_group": "mmm",
+        "n_conjugates": 6,
+        "space_group": "Pmmn (#59)",
+        "number": 59
+       }
+      }
+     ]
+    },
+    {
+     "band": 8,
+     "freq": 11.872998,
+     "irrep": 4,
+     "label": "X5-",
+     "dim": 6,
+     "weight": 1.0,
+     "outside": 9.36e-31,
+     "weights": {
+      "4": 1.0
+     },
+     "degenerate_with": [
+      7
+     ],
+     "adapted": true,
+     "rigid": false,
+     "eigenvector": [
+      [
+       [
+        -0.290813425,
+        -7.30679496e-35
+       ],
+       [
+        0.0,
+        0.0
+       ],
+       [
+        -0.290813425,
+        -2.21991942e-33
+       ]
+      ],
+      [
+       [
+        2.79070227e-17,
+        -0.455756268
+       ],
+       [
+        0.0,
+        0.0
+       ],
+       [
+        2.79070227e-17,
+        -0.455756268
+       ]
+      ],
+      [
+       [
+        -8.37210682e-17,
+        0.455756268
+       ],
+       [
+        0.0,
+        0.0
+       ],
+       [
+        -8.37210682e-17,
+        0.455756268
+       ]
+      ]
+     ],
+     "snapshots": [
+      {
+       "part": "re",
+       "share": 1.0,
+       "opd": [
+        -0.0,
+        0.0,
+        -0.0,
+        1.0,
+        0.0,
+        0.0
+       ],
+       "residual": 9.885867880300567e-15,
+       "subgroup": {
+        "index": 1,
+        "opd": "(a,0,0,0,0,0)",
+        "fix_dim": 1,
+        "point_group": "mmm",
+        "n_conjugates": 6,
+        "space_group": "Pmmn (#59)",
+        "number": 59
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 5,
+   "q": [
+    0.5,
+    0.0,
+    0.5
+   ],
+   "star": [
+    "0",
+    "1/2",
+    "1/2"
+   ],
+   "bands": [
+    {
+     "band": 0,
+     "freq": -3.027433,
+     "irrep": 2,
+     "label": "X2-",
+     "dim": 3,
+     "weight": 1.0,
+     "outside": 7.45e-30,
+     "weights": {
+      "2": 1.0
+     },
+     "degenerate_with": [],
+     "adapted": false,
+     "rigid": false,
+     "eigenvector": null,
+     "snapshots": [
+      {
+       "part": "re",
+       "share": 1.0,
+       "opd": [
+        -1.0,
+        0.0,
+        0.0
+       ],
+       "residual": 4.8850366898543676e-15,
+       "subgroup": {
+        "index": 1,
+        "opd": "(a,0,0)",
+        "fix_dim": 1,
+        "point_group": "4/mmm",
+        "n_conjugates": 3,
+        "space_group": "P4_2/nmc (#137)",
+        "number": 137
+       }
+      }
+     ]
+    },
+    {
+     "band": 1,
+     "freq": 1.715746,
+     "irrep": 4,
+     "label": "X5-",
+     "dim": 6,
+     "weight": 1.0,
+     "outside": 1.47e-30,
+     "weights": {
+      "4": 1.0
+     },
+     "degenerate_with": [
+      2
+     ],
+     "adapted": true,
+     "rigid": false,
+     "eigenvector": [
+      [
+       [
+        -0.644536696,
+        -3.69642542e-33
+       ],
+       [
+        0.0,
+        0.0
+       ],
+       [
+        0.644536696,
+        1.76554257e-33
+       ]
+      ],
+      [
+       [
+        1.25915823e-17,
+        -0.205636145
+       ],
+       [
+        0.0,
+        0.0
+       ],
+       [
+        -1.25915823e-17,
+        0.205636145
+       ]
+      ],
+      [
+       [
+        -3.7774747e-17,
+        0.205636145
+       ],
+       [
+        0.0,
+        0.0
+       ],
+       [
+        3.7774747e-17,
+        -0.205636145
+       ]
+      ]
+     ],
+     "snapshots": [
+      {
+       "part": "re",
+       "share": 1.0,
+       "opd": [
+        -0.0,
+        1.0,
+        0.0,
+        -0.0,
+        0.0,
+        0.0
+       ],
+       "residual": 1.2164732882197696e-14,
+       "subgroup": {
+        "index": 1,
+        "opd": "(a,0,0,0,0,0)",
+        "fix_dim": 1,
+        "point_group": "mmm",
+        "n_conjugates": 6,
+        "space_group": "Pmmn (#59)",
+        "number": 59
+       }
+      }
+     ]
+    },
+    {
+     "band": 2,
+     "freq": 1.715746,
+     "irrep": 4,
+     "label": "X5-",
+     "dim": 6,
+     "weight": 1.0,
+     "outside": 8.63e-31,
+     "weights": {
+      "4": 1.0
+     },
+     "degenerate_with": [
+      1
+     ],
+     "adapted": true,
+     "rigid": false,
+     "eigenvector": [
+      [
+       [
+        0.644536696,
+        4.34864753e-33
+       ],
+       [
+        0.0,
+        0.0
+       ],
+       [
+        0.644536696,
+        2.41776468e-33
+       ]
+      ],
+      [
+       [
+        1.25915823e-17,
+        -0.205636145
+       ],
+       [
+        0.0,
+        0.0
+       ],
+       [
+        1.25915823e-17,
+        -0.205636145
+       ]
+      ],
+      [
+       [
+        -3.7774747e-17,
+        0.205636145
+       ],
+       [
+        0.0,
+        0.0
+       ],
+       [
+        -3.7774747e-17,
+        0.205636145
+       ]
+      ]
+     ],
+     "snapshots": [
+      {
+       "part": "re",
+       "share": 1.0,
+       "opd": [
+        -0.0,
+        0.0,
+        -0.0,
+        1.0,
+        0.0,
+        0.0
+       ],
+       "residual": 9.680989430247902e-15,
+       "subgroup": {
+        "index": 1,
+        "opd": "(a,0,0,0,0,0)",
+        "fix_dim": 1,
+        "point_group": "mmm",
+        "n_conjugates": 6,
+        "space_group": "Pmmn (#59)",
+        "number": 59
+       }
+      }
+     ]
+    },
+    {
+     "band": 3,
+     "freq": 5.538189,
+     "irrep": 1,
+     "label": "X3-",
+     "dim": 3,
+     "weight": 1.0,
+     "outside": 2.35e-30,
+     "weights": {
+      "1": 1.0
+     },
+     "degenerate_with": [],
+     "adapted": false,
+     "rigid": false,
+     "eigenvector": null,
+     "snapshots": [
+      {
+       "part": "re",
+       "share": 1.0,
+       "opd": [
+        -0.0,
+        1.0,
+        0.0
+       ],
+       "residual": 1.7789106523705837e-15,
+       "subgroup": {
+        "index": 1,
+        "opd": "(a,0,0)",
+        "fix_dim": 1,
+        "point_group": "4/mmm",
+        "n_conjugates": 3,
+        "space_group": "P4/nmm (#129)",
+        "number": 129
+       }
+      }
+     ]
+    },
+    {
+     "band": 4,
+     "freq": 7.206731,
+     "irrep": 3,
+     "label": "X1+",
+     "dim": 3,
+     "weight": 1.0,
+     "outside": 1.07e-30,
+     "weights": {
+      "3": 1.0
+     },
+     "degenerate_with": [],
+     "adapted": false,
+     "rigid": false,
+     "eigenvector": null,
+     "snapshots": [
+      {
+       "part": "re",
+       "share": 1.0,
+       "opd": [
+        0.996765,
+        -0.080374,
+        -0.0
+       ],
+       "residual": 1.3795625817722551e-15,
+       "subgroup": {
+        "index": 2,
+        "opd": "(a,-0.081a,0)",
+        "fix_dim": 1,
+        "point_group": "4/mmm",
+        "n_conjugates": 3,
+        "space_group": "P4/mmm (#123)",
+        "number": 123
+       }
+      }
+     ]
+    },
+    {
+     "band": 5,
+     "freq": 7.517955,
+     "irrep": 5,
+     "label": "X5+",
+     "dim": 6,
+     "weight": 1.0,
+     "outside": 3.7e-31,
+     "weights": {
+      "5": 1.0
+     },
+     "degenerate_with": [
+      6
+     ],
+     "adapted": true,
+     "rigid": false,
+     "eigenvector": [
+      [
+       [
+        0.0,
+        0.0
+       ],
+       [
+        0.0,
+        0.0
+       ],
+       [
+        0.0,
+        0.0
+       ]
+      ],
+      [
+       [
+        3.83069448e-17,
+        -0.625599885
+       ],
+       [
+        0.0,
+        0.0
+       ],
+       [
+        2.01811226e-17,
+        -0.329582743
+       ]
+      ],
+      [
+       [
+        1.14920834e-16,
+        -0.625599885
+       ],
+       [
+        0.0,
+        0.0
+       ],
+       [
+        6.05433677e-17,
+        -0.329582743
+       ]
+      ]
+     ],
+     "snapshots": [
+      {
+       "part": "re",
+       "share": 1.0,
+       "opd": [
+        0.007608,
+        -0.0,
+        0.101245,
+        0.558339,
+        -0.806113,
+        0.167723
+       ],
+       "residual": 2.1097966811637993e-16,
+       "subgroup": {
+        "index": 9,
+        "opd": "(a,b,13.307a-20.699b,73.387a-12.111b,-105.954a-27.208b,22.045a-7.991b)",
+        "fix_dim": 2,
+        "point_group": "2/m",
+        "n_conjugates": 3,
+        "space_group": "P2_1/c (#14)",
+        "number": 14
+       }
+      }
+     ]
+    },
+    {
+     "band": 6,
+     "freq": 7.517955,
+     "irrep": 5,
+     "label": "X5+",
+     "dim": 6,
+     "weight": 1.0,
+     "outside": 6.89e-31,
+     "weights": {
+      "5": 1.0
+     },
+     "degenerate_with": [
+      5
+     ],
+     "adapted": true,
+     "rigid": false,
+     "eigenvector": [
+      [
+       [
+        0.0,
+        0.0
+       ],
+       [
+        0.0,
+        0.0
+       ],
+       [
+        0.0,
+        0.0
+       ]
+      ],
+      [
+       [
+        2.01811226e-17,
+        -0.329582743
+       ],
+       [
+        0.0,
+        0.0
+       ],
+       [
+        -3.83069448e-17,
+        0.625599885
+       ]
+      ],
+      [
+       [
+        6.05433677e-17,
+        -0.329582743
+       ],
+       [
+        0.0,
+        0.0
+       ],
+       [
+        -1.14920834e-16,
+        0.625599885
+       ]
+      ]
+     ],
+     "snapshots": [
+      {
+       "part": "re",
+       "share": 1.0,
+       "opd": [
+        -0.002533,
+        0.028369,
+        -0.620916,
+        -0.529443,
+        -0.503503,
+        -0.282536
+       ],
+       "residual": 1.8536364454373883e-16,
+       "subgroup": {
+        "index": 9,
+        "opd": "(a,b,13.307a-20.699b,73.387a-12.111b,-105.954a-27.208b,22.045a-7.991b)",
+        "fix_dim": 2,
+        "point_group": "2/m",
+        "n_conjugates": 3,
+        "space_group": "P2_1/c (#14)",
+        "number": 14
+       }
+      }
+     ]
+    },
+    {
+     "band": 7,
+     "freq": 11.872998,
+     "irrep": 4,
+     "label": "X5-",
+     "dim": 6,
+     "weight": 1.0,
+     "outside": 1.11e-30,
+     "weights": {
+      "4": 1.0
+     },
+     "degenerate_with": [
+      8
+     ],
+     "adapted": true,
+     "rigid": false,
+     "eigenvector": [
+      [
+       [
+        0.290813425,
+        -6.84112076e-35
+       ],
+       [
+        0.0,
+        0.0
+       ],
+       [
+        -0.290813425,
+        -2.07844026e-33
+       ]
+      ],
+      [
+       [
+        2.79070227e-17,
+        -0.455756268
+       ],
+       [
+        0.0,
+        0.0
+       ],
+       [
+        -2.79070227e-17,
+        0.455756268
+       ]
+      ],
+      [
+       [
+        -8.37210682e-17,
+        0.455756268
+       ],
+       [
+        0.0,
+        0.0
+       ],
+       [
+        8.37210682e-17,
+        -0.455756268
+       ]
+      ]
+     ],
+     "snapshots": [
+      {
+       "part": "re",
+       "share": 1.0,
+       "opd": [
+        -0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ],
+       "residual": 1.3077816071509635e-14,
+       "subgroup": {
+        "index": 1,
+        "opd": "(a,0,0,0,0,0)",
+        "fix_dim": 1,
+        "point_group": "mmm",
+        "n_conjugates": 6,
+        "space_group": "Pmmn (#59)",
+        "number": 59
+       }
+      }
+     ]
+    },
+    {
+     "band": 8,
+     "freq": 11.872998,
+     "irrep": 4,
+     "label": "X5-",
+     "dim": 6,
+     "weight": 1.0,
+     "outside": 9.36e-31,
+     "weights": {
+      "4": 1.0
+     },
+     "degenerate_with": [
+      7
+     ],
+     "adapted": true,
+     "rigid": false,
+     "eigenvector": [
+      [
+       [
+        -0.290813425,
+        -7.30679496e-35
+       ],
+       [
+        0.0,
+        0.0
+       ],
+       [
+        -0.290813425,
+        -2.21991942e-33
+       ]
+      ],
+      [
+       [
+        2.79070227e-17,
+        -0.455756268
+       ],
+       [
+        0.0,
+        0.0
+       ],
+       [
+        2.79070227e-17,
+        -0.455756268
+       ]
+      ],
+      [
+       [
+        -8.37210682e-17,
+        0.455756268
+       ],
+       [
+        0.0,
+        0.0
+       ],
+       [
+        -8.37210682e-17,
+        0.455756268
+       ]
+      ]
+     ],
+     "snapshots": [
+      {
+       "part": "re",
+       "share": 1.0,
+       "opd": [
+        -0.0,
+        0.0,
+        -0.0,
+        1.0,
+        0.0,
+        0.0
+       ],
+       "residual": 9.885867880300567e-15,
+       "subgroup": {
+        "index": 1,
+        "opd": "(a,0,0,0,0,0)",
+        "fix_dim": 1,
+        "point_group": "mmm",
+        "n_conjugates": 6,
+        "space_group": "Pmmn (#59)",
+        "number": 59
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 6,
+   "q": [
+    0.5,
+    0.0625,
+    0.5625
+   ],
+   "skipped": "its star needs a 2048-cell supercell (limit 16)"
+  },
+  {
+   "index": 7,
+   "q": [
+    0.5,
+    0.125,
+    0.625
+   ],
+   "skipped": "its star needs a 256-cell supercell (limit 16)"
+  },
+  {
+   "index": 8,
+   "q": [
+    0.5,
+    0.1875,
+    0.6875
+   ],
+   "skipped": "its star needs a 2048-cell supercell (limit 16)"
+  },
+  {
+   "index": 9,
+   "q": [
+    0.5,
+    0.25,
+    0.75
+   ],
+   "skipped": "its star needs a 32-cell supercell (limit 16)"
+  },
+  {
+   "index": 10,
+   "q": [
+    0.5,
+    0.25,
+    0.75
+   ],
+   "skipped": "its star needs a 32-cell supercell (limit 16)"
+  },
+  {
+   "index": 11,
+   "q": [
+    0.5,
+    0.3125,
+    0.6875
+   ],
+   "skipped": "its star needs a 1024-cell supercell (limit 16)"
+  },
+  {
+   "index": 12,
+   "q": [
+    0.5,
+    0.375,
+    0.625
+   ],
+   "skipped": "its star needs a 128-cell supercell (limit 16)"
+  },
+  {
+   "index": 13,
+   "q": [
+    0.5,
+    0.4375,
+    0.5625
+   ],
+   "skipped": "its star needs a 1024-cell supercell (limit 16)"
+  },
+  {
+   "index": 14,
+   "q": [
+    0.5,
+    0.5,
+    0.5
+   ],
+   "star": [
+    "0",
+    "0",
+    "1/2"
+   ],
+   "bands": [
+    {
+     "band": 0,
+     "freq": -0.505856,
+     "irrep": 1,
+     "label": "L2-",
+     "dim": 4,
+     "weight": 1.0,
+     "outside": 5.93e-31,
+     "weights": {
+      "1": 1.0
+     },
+     "degenerate_with": [],
+     "adapted": false,
+     "rigid": false,
+     "eigenvector": null,
+     "snapshots": [
+      {
+       "part": "re",
+       "share": 1.0,
+       "opd": [
+        0.0,
+        -0.0,
+        1.0,
+        -0.0
+       ],
+       "residual": 1.1255270264831407e-15,
+       "subgroup": {
+        "index": 1,
+        "opd": "(0,a,0,0)",
+        "fix_dim": 1,
+        "point_group": "-3m",
+        "n_conjugates": 4,
+        "space_group": "R-3m (#166)",
+        "number": 166
+       }
+      }
+     ]
+    },
+    {
+     "band": 1,
+     "freq": 1.221095,
+     "irrep": 3,
+     "label": null,
+     "dim": 8,
+     "weight": 1.0,
+     "outside": 7.49e-31,
+     "weights": {
+      "3": 1.0
+     },
+     "degenerate_with": [
+      2
+     ],
+     "adapted": true,
+     "rigid": false,
+     "eigenvector": [
+      [
+       [
+        -0.109172821,
+        -3.86335832e-33
+       ],
+       [
+        -0.586434627,
+        -1.46122746e-32
+       ],
+       [
+        0.695607448,
+        1.8475633e-32
+       ]
+      ],
+      [
+       [
+        -0.0238505778,
+        -0.0238505778
+       ],
+       [
+        -0.128116179,
+        -0.128116179
+       ],
+       [
+        0.151966756,
+        0.151966756
+       ]
+      ],
+      [
+       [
+        -0.0238505778,
+        0.0238505778
+       ],
+       [
+        -0.128116179,
+        0.128116179
+       ],
+       [
+        0.151966756,
+        -0.151966756
+       ]
+      ]
+     ],
+     "snapshots": [
+      {
+       "part": "re",
+       "share": 1.0,
+       "opd": [
+        0.057267,
+        -0.0,
+        -0.086127,
+        -0.28389,
+        -0.624305,
+        0.443932,
+        0.516827,
+        0.234021
+       ],
+       "residual": null,
+       "subgroup": null
+      }
+     ]
+    },
+    {
+     "band": 2,
+     "freq": 1.221095,
+     "irrep": 3,
+     "label": null,
+     "dim": 8,
+     "weight": 1.0,
+     "outside": 9.84e-31,
+     "weights": {
+      "3": 1.0
+     },
+     "degenerate_with": [
+      1
+     ],
+     "adapted": true,
+     "rigid": false,
+     "eigenvector": [
+      [
+       [
+        -0.740187337,
+        -9.94223574e-33
+       ],
+       [
+        0.464640105,
+        5.33542985e-33
+       ],
+       [
+        0.275547232,
+        4.60680588e-33
+       ]
+      ],
+      [
+       [
+        -0.161705958,
+        -0.161705958
+       ],
+       [
+        0.101508185,
+        0.101508185
+       ],
+       [
+        0.0601977727,
+        0.0601977727
+       ]
+      ],
+      [
+       [
+        -0.161705958,
+        0.161705958
+       ],
+       [
+        0.101508185,
+        -0.101508185
+       ],
+       [
+        0.0601977727,
+        -0.0601977727
+       ]
+      ]
+     ],
+     "snapshots": [
+      {
+       "part": "re",
+       "share": 1.0,
+       "opd": [
+        -0.040663,
+        0.157377,
+        0.039038,
+        -0.087209,
+        -0.608233,
+        0.081536,
+        -0.699749,
+        -0.313376
+       ],
+       "residual": null,
+       "subgroup": null
+      }
+     ]
+    },
+    {
+     "band": 3,
+     "freq": 4.62448,
+     "irrep": 2,
+     "label": "L1+",
+     "dim": 4,
+     "weight": 1.0,
+     "outside": 1.11e-29,
+     "weights": {
+      "2": 1.0
+     },
+     "degenerate_with": [],
+     "adapted": false,
+     "rigid": false,
+     "eigenvector": null,
+     "snapshots": [
+      {
+       "part": "re",
+       "share": 1.0,
+       "opd": [
+        -0.0,
+        0.0,
+        1.0,
+        0.0
+       ],
+       "residual": 3.1467148114644293e-15,
+       "subgroup": {
+        "index": 1,
+        "opd": "(0,a,0,0)",
+        "fix_dim": 1,
+        "point_group": "-3m",
+        "n_conjugates": 4,
+        "space_group": "R-3m (#166)",
+        "number": 166
+       }
+      }
+     ]
+    },
+    {
+     "band": 4,
+     "freq": 7.23279,
+     "irrep": 1,
+     "label": "L2-",
+     "dim": 4,
+     "weight": 1.0,
+     "outside": 7.14e-31,
+     "weights": {
+      "1": 1.0
+     },
+     "degenerate_with": [],
+     "adapted": false,
+     "rigid": false,
+     "eigenvector": null,
+     "snapshots": [
+      {
+       "part": "re",
+       "share": 1.0,
+       "opd": [
+        -0.0,
+        -0.0,
+        -1.0,
+        0.0
+       ],
+       "residual": 1.129561273059788e-15,
+       "subgroup": {
+        "index": 1,
+        "opd": "(0,a,0,0)",
+        "fix_dim": 1,
+        "point_group": "-3m",
+        "n_conjugates": 4,
+        "space_group": "R-3m (#166)",
+        "number": 166
+       }
+      }
+     ]
+    },
+    {
+     "band": 5,
+     "freq": 10.950494,
+     "irrep": 4,
+     "label": null,
+     "dim": 8,
+     "weight": 1.0,
+     "outside": 1.14e-30,
+     "weights": {
+      "4": 1.0
+     },
+     "degenerate_with": [
+      6
+     ],
+     "adapted": true,
+     "rigid": false,
+     "eigenvector": [
+      [
+       [
+        -2.6002145e-17,
+        0.0
+       ],
+       [
+        8.62670903e-23,
+        0.0
+       ],
+       [
+        -3.18979684e-33,
+        0.0
+       ]
+      ],
+      [
+       [
+        -0.374366522,
+        -0.374366522
+       ],
+       [
+        0.0461609908,
+        0.0461609908
+       ],
+       [
+        0.328205531,
+        0.328205531
+       ]
+      ],
+      [
+       [
+        0.374366522,
+        -0.374366522
+       ],
+       [
+        -0.0461609908,
+        0.0461609908
+       ],
+       [
+        -0.328205531,
+        0.328205531
+       ]
+      ]
+     ],
+     "snapshots": [
+      {
+       "part": "re",
+       "share": 1.0,
+       "opd": [
+        0.058576,
+        -0.0,
+        0.101864,
+        0.858866,
+        -0.424539,
+        0.247157,
+        -0.073813,
+        0.042107
+       ],
+       "residual": null,
+       "subgroup": null
+      }
+     ]
+    },
+    {
+     "band": 6,
+     "freq": 10.950494,
+     "irrep": 4,
+     "label": null,
+     "dim": 8,
+     "weight": 1.0,
+     "outside": 9.15e-31,
+     "weights": {
+      "4": 1.0
+     },
+     "degenerate_with": [
+      5
+     ],
+     "adapted": true,
+     "rigid": false,
+     "eigenvector": [
+      [
+       [
+        1.40175353e-16,
+        0.0
+       ],
+       [
+        -4.64939442e-22,
+        0.0
+       ],
+       [
+        -3.63909303e-34,
+        0.0
+       ]
+      ],
+      [
+       [
+        -0.162838491,
+        -0.162838491
+       ],
+       [
+        0.405630164,
+        0.405630164
+       ],
+       [
+        -0.242791672,
+        -0.242791672
+       ]
+      ],
+      [
+       [
+        0.162838491,
+        -0.162838491
+       ],
+       [
+        -0.405630164,
+        0.405630164
+       ],
+       [
+        0.242791672,
+        -0.242791672
+       ]
+      ]
+     ],
+     "snapshots": [
+      {
+       "part": "re",
+       "share": 1.0,
+       "opd": [
+        0.072138,
+        0.025834,
+        -0.077609,
+        0.209657,
+        -0.048241,
+        -0.559275,
+        0.793113,
+        -0.00229
+       ],
+       "residual": null,
+       "subgroup": null
+      }
+     ]
+    },
+    {
+     "band": 7,
+     "freq": 11.938229,
+     "irrep": 3,
+     "label": null,
+     "dim": 8,
+     "weight": 1.0,
+     "outside": 9.02e-31,
+     "weights": {
+      "3": 1.0
+     },
+     "degenerate_with": [
+      8
+     ],
+     "adapted": true,
+     "rigid": false,
+     "eigenvector": [
+      [
+       [
+        0.0477011556,
+        -2.06602206e-34
+       ],
+       [
+        0.256232357,
+        -3.95712593e-33
+       ],
+       [
+        -0.303933513,
+        4.16372814e-33
+       ]
+      ],
+      [
+       [
+        -0.0545864107,
+        -0.0545864107
+       ],
+       [
+        -0.293217313,
+        -0.293217313
+       ],
+       [
+        0.347803724,
+        0.347803724
+       ]
+      ],
+      [
+       [
+        -0.0545864107,
+        0.0545864107
+       ],
+       [
+        -0.293217313,
+        0.293217313
+       ],
+       [
+        0.347803724,
+        -0.347803724
+       ]
+      ]
+     ],
+     "snapshots": [
+      {
+       "part": "re",
+       "share": 1.0,
+       "opd": [
+        0.057267,
+        -0.0,
+        -0.086127,
+        -0.28389,
+        -0.624305,
+        0.443932,
+        0.516827,
+        0.234021
+       ],
+       "residual": null,
+       "subgroup": null
+      }
+     ]
+    },
+    {
+     "band": 8,
+     "freq": 11.938229,
+     "irrep": 3,
+     "label": null,
+     "dim": 8,
+     "weight": 1.0,
+     "outside": 1.32e-30,
+     "weights": {
+      "3": 1.0
+     },
+     "degenerate_with": [
+      7
+     ],
+     "adapted": true,
+     "rigid": false,
+     "eigenvector": [
+      [
+       [
+        0.323411916,
+        2.12305703e-35
+       ],
+       [
+        -0.20301637,
+        4.06636706e-34
+       ],
+       [
+        -0.120395545,
+        -4.27867277e-34
+       ]
+      ],
+      [
+       [
+        -0.370093669,
+        -0.370093669
+       ],
+       [
+        0.232320053,
+        0.232320053
+       ],
+       [
+        0.137773616,
+        0.137773616
+       ]
+      ],
+      [
+       [
+        -0.370093669,
+        0.370093669
+       ],
+       [
+        0.232320053,
+        -0.232320053
+       ],
+       [
+        0.137773616,
+        -0.137773616
+       ]
+      ]
+     ],
+     "snapshots": [
+      {
+       "part": "re",
+       "share": 1.0,
+       "opd": [
+        -0.040663,
+        0.157377,
+        0.039038,
+        -0.087209,
+        -0.608233,
+        0.081536,
+        -0.699749,
+        -0.313376
+       ],
+       "residual": null,
+       "subgroup": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 15,
+   "q": [
+    0.5,
+    0.5,
+    0.5
+   ],
+   "star": [
+    "0",
+    "0",
+    "1/2"
+   ],
+   "bands": [
+    {
+     "band": 0,
+     "freq": -0.505856,
+     "irrep": 1,
+     "label": "L2-",
+     "dim": 4,
+     "weight": 1.0,
+     "outside": 5.93e-31,
+     "weights": {
+      "1": 1.0
+     },
+     "degenerate_with": [],
+     "adapted": false,
+     "rigid": false,
+     "eigenvector": null,
+     "snapshots": [
+      {
+       "part": "re",
+       "share": 1.0,
+       "opd": [
+        0.0,
+        -0.0,
+        1.0,
+        -0.0
+       ],
+       "residual": 1.1255270264831407e-15,
+       "subgroup": {
+        "index": 1,
+        "opd": "(0,a,0,0)",
+        "fix_dim": 1,
+        "point_group": "-3m",
+        "n_conjugates": 4,
+        "space_group": "R-3m (#166)",
+        "number": 166
+       }
+      }
+     ]
+    },
+    {
+     "band": 1,
+     "freq": 1.221095,
+     "irrep": 3,
+     "label": null,
+     "dim": 8,
+     "weight": 1.0,
+     "outside": 7.49e-31,
+     "weights": {
+      "3": 1.0
+     },
+     "degenerate_with": [
+      2
+     ],
+     "adapted": true,
+     "rigid": false,
+     "eigenvector": [
+      [
+       [
+        -0.109172821,
+        -3.86335832e-33
+       ],
+       [
+        -0.586434627,
+        -1.46122746e-32
+       ],
+       [
+        0.695607448,
+        1.8475633e-32
+       ]
+      ],
+      [
+       [
+        -0.0238505778,
+        -0.0238505778
+       ],
+       [
+        -0.128116179,
+        -0.128116179
+       ],
+       [
+        0.151966756,
+        0.151966756
+       ]
+      ],
+      [
+       [
+        -0.0238505778,
+        0.0238505778
+       ],
+       [
+        -0.128116179,
+        0.128116179
+       ],
+       [
+        0.151966756,
+        -0.151966756
+       ]
+      ]
+     ],
+     "snapshots": [
+      {
+       "part": "re",
+       "share": 1.0,
+       "opd": [
+        0.057267,
+        -0.0,
+        -0.086127,
+        -0.28389,
+        -0.624305,
+        0.443932,
+        0.516827,
+        0.234021
+       ],
+       "residual": null,
+       "subgroup": null
+      }
+     ]
+    },
+    {
+     "band": 2,
+     "freq": 1.221095,
+     "irrep": 3,
+     "label": null,
+     "dim": 8,
+     "weight": 1.0,
+     "outside": 9.84e-31,
+     "weights": {
+      "3": 1.0
+     },
+     "degenerate_with": [
+      1
+     ],
+     "adapted": true,
+     "rigid": false,
+     "eigenvector": [
+      [
+       [
+        -0.740187337,
+        -9.94223574e-33
+       ],
+       [
+        0.464640105,
+        5.33542985e-33
+       ],
+       [
+        0.275547232,
+        4.60680588e-33
+       ]
+      ],
+      [
+       [
+        -0.161705958,
+        -0.161705958
+       ],
+       [
+        0.101508185,
+        0.101508185
+       ],
+       [
+        0.0601977727,
+        0.0601977727
+       ]
+      ],
+      [
+       [
+        -0.161705958,
+        0.161705958
+       ],
+       [
+        0.101508185,
+        -0.101508185
+       ],
+       [
+        0.0601977727,
+        -0.0601977727
+       ]
+      ]
+     ],
+     "snapshots": [
+      {
+       "part": "re",
+       "share": 1.0,
+       "opd": [
+        -0.040663,
+        0.157377,
+        0.039038,
+        -0.087209,
+        -0.608233,
+        0.081536,
+        -0.699749,
+        -0.313376
+       ],
+       "residual": null,
+       "subgroup": null
+      }
+     ]
+    },
+    {
+     "band": 3,
+     "freq": 4.62448,
+     "irrep": 2,
+     "label": "L1+",
+     "dim": 4,
+     "weight": 1.0,
+     "outside": 1.11e-29,
+     "weights": {
+      "2": 1.0
+     },
+     "degenerate_with": [],
+     "adapted": false,
+     "rigid": false,
+     "eigenvector": null,
+     "snapshots": [
+      {
+       "part": "re",
+       "share": 1.0,
+       "opd": [
+        -0.0,
+        0.0,
+        1.0,
+        0.0
+       ],
+       "residual": 3.1467148114644293e-15,
+       "subgroup": {
+        "index": 1,
+        "opd": "(0,a,0,0)",
+        "fix_dim": 1,
+        "point_group": "-3m",
+        "n_conjugates": 4,
+        "space_group": "R-3m (#166)",
+        "number": 166
+       }
+      }
+     ]
+    },
+    {
+     "band": 4,
+     "freq": 7.23279,
+     "irrep": 1,
+     "label": "L2-",
+     "dim": 4,
+     "weight": 1.0,
+     "outside": 7.14e-31,
+     "weights": {
+      "1": 1.0
+     },
+     "degenerate_with": [],
+     "adapted": false,
+     "rigid": false,
+     "eigenvector": null,
+     "snapshots": [
+      {
+       "part": "re",
+       "share": 1.0,
+       "opd": [
+        -0.0,
+        -0.0,
+        -1.0,
+        0.0
+       ],
+       "residual": 1.129561273059788e-15,
+       "subgroup": {
+        "index": 1,
+        "opd": "(0,a,0,0)",
+        "fix_dim": 1,
+        "point_group": "-3m",
+        "n_conjugates": 4,
+        "space_group": "R-3m (#166)",
+        "number": 166
+       }
+      }
+     ]
+    },
+    {
+     "band": 5,
+     "freq": 10.950494,
+     "irrep": 4,
+     "label": null,
+     "dim": 8,
+     "weight": 1.0,
+     "outside": 1.14e-30,
+     "weights": {
+      "4": 1.0
+     },
+     "degenerate_with": [
+      6
+     ],
+     "adapted": true,
+     "rigid": false,
+     "eigenvector": [
+      [
+       [
+        -2.6002145e-17,
+        0.0
+       ],
+       [
+        8.62670903e-23,
+        0.0
+       ],
+       [
+        -3.18979684e-33,
+        0.0
+       ]
+      ],
+      [
+       [
+        -0.374366522,
+        -0.374366522
+       ],
+       [
+        0.0461609908,
+        0.0461609908
+       ],
+       [
+        0.328205531,
+        0.328205531
+       ]
+      ],
+      [
+       [
+        0.374366522,
+        -0.374366522
+       ],
+       [
+        -0.0461609908,
+        0.0461609908
+       ],
+       [
+        -0.328205531,
+        0.328205531
+       ]
+      ]
+     ],
+     "snapshots": [
+      {
+       "part": "re",
+       "share": 1.0,
+       "opd": [
+        0.058576,
+        -0.0,
+        0.101864,
+        0.858866,
+        -0.424539,
+        0.247157,
+        -0.073813,
+        0.042107
+       ],
+       "residual": null,
+       "subgroup": null
+      }
+     ]
+    },
+    {
+     "band": 6,
+     "freq": 10.950494,
+     "irrep": 4,
+     "label": null,
+     "dim": 8,
+     "weight": 1.0,
+     "outside": 9.15e-31,
+     "weights": {
+      "4": 1.0
+     },
+     "degenerate_with": [
+      5
+     ],
+     "adapted": true,
+     "rigid": false,
+     "eigenvector": [
+      [
+       [
+        1.40175353e-16,
+        0.0
+       ],
+       [
+        -4.64939442e-22,
+        0.0
+       ],
+       [
+        -3.63909303e-34,
+        0.0
+       ]
+      ],
+      [
+       [
+        -0.162838491,
+        -0.162838491
+       ],
+       [
+        0.405630164,
+        0.405630164
+       ],
+       [
+        -0.242791672,
+        -0.242791672
+       ]
+      ],
+      [
+       [
+        0.162838491,
+        -0.162838491
+       ],
+       [
+        -0.405630164,
+        0.405630164
+       ],
+       [
+        0.242791672,
+        -0.242791672
+       ]
+      ]
+     ],
+     "snapshots": [
+      {
+       "part": "re",
+       "share": 1.0,
+       "opd": [
+        0.072138,
+        0.025834,
+        -0.077609,
+        0.209657,
+        -0.048241,
+        -0.559275,
+        0.793113,
+        -0.00229
+       ],
+       "residual": null,
+       "subgroup": null
+      }
+     ]
+    },
+    {
+     "band": 7,
+     "freq": 11.938229,
+     "irrep": 3,
+     "label": null,
+     "dim": 8,
+     "weight": 1.0,
+     "outside": 9.02e-31,
+     "weights": {
+      "3": 1.0
+     },
+     "degenerate_with": [
+      8
+     ],
+     "adapted": true,
+     "rigid": false,
+     "eigenvector": [
+      [
+       [
+        0.0477011556,
+        -2.06602206e-34
+       ],
+       [
+        0.256232357,
+        -3.95712593e-33
+       ],
+       [
+        -0.303933513,
+        4.16372814e-33
+       ]
+      ],
+      [
+       [
+        -0.0545864107,
+        -0.0545864107
+       ],
+       [
+        -0.293217313,
+        -0.293217313
+       ],
+       [
+        0.347803724,
+        0.347803724
+       ]
+      ],
+      [
+       [
+        -0.0545864107,
+        0.0545864107
+       ],
+       [
+        -0.293217313,
+        0.293217313
+       ],
+       [
+        0.347803724,
+        -0.347803724
+       ]
+      ]
+     ],
+     "snapshots": [
+      {
+       "part": "re",
+       "share": 1.0,
+       "opd": [
+        0.057267,
+        -0.0,
+        -0.086127,
+        -0.28389,
+        -0.624305,
+        0.443932,
+        0.516827,
+        0.234021
+       ],
+       "residual": null,
+       "subgroup": null
+      }
+     ]
+    },
+    {
+     "band": 8,
+     "freq": 11.938229,
+     "irrep": 3,
+     "label": null,
+     "dim": 8,
+     "weight": 1.0,
+     "outside": 1.32e-30,
+     "weights": {
+      "3": 1.0
+     },
+     "degenerate_with": [
+      7
+     ],
+     "adapted": true,
+     "rigid": false,
+     "eigenvector": [
+      [
+       [
+        0.323411916,
+        2.12305703e-35
+       ],
+       [
+        -0.20301637,
+        4.06636706e-34
+       ],
+       [
+        -0.120395545,
+        -4.27867277e-34
+       ]
+      ],
+      [
+       [
+        -0.370093669,
+        -0.370093669
+       ],
+       [
+        0.232320053,
+        0.232320053
+       ],
+       [
+        0.137773616,
+        0.137773616
+       ]
+      ],
+      [
+       [
+        -0.370093669,
+        0.370093669
+       ],
+       [
+        0.232320053,
+        -0.232320053
+       ],
+       [
+        0.137773616,
+        -0.137773616
+       ]
+      ]
+     ],
+     "snapshots": [
+      {
+       "part": "re",
+       "share": 1.0,
+       "opd": [
+        -0.040663,
+        0.157377,
+        0.039038,
+        -0.087209,
+        -0.608233,
+        0.081536,
+        -0.699749,
+        -0.313376
+       ],
+       "residual": null,
+       "subgroup": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "index": 16,
+   "q": [
+    0.375,
+    0.375,
+    0.375
+   ],
+   "skipped": "its star needs a 512-cell supercell (limit 16)"
+  },
+  {
+   "index": 17,
+   "q": [
+    0.25,
+    0.25,
+    0.25
+   ],
+   "skipped": "its star needs a 64-cell supercell (limit 16)"
+  },
+  {
+   "index": 18,
+   "q": [
+    0.125,
+    0.125,
+    0.125
+   ],
+   "skipped": "its star needs a 512-cell supercell (limit 16)"
+  },
+  {
+   "index": 19,
+   "q": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "star": [
+    "0",
+    "0",
+    "0"
+   ],
+   "bands": [
+    {
+     "band": 0,
+     "freq": -0.0,
+     "irrep": 1,
+     "label": "GM4-",
+     "dim": 3,
+     "weight": 1.0,
+     "outside": 7.23e-32,
+     "weights": {
+      "1": 1.0
+     },
+     "degenerate_with": [
+      1,
+      2
+     ],
+     "adapted": true,
+     "rigid": true,
+     "eigenvector": [
+      [
+       [
+        0.92085754,
+        0.0
+       ],
+       [
+        -5.42431126e-15,
+        0.0
+       ],
+       [
+        1.46346764e-16,
+        0.0
+       ]
+      ],
+      [
+       [
+        0.275700372,
+        0.0
+       ],
+       [
+        4.09263308e-17,
+        0.0
+       ],
+       [
+        4.48473615e-17,
+        0.0
+       ]
+      ],
+      [
+       [
+        0.275700372,
+        0.0
+       ],
+       [
+        4.09263308e-17,
+        0.0
+       ],
+       [
+        4.48473615e-17,
+        0.0
+       ]
+      ]
+     ],
+     "snapshots": [
+      {
+       "part": "re",
+       "share": 1.0,
+       "opd": [
+        1.0,
+        -0.0,
+        -0.0
+       ],
+       "residual": null,
+       "subgroup": null
+      }
+     ]
+    },
+    {
+     "band": 1,
+     "freq": 0.0,
+     "irrep": 1,
+     "label": "GM4-",
+     "dim": 3,
+     "weight": 1.0,
+     "outside": 1.16e-30,
+     "weights": {
+      "1": 1.0
+     },
+     "degenerate_with": [
+      0,
+      2
+     ],
+     "adapted": true,
+     "rigid": true,
+     "eigenvector": [
+      [
+       [
+        1.56421506e-14,
+        0.0
+       ],
+       [
+        -0.92085754,
+        0.0
+       ],
+       [
+        4.96325408e-15,
+        0.0
+       ]
+      ],
+      [
+       [
+        3.28933356e-17,
+        0.0
+       ],
+       [
+        -0.275700372,
+        0.0
+       ],
+       [
+        2.21342235e-15,
+        0.0
+       ]
+      ],
+      [
+       [
+        3.28933356e-17,
+        0.0
+       ],
+       [
+        -0.275700372,
+        0.0
+       ],
+       [
+        2.21342235e-15,
+        0.0
+       ]
+      ]
+     ],
+     "snapshots": [
+      {
+       "part": "re",
+       "share": 1.0,
+       "opd": [
+        0.0,
+        1.0,
+        -0.0
+       ],
+       "residual": null,
+       "subgroup": null
+      }
+     ]
+    },
+    {
+     "band": 2,
+     "freq": 0.0,
+     "irrep": 1,
+     "label": "GM4-",
+     "dim": 3,
+     "weight": 1.0,
+     "outside": 4.11e-31,
+     "weights": {
+      "1": 1.0
+     },
+     "degenerate_with": [
+      0,
+      1
+     ],
+     "adapted": true,
+     "rigid": true,
+     "eigenvector": [
+      [
+       [
+        -7.43858246e-15,
+        0.0
+       ],
+       [
+        -1.02467597e-15,
+        0.0
+       ],
+       [
+        -0.92085754,
+        0.0
+       ]
+      ],
+      [
+       [
+        -3.93305067e-17,
+        0.0
+       ],
+       [
+        -4.28208529e-16,
+        0.0
+       ],
+       [
+        -0.275700372,
+        0.0
+       ]
+      ],
+      [
+       [
+        -3.93305067e-17,
+        0.0
+       ],
+       [
+        -4.28208529e-16,
+        0.0
+       ],
+       [
+        -0.275700372,
+        0.0
+       ]
+      ]
+     ],
+     "snapshots": [
+      {
+       "part": "re",
+       "share": 1.0,
+       "opd": [
+        -0.0,
+        0.0,
+        1.0
+       ],
+       "residual": null,
+       "subgroup": null
+      }
+     ]
+    },
+    {
+     "band": 3,
+     "freq": 12.004703,
+     "irrep": 1,
+     "label": "GM4-",
+     "dim": 3,
+     "weight": 1.0,
+     "outside": 9.31e-32,
+     "weights": {
+      "1": 1.0
+     },
+     "degenerate_with": [
+      4,
+      5
+     ],
+     "adapted": true,
+     "rigid": false,
+     "eigenvector": [
+      [
+       [
+        -0.389899205,
+        0.0
+       ],
+       [
+        2.74730688e-16,
+        0.0
+       ],
+       [
+        3.64353849e-16,
+        0.0
+       ]
+      ],
+      [
+       [
+        0.651144611,
+        0.0
+       ],
+       [
+        -4.47800303e-16,
+        0.0
+       ],
+       [
+        -4.05376985e-16,
+        0.0
+       ]
+      ],
+      [
+       [
+        0.651144611,
+        0.0
+       ],
+       [
+        -4.47800303e-16,
+        0.0
+       ],
+       [
+        -4.05376985e-16,
+        0.0
+       ]
+      ]
+     ],
+     "snapshots": [
+      {
+       "part": "re",
+       "share": 1.0,
+       "opd": [
+        1.0,
+        0.0,
+        0.0
+       ],
+       "residual": 9.072358851933012e-16,
+       "subgroup": {
+        "index": 1,
+        "opd": "(a,0,0)",
+        "fix_dim": 1,
+        "point_group": "4mm",
+        "n_conjugates": 3,
+        "space_group": "I4mm (#107)",
+        "number": 107
+       }
+      }
+     ]
+    },
+    {
+     "band": 4,
+     "freq": 12.004703,
+     "irrep": 1,
+     "label": "GM4-",
+     "dim": 3,
+     "weight": 1.0,
+     "outside": 7.34e-31,
+     "weights": {
+      "1": 1.0
+     },
+     "degenerate_with": [
+      3,
+      5
+     ],
+     "adapted": true,
+     "rigid": false,
+     "eigenvector": [
+      [
+       [
+        2.5581081e-17,
+        0.0
+       ],
+       [
+        0.389899205,
+        0.0
+       ],
+       [
+        -6.19618e-15,
+        0.0
+       ]
+      ],
+      [
+       [
+        -4.02283954e-17,
+        0.0
+       ],
+       [
+        -0.651144611,
+        0.0
+       ],
+       [
+        9.73224369e-17,
+        0.0
+       ]
+      ],
+      [
+       [
+        -4.02283954e-17,
+        0.0
+       ],
+       [
+        -0.651144611,
+        0.0
+       ],
+       [
+        9.73224369e-17,
+        0.0
+       ]
+      ]
+     ],
+     "snapshots": [
+      {
+       "part": "re",
+       "share": 1.0,
+       "opd": [
+        0.0,
+        1.0,
+        0.0
+       ],
+       "residual": 2.396416172692931e-15,
+       "subgroup": {
+        "index": 1,
+        "opd": "(a,0,0)",
+        "fix_dim": 1,
+        "point_group": "4mm",
+        "n_conjugates": 3,
+        "space_group": "I4mm (#107)",
+        "number": 107
+       }
+      }
+     ]
+    },
+    {
+     "band": 5,
+     "freq": 12.004703,
+     "irrep": 1,
+     "label": "GM4-",
+     "dim": 3,
+     "weight": 1.0,
+     "outside": 3.7e-31,
+     "weights": {
+      "1": 1.0
+     },
+     "degenerate_with": [
+      3,
+      4
+     ],
+     "adapted": true,
+     "rigid": false,
+     "eigenvector": [
+      [
+       [
+        4.41120375e-17,
+        0.0
+       ],
+       [
+        6.02898008e-15,
+        0.0
+       ],
+       [
+        0.389899205,
+        0.0
+       ]
+      ],
+      [
+       [
+        -8.87409293e-17,
+        0.0
+       ],
+       [
+        -3.24349446e-17,
+        0.0
+       ],
+       [
+        -0.651144611,
+        0.0
+       ]
+      ],
+      [
+       [
+        -8.87409293e-17,
+        0.0
+       ],
+       [
+        -3.24349446e-17,
+        0.0
+       ],
+       [
+        -0.651144611,
+        0.0
+       ]
+      ]
+     ],
+     "snapshots": [
+      {
+       "part": "re",
+       "share": 1.0,
+       "opd": [
+        -0.0,
+        0.0,
+        1.0
+       ],
+       "residual": 1.993247380032598e-15,
+       "subgroup": {
+        "index": 1,
+        "opd": "(a,0,0)",
+        "fix_dim": 1,
+        "point_group": "4mm",
+        "n_conjugates": 3,
+        "space_group": "I4mm (#107)",
+        "number": 107
+       }
+      }
+     ]
+    },
+    {
+     "band": 6,
+     "freq": 13.539091,
+     "irrep": 2,
+     "label": "GM5+",
+     "dim": 3,
+     "weight": 1.0,
+     "outside": 1.71e-31,
+     "weights": {
+      "2": 1.0
+     },
+     "degenerate_with": [
+      7,
+      8
+     ],
+     "adapted": true,
+     "rigid": false,
+     "eigenvector": [
+      [
+       [
+        -1.56944878e-16,
+        0.0
+       ],
+       [
+        -2.80058311e-18,
+        0.0
+       ],
+       [
+        0.0,
+        0.0
+       ]
+      ],
+      [
+       [
+        0.707106781,
+        0.0
+       ],
+       [
+        1.29330251e-16,
+        0.0
+       ],
+       [
+        -8.07477129e-17,
+        0.0
+       ]
+      ],
+      [
+       [
+        -0.707106781,
+        0.0
+       ],
+       [
+        -1.29330251e-16,
+        0.0
+       ],
+       [
+        8.07477129e-17,
+        0.0
+       ]
+      ]
+     ],
+     "snapshots": [
+      {
+       "part": "re",
+       "share": 1.0,
+       "opd": [
+        1.0,
+        -0.0,
+        0.0
+       ],
+       "residual": 6.840849161472752e-16,
+       "subgroup": {
+        "index": 2,
+        "opd": "(a,0,0)",
+        "fix_dim": 1,
+        "point_group": "mmm",
+        "n_conjugates": 3,
+        "space_group": "Immm (#71)",
+        "number": 71
+       }
+      }
+     ]
+    },
+    {
+     "band": 7,
+     "freq": 13.539091,
+     "irrep": 2,
+     "label": "GM5+",
+     "dim": 3,
+     "weight": 1.0,
+     "outside": 1.43e-31,
+     "weights": {
+      "2": 1.0
+     },
+     "degenerate_with": [
+      6,
+      8
+     ],
+     "adapted": true,
+     "rigid": false,
+     "eigenvector": [
+      [
+       [
+        7.3534193e-17,
+        0.0
+       ],
+       [
+        1.31217165e-18,
+        0.0
+       ],
+       [
+        0.0,
+        0.0
+       ]
+      ],
+      [
+       [
+        -4.00915442e-18,
+        0.0
+       ],
+       [
+        -0.561561752,
+        0.0
+       ],
+       [
+        0.42970734,
+        0.0
+       ]
+      ],
+      [
+       [
+        4.00915442e-18,
+        0.0
+       ],
+       [
+        0.561561752,
+        0.0
+       ],
+       [
+        -0.42970734,
+        0.0
+       ]
+      ]
+     ],
+     "snapshots": [
+      {
+       "part": "re",
+       "share": 1.0,
+       "opd": [
+        -0.0,
+        1.0,
+        -0.0
+       ],
+       "residual": 1.2897179215215028e-16,
+       "subgroup": {
+        "index": 4,
+        "opd": "(a,b,c)",
+        "fix_dim": 3,
+        "point_group": "-1",
+        "n_conjugates": 1,
+        "space_group": "P-1 (#2)",
+        "number": 2
+       }
+      }
+     ]
+    },
+    {
+     "band": 8,
+     "freq": 13.539091,
+     "irrep": 2,
+     "label": "GM5+",
+     "dim": 3,
+     "weight": 1.0,
+     "outside": 7.59e-32,
+     "weights": {
+      "2": 1.0
+     },
+     "degenerate_with": [
+      6,
+      7
+     ],
+     "adapted": true,
+     "rigid": false,
+     "eigenvector": [
+      [
+       [
+        -1.10728628e-16,
+        0.0
+       ],
+       [
+        -1.97588305e-18,
+        0.0
+       ],
+       [
+        0.0,
+        0.0
+       ]
+      ],
+      [
+       [
+        3.01510197e-17,
+        0.0
+       ],
+       [
+        -0.42970734,
+        0.0
+       ],
+       [
+        -0.561561752,
+        0.0
+       ]
+      ],
+      [
+       [
+        -3.01510197e-17,
+        0.0
+       ],
+       [
+        0.42970734,
+        0.0
+       ],
+       [
+        0.561561752,
+        0.0
+       ]
+      ]
+     ],
+     "snapshots": [
+      {
+       "part": "re",
+       "share": 1.0,
+       "opd": [
+        0.0,
+        -0.0,
+        1.0
+       ],
+       "residual": 1.4650917776107633e-17,
+       "subgroup": {
+        "index": 4,
+        "opd": "(a,b,c)",
+        "fix_dim": 3,
+        "point_group": "-1",
+        "n_conjugates": 1,
+        "space_group": "P-1 (#2)",
+        "number": 2
+       }
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

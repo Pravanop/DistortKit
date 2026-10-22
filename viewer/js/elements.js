@@ -11,7 +11,7 @@ const DEFAULT_COLOR = "#c8a2c8";
 /** 'Sr2+', 'O1', 'Ti_pv' -> 'Sr', 'O', 'Ti' */
 export function elementOf(label) {
   const m = /^[A-Z][a-z]?/.exec(String(label).trim());
-  return m ? m[0] : String(label);
+  return m ? m[0] : "X"; // never pass arbitrary text from a file on (it ends up in the page)
 }
 export const symbolOfZ = (z) => SYMBOLS[z - 1] || "X";
 export const massOf = (el) => { const i = SYMBOLS.indexOf(el); return i >= 0 ? MASS[i] : 12; };

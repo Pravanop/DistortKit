@@ -6,6 +6,7 @@ import {
 import { CrystalScene } from "./scene.js";
 import { BandPlot } from "./bandplot.js";
 import { colorOf } from "./elements.js";
+import { parseSymmetry, matches, modeInfo, adaptedEig, describe, looksLikeSymmetry, prettySG, emptySymmetry, addResult } from "./symmetry.js";
 import { download, exportGIF, exportPNG, exportVideo, exportXYZ, copyPNG, videoSupport } from "./export.js";
 
 const $ = (id) => document.getElementById(id);
@@ -15,6 +16,7 @@ const store = {
 };
 
 const S = {
+  sym: null, pendingSym: null, token: 0, symTol: 0.001,
   data: null, name: "phonons", qi: 0, bi: 0, baseReps: [2, 2, 2], reps: [2, 2, 2],
   unit: store.get("unit", "THz"), playing: true, speed: 1, amp: 0.4, phase: 0,
   overrides: {}, bgCustom: false, busy: null,
@@ -111,6 +113,40 @@ async function loadText(text, name) {
   }
 }
 
+/** Open text that is either a band structure or a symmetry file (told apart by content). */
+async function loadAny(text, name) {
+  if (!looksLikeSymmetry(text.slice(0, 600))) return loadText(text, name);
+  try {
+    let obj;
+    try { obj = JSON.parse(text); } catch (e) { throw new Error(`${name} is not valid JSON (${e.message}).`); }
+    attachSymmetry(parseSymmetry(obj), name);
+    return true;
+  } catch (e) {
+    showError(e.message, "Could not use the symmetry file");
+    return false;
+  } finally {
+    $("loading").hidden = true;
+  }
+}
+
+/** Tie symmetry data to the band structure it was made for (or hold it until that is opened). */
+function attachSymmetry(sym, name) {
+  if (!S.data) {
+    S.pendingSym = { sym, name };
+    toast(`${name} is ready. Now open the band.yaml it belongs to.`, 6000);
+    renderSymmetry();
+    return;
+  }
+  const m = matches(sym, S.data);
+  if (!m.ok) throw new Error(`${name}: ${m.reason}`);
+  S.sym = sym; S.symName = name; S.pendingSym = null;
+  if (sym.settings.mass_scale !== undefined) $("massscale").checked = !!sym.settings.mass_scale;     // the analysis used these
+  if (sym.settings.basis_phase !== undefined) $("basisphase").checked = !!sym.settings.basis_phase;
+  plot.setMarks(sym.marks);
+  selectMode(S.qi, S.bi);
+}
+
+const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
 const mb = (n) => `${(n / 1e6).toFixed(n > 1e7 ? 0 : 1)} MB`;
 
 /** Read an uploaded file as text, unpacking .gz (by content, not by name). */
@@ -130,20 +166,38 @@ async function readUpload(file) {
 async function loadFile(file) {
   await showLoading(file.name, mb(file.size));
   try {
-    await loadText(await readUpload(file), file.name);
+    await loadAny(await readUpload(file), file.name);
   } catch (e) {
     const tooBig = e instanceof RangeError || /allocation|string length|memory/i.test(e.message);
     showError(tooBig ? `${file.name} (${mb(file.size)}) is too large to hold in browser memory. Write the eigenvectors for fewer q-points or a smaller cell and try again.` : e.message);
   }
 }
 
-async function loadUrl(url, label) {
+/** Open several files at once: the band structure first, then any symmetry files that belong to it. */
+async function loadFiles(files) {
+  if (!files.length) return;
+  const isData = (x) => /\.(ya?ml|json)(\.gz)?$/i.test(x.name);
+  const heads = await Promise.all(files.map(async (f) => ({ f, sym: looksLikeSymmetry(await f.slice(0, 600).text().catch(() => "")) })));
+  const bands = heads.filter((h) => !h.sym).map((h) => h.f), syms = heads.filter((h) => h.sym).map((h) => h.f);
+  const band = bands.find((x) => /band|phonon/i.test(x.name) && isData(x)) ?? bands.find(isData) ?? bands[0];
+  if (band) await loadFile(band);
+  for (const s of syms) await loadFile(s);
+}
+
+/** `a.yaml` or `a.yaml|a_symmetry.json` (a band structure and the symmetry file made for it). */
+async function loadUrl(spec, label) {
+  const [url, ...rest] = spec.split("|");
   const name = label || decodeURIComponent(url.split("?")[0].split("/").pop()) || "remote";
   await showLoading(name);
   try {
     const res = await fetch(url);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    await loadText(await res.text(), name);
+    await loadAny(await res.text(), name);
+    for (const extra of rest) {
+      const r2 = await fetch(extra);
+      if (!r2.ok) throw new Error(`HTTP ${r2.status} for ${extra}`);
+      await loadAny(await r2.text(), decodeURIComponent(extra.split("/").pop()));
+    }
   } catch (e) {
     showError(`Could not load ${url}: ${e.message}${location.protocol === "file:" ? " (open the viewer through a web server, not file://)" : ""}`);
   }
@@ -159,7 +213,8 @@ function firstMovingBand(d) {
 
 function setData(data, name) {
   S.data = data; S.name = name.replace(/\.[^.]+$/, "");
-  S.overrides = {}; S.sw = null;
+  S.overrides = {}; S.sw = null; S.sym = null; S.symName = null; S.token = (S.token ?? 0) + 1;
+  plot.setMarks(null);
   $("welcome").hidden = true;
   $("filename").textContent = name; $("filename").title = `${data.name || S.name} · ${name}`;
   const p = latticeParams(data.lattice);
@@ -178,6 +233,10 @@ function setData(data, name) {
   scene.defaultView(0);
   scene.fit();
   selectMode(S.qi, S.bi, true);
+  if (S.pendingSym) {                         // a symmetry file was opened before its band structure
+    const p = S.pendingSym;
+    try { attachSymmetry(p.sym, p.name); } catch (e) { S.pendingSym = null; showError(e.message, "Could not use the symmetry file"); }
+  }
 }
 
 // ---- structure / mode -------------------------------------------------------------------------------------------------------
@@ -205,7 +264,8 @@ function selectMode(qi, bi, fromUi = true) {
   if (!d) return;
   S.qi = Math.max(0, Math.min(d.nq - 1, qi)); S.bi = Math.max(0, Math.min(d.nb - 1, bi));
   buildStructure_();
-  scene.setPattern(modePattern(d, scene.struct, S.qi, S.bi, { massScale: $("massscale").checked, basisPhase: $("basisphase").checked }));
+  const eig = S.sym && $("useadapted").checked ? adaptedEig(S.sym, S.qi, S.bi, d.natom) : null;   // symmetry-adapted, if the file has one
+  scene.setPattern(modePattern(d, scene.struct, S.qi, S.bi, { massScale: $("massscale").checked, basisPhase: $("basisphase").checked, eig }));
   if (fromUi) plot.select(S.qi, S.bi, false);
   $("qrange").value = $("qnum").value = S.qi + 1;
   $("brange").value = $("bnum").value = S.bi + 1;
@@ -225,7 +285,162 @@ function refreshReadout() {
   const others = Object.keys(UNITS).filter((u) => u !== S.unit).map((u) => `${formatFreq(f, u)} ${UNITS[u].label}`).join(" · ");
   $("chip").innerHTML = `<b>${formatFreq(f, S.unit)} ${UNITS[S.unit].label}</b>${f < -0.05 ? " <span style='color:var(--bad)'>imaginary</span>" : ""}<br><span class="muted">${others}</span><br>q ${qtxt}${tick ? ` · ${tick.label}` : ""}`;
   $("seam").hidden = isCommensurate(q, S.reps);
+  renderSymmetry();
   renderModes();
+}
+
+// ---- in-browser symmetry analysis (DistortKit running in Pyodide, in a worker) -------------------------------------------------
+const engine = { worker: null, ready: false, busy: null, nextId: 1, error: null };
+
+function startEngine() {
+  if (engine.worker) return;
+  engine.error = null;
+  const w = engine.worker = new Worker("js/symworker.js");
+  w.onmessage = onEngineMessage;
+  w.onerror = (e) => failEngine(`the analysis engine could not start (${e.message || "worker error"}). It needs to download the Python runtime from cdn.jsdelivr.net; check your connection and try again.`);
+  w.postMessage({ type: "init", zipUrl: new URL("py/distortkit.zip", location.href).href });
+}
+
+function failEngine(message) {
+  engine.worker?.terminate();
+  engine.worker = null; engine.ready = false; engine.busy = null; engine.error = message;
+  renderSymmetry();
+}
+
+function stopEngine() {                        // Cancel: the worker cannot be interrupted, so drop it (the runtime reloads next time)
+  engine.worker?.terminate();
+  engine.worker = null; engine.ready = false; engine.busy = null;
+  renderSymmetry();
+}
+
+/** The request for one q-point: the cell, the file's eigenvectors there, and the conventions in force. */
+function requestFor(qi) {
+  const d = S.data, nb = d.nb, na = d.natom, eig = [];
+  for (let b = 0; b < nb; b++)
+    for (let a = 0; a < na; a++)
+      for (let c = 0; c < 3; c++) { const o = ((qi * nb + b) * na + a) * 6 + 2 * c; eig.push(d.eig[o], d.eig[o + 1]); }
+  return {
+    lattice: d.lattice, frac: d.frac, species: d.species, masses: Array.from(d.masses), qi, eig,
+    q: [d.qpts[3 * qi], d.qpts[3 * qi + 1], d.qpts[3 * qi + 2]], freq: Array.from(d.freq.slice(qi * nb, qi * nb + nb)),
+    settings: { max_cells: 16, max_dim: 6, labels: true, tol: S.symTol, mass_scale: $("massscale").checked, basis_phase: $("basisphase").checked },
+  };
+}
+
+function analyseCurrent() {
+  if (!S.data || engine.busy) return;
+  if (!S.sym) S.sym = emptySymmetry(S.data, { mass_scale: $("massscale").checked, basis_phase: $("basisphase").checked, max_cells: 16, max_dim: 6 });
+  startEngine();
+  const id = engine.nextId++;
+  engine.busy = { id, qi: S.qi, token: S.token, stage: "Starting", frac: 0 };
+  engine.worker.postMessage({ type: "analyse", id, request: requestFor(S.qi) });
+  renderSymmetry();
+}
+
+function onEngineMessage(e) {
+  const m = e.data, busy = engine.busy;
+  if (m.type === "ready") engine.ready = true;
+  else if (m.type === "progress") {
+    if (busy) { busy.stage = m.stage; busy.frac = m.frac; }
+    else if (!engine.ready) engine.loading = m;
+    const bar = $("symbar");
+    if (bar) { bar.style.width = `${Math.round(100 * m.frac)}%`; $("symstage").textContent = m.stage; }
+  } else if (m.type === "result" && busy && m.id === busy.id) {
+    engine.busy = null;
+    if (busy.token === S.token && S.sym) {      // ignore the answer if another band structure was opened meanwhile
+      addResult(S.sym, busy.qi, m.result);
+      plot.setMarks(S.sym.marks);
+      selectMode(S.qi, S.bi);                    // applies the adapted eigenvector and redraws the card and mode list
+    } else renderSymmetry();
+  } else if (m.type === "error") failEngine(`the analysis failed: ${m.message}`);
+}
+
+/** How closely atoms must match to count as symmetric, with a retry: real structures are often only approximately symmetric. */
+function renderToleranceRetry(parent, add) {
+  const row = add("div", "row", undefined, parent);
+  add("span", "small", "Tolerance (Å)", row);
+  const inp = add("input", "num", undefined, row);
+  inp.type = "number"; inp.step = "0.001"; inp.min = "0.0001"; inp.max = "0.2"; inp.value = S.symTol; inp.style.width = "74px";
+  inp.addEventListener("change", () => { const v = parseFloat(inp.value); if (v > 0) S.symTol = v; });
+  add("button", "btn small primary", "Try again", row).addEventListener("click", () => { const v = parseFloat(inp.value); if (v > 0) S.symTol = v; analyseCurrent(); });
+}
+
+/** Card for a mode whose symmetry has not been worked out: the button that does it, or the progress of doing it. */
+function renderAnalyse(box, add) {
+  const busy = engine.busy;
+  if (engine.error) add("p", "note warn", engine.error.charAt(0).toUpperCase() + engine.error.slice(1));
+  if (busy) {
+    add("p", "", busy.qi === S.qi ? "Analysing this q-point…" : `Analysing q-point ${busy.qi + 1}…`);
+    const prog = add("div", "symprog");
+    const track = add("div", "track", undefined, prog);
+    const bar = add("div", "", undefined, track);
+    bar.id = "symbar"; bar.style.width = `${Math.round(100 * busy.frac)}%`;
+    const stage = add("div", "hint", busy.stage); stage.id = "symstage";
+    add("button", "btn small", "Cancel").addEventListener("click", stopEngine);
+    add("p", "hint", engine.ready ? "A q-point takes from seconds to a few minutes, depending on the size of its symmetry star. The page stays usable." : "The first time, this downloads the Python runtime (about 20 MB, kept by your browser afterwards).");
+    return;
+  }
+  add("p", "", "The symmetry of a mode (its irrep and the structure it leads to) is worked out on request, here in your browser.");
+  const go = add("button", "btn primary", "Analyse this q-point");
+  go.addEventListener("click", analyseCurrent);
+  const adv = add("details", "");
+  add("summary", "", "Symmetry tolerance", adv);
+  add("p", "hint", "How closely atoms must match to count as symmetric. The default suits exact structures; for a relaxed (only approximately symmetric) one, try 0.01 Å or more.", adv);
+  renderToleranceRetry(adv, add);
+  add("p", "hint", "Nothing is uploaded: the analysis runs locally. The first time it downloads the Python runtime (about 20 MB, kept by your browser afterwards). Large q-point stars can take a few minutes; some are too large and are skipped.");
+}
+
+/** The Symmetry card: irrep, the symmetry the mode leads to, and every symmetry its irrep allows. */
+function renderSymmetry() {
+  const box = $("symcard");
+  box.replaceChildren();
+  $("adaptrow").hidden = !S.sym?.qpoints.some((q) => q.bands);
+  const add = (tag, cls, text, parent = box) => {
+    const e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (text !== undefined) e.textContent = text;
+    parent.appendChild(e);
+    return e;
+  };
+  if (!S.data) {
+    add("p", "hint", S.pendingSym ? `${S.pendingSym.name} is loaded; now open the band.yaml it belongs to.` : "Open a band structure to see the symmetry of its modes.");
+    return;
+  }
+  const info = S.sym ? modeInfo(S.sym, S.qi, S.bi) : null;
+  if (!S.sym || info?.status === "pending") { renderAnalyse(box, add); return; }
+  if (S.sym.parent || S.symName) add("p", "hint", [S.sym.parent && `Parent space group ${prettySG(S.sym.parent)}`, S.symName].filter(Boolean).join(" · "));
+  if (!info) { add("p", "hint", "No symmetry data for this mode."); return; }
+  if (info.status === "skipped") {
+    add("p", "note", `Not analysed: ${info.reason}.`);
+    if (/toleran|approximately/i.test(info.reason)) renderToleranceRetry(box, add);
+    else add("p", "hint", "Analysed q-points are marked ▲ under the band plot.");
+    return;
+  }
+  const head = add("div", "symhead");
+  add("span", "irrep", info.label, head);
+  add("span", "dim", `dimension ${info.irrep.dim}${info.irrep.kind !== "real" ? `, ${info.irrep.kind}` : ""} · on ${info.irrep.species.join(", ")}`, head);
+  add("p", "hint", `Star of k = (${info.star.k.join(", ")}): ${info.star.star_size} arm${info.star.star_size > 1 ? "s" : ""}, ${info.star.n_cells}-cell supercell. The dimension counts all arms.`);
+  if (!info.clean) add("p", "note warn", `Only ${(100 * info.band.weight).toFixed(0)}% of this mode lies in this irrep: another irrep has the same frequency. Tick "Use symmetry-adapted modes" to separate them.`);
+  const lines = describe(info);
+  const child = add("div", "child");
+  const first = lines[0];
+  const sub = info.sub;
+  if (sub?.space_group) {
+    child.append("Freezing it in gives ");
+    add("b", "", prettySG(sub.space_group), child);
+    child.append(sub.opd.length <= 30 ? `, direction ${sub.opd}${sub.n_conjugates > 1 ? ` (${sub.n_conjugates} equivalent domains)` : ""}.` : ".");
+  } else child.textContent = first;
+  const rest = lines.slice(1);
+  if (rest.length) { const ul = add("ul", ""); rest.forEach((t) => add("li", "", t, ul)); }
+  if (info.irrep.subgroups.length) {
+    const det = add("details", "");
+    add("summary", "", `All ${info.irrep.subgroups.length} child symmetries of ${info.label}`, det);
+    const table = add("div", "subtable", undefined, det);
+    for (const s of info.irrep.subgroups) {
+      const on = sub && s.index === sub.index;
+      add("span", `opd${on ? " on" : ""}`, s.opd.length <= 30 ? s.opd : `(${s.fix_dim}-parameter subspace)`, table).title = s.opd;
+      add("span", on ? "on" : "", `${s.space_group ? prettySG(s.space_group) : `unidentified, ${s.point_group}`}${s.n_conjugates > 1 ? ` ×${s.n_conjugates}` : ""}`, table);
+    }
+  } else if (info.irrep.note) add("p", "hint", info.irrep.note);
 }
 
 /** The clickable list of all modes at the selected q-point, with the species composition of each. */
@@ -241,9 +456,13 @@ function renderModes() {
     row.className = `mrow${b === S.bi ? " sel" : ""}${f < -0.05 ? " imag" : ""}`;
     row.setAttribute("role", "option");
     row.setAttribute("aria-selected", b === S.bi);
-    row.title = names.map((n, k) => `${n} ${(100 * w[(S.qi * d.nb + b) * names.length + k]).toFixed(0)}%`).join(" · ");
+    row.title = names.map((n, k) => `${esc(n)} ${(100 * w[(S.qi * d.nb + b) * names.length + k]).toFixed(0)}%`).join(" · ");
     const bar = names.map((n, k) => `<i style="width:${100 * w[(S.qi * d.nb + b) * names.length + k]}%;background:${colors[k]}"></i>`).join("");
-    row.innerHTML = `<span class="idx">${b + 1}</span><span class="bar">${bar}</span><span class="fr">${formatFreq(f, S.unit)}</span>`;
+    const si = S.sym ? modeInfo(S.sym, S.qi, b) : null;
+    if (si?.status === "ok") {
+      row.classList.add("hasirr");
+      row.innerHTML = `<span class="idx">${b + 1}</span><span class="irr">${esc(si.label)}</span><span class="bar">${bar}</span><span class="fr">${formatFreq(f, S.unit)}</span>`;
+    } else row.innerHTML = `<span class="idx">${b + 1}</span><span class="bar">${bar}</span><span class="fr">${formatFreq(f, S.unit)}</span>`;
     row.addEventListener("click", () => selectMode(S.qi, b));
     frag.appendChild(row);
   }
@@ -263,6 +482,8 @@ $("basisphase").addEventListener("change", () => selectMode(S.qi, S.bi));
 $("unit").value = S.unit;
 $("unit").addEventListener("change", (e) => { S.unit = e.target.value; store.set("unit", S.unit); plot.setUnit(S.unit); refreshReadout(); });
 plot.setUnit(S.unit);
+plot.onZoom = (zoomed) => { $("zoomreset").disabled = !zoomed; };
+$("zoomreset").addEventListener("click", () => plot.resetZoom());
 
 // ---- controls: supercell ------------------------------------------------------------------------------------------------------
 for (const id of ["nx", "ny", "nz"]) {
@@ -324,19 +545,36 @@ function buildElementControls() {
   for (const el of [...new Set(S.data.elements)]) {
     const row = document.createElement("div");
     row.className = "el";
-    row.innerHTML = `<span class="sym">${el}</span><input type="color" value="${colorOf(el)}" aria-label="${el} colour"><input type="range" min="0.5" max="1.8" step="0.05" value="1" aria-label="${el} size">`;
+    row.innerHTML = `<span class="sym">${esc(el)}</span><input type="color" value="${colorOf(el)}" aria-label="${esc(el)} colour"><input type="range" min="0.5" max="1.8" step="0.05" value="1" aria-label="${esc(el)} size">`;
     const [color, size] = row.querySelectorAll("input");
     const upd = () => {
       S.overrides[el] = { color: color.value, radiusScale: +size.value };
       scene.setOverrides({ ...S.overrides });
       updateWeights();
       renderModes();
+      renderAtomLegend();
     };
     color.addEventListener("input", upd);
     size.addEventListener("input", upd);
     box.appendChild(row);
   }
   scene.setOverrides({});
+  renderAtomLegend();
+}
+
+/** Colour key for the atoms, shown beside the frequency readout at the top of the 3D view. */
+function renderAtomLegend() {
+  const box = $("atomlegend");
+  if (!S.data) { box.replaceChildren(); return; }
+  const frag = document.createDocumentFragment();
+  for (const el of [...new Set(S.data.elements)]) {
+    const row = document.createElement("span"), dot = document.createElement("i");
+    row.className = "atom";
+    dot.style.background = scene.atomColor(el);
+    row.append(dot, el);
+    frag.appendChild(row);
+  }
+  box.replaceChildren(frag);
 }
 
 function hexToRgb(h) { const n = parseInt(h.slice(1), 16); return [(n >> 16) & 255, (n >> 8) & 255, n & 255]; }
@@ -348,7 +586,7 @@ function updateWeights() {
   const { names, w } = (S.sw ??= speciesWeights(d));
   const colors = names.map((n) => hexToRgb(S.overrides[n]?.color ?? colorOf(n)));
   plot.setWeights({ names, w, colors });
-  $("legend").innerHTML = names.map((n, i) => `<span><i style="background:rgb(${colors[i]})"></i>${n}</span>`).join("");
+  $("legend").innerHTML = names.map((n, i) => `<span><i style="background:rgb(${colors[i]})"></i>${esc(n)}</span>`).join("");
 }
 $("weights").addEventListener("change", updateWeights);
 
@@ -443,7 +681,10 @@ $("plotpng").addEventListener("click", async () => {
 $("open").addEventListener("click", () => $("file").click());
 $("welcomeopen").addEventListener("click", () => $("file").click());
 document.querySelectorAll("[data-demo]").forEach((b) => b.addEventListener("click", () => loadUrl(b.dataset.demo, b.dataset.label)));
-$("file").addEventListener("change", (e) => { const f = e.target.files[0]; if (f) loadFile(f); e.target.value = ""; });
+$("file").addEventListener("change", (e) => { const fs = [...e.target.files]; e.target.value = ""; loadFiles(fs); });
+$("opensym").addEventListener("click", () => $("symfile").click());
+$("symfile").addEventListener("change", (e) => { const fs = [...e.target.files]; e.target.value = ""; loadFiles(fs); });
+$("useadapted").addEventListener("change", () => selectMode(S.qi, S.bi));
 $("demo").addEventListener("change", (e) => {
   const o = e.target.selectedOptions[0];
   if (e.target.value) loadUrl(e.target.value, o.text);
@@ -459,10 +700,7 @@ addEventListener("dragleave", () => { if (--dragDepth <= 0) { dragDepth = 0; $("
 addEventListener("drop", (e) => {
   if (!hasFiles(e)) return;
   e.preventDefault(); dragDepth = 0; $("drop").hidden = true; $("welcome").classList.remove("over");
-  const files = [...e.dataTransfer.files];
-  // if several files are dropped, prefer the one that looks like phonon data
-  const f = files.find((x) => /band|phonon/i.test(x.name) && /\.(ya?ml|json)(\.gz)?$/i.test(x.name)) ?? files.find((x) => /\.(ya?ml|json)(\.gz)?$/i.test(x.name)) ?? files[0];
-  if (f) loadFile(f);
+  loadFiles([...e.dataTransfer.files]);
 });
 
 // ---- keyboard ----------------------------------------------------------------------------------------------------------------------

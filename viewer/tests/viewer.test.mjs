@@ -279,6 +279,13 @@ test("no negative zero in frequency text", () => {
   assert.equal(formatFreq(-0.2, "THz"), "-0.200");
 });
 
+test("odd species labels cannot carry markup into the page", () => {
+  const text = naclText().replace("symbol: Na", "symbol: <img onerror=alert(1)>");
+  const d = parseBandYaml(text);
+  assert.equal(d.elements[0], "X");
+  assert.ok(!/[<>]/.test(d.formula));
+});
+
 test("HTML in material names is made plain", () => {
   assert.equal(plainName("Bulk MoS<sub>2</sub>"), "Bulk MoS₂");
   assert.equal(plainName("Ag<sub>10</sub>S<sub>8</sub>Sb<sub>2</sub>"), "Ag₁₀S₈Sb₂");
@@ -319,4 +326,113 @@ test("unusable files are explained, not just rejected", () => {
   assert.throws(() => parseAuto("hello", "notes.txt"), /not a phonopy band\.yaml/);
   assert.throws(() => parseAuto("{\"a\": 1}", "x.json"), /no 'lattice'/);
   assert.throws(() => parseAuto("{nope", "x.json"), /not valid JSON/);
+});
+
+// ---- symmetry data (made by `distortkit phonons`) ---------------------------------------------------------------------------
+import { parseSymmetry, matches, modeInfo, adaptedEig, describe, looksLikeSymmetry, prettyIrrep, prettySG, emptySymmetry, addResult } from "../js/symmetry.js";
+
+const hfo2 = () => parseAuto(load("hfo2_fluorite_springs.yaml"), "hfo2.yaml");
+const hfo2Sym = () => parseSymmetry(JSON.parse(load("hfo2_fluorite_springs_symmetry.json")));
+const XQ = 4;   // X = (1/2, 0, 1/2) in the HfO2 file
+
+test("irrep and space-group labels are made readable", () => {
+  assert.equal(prettyIrrep("X5+"), "X₅⁺");
+  assert.equal(prettyIrrep("GM4-"), "Γ₄⁻");
+  assert.equal(prettyIrrep("R4+/R5+"), "R₄⁺/R₅⁺");
+  assert.equal(prettyIrrep("irrep3"), "irrep3");
+  assert.equal(prettySG("P4_2/nmc (#137)"), "P4₂/nmc (#137)");
+  assert.equal(prettySG("Pca2_1 (#29)"), "Pca2₁ (#29)");
+});
+
+test("symmetry files are recognised and validated", () => {
+  assert.ok(looksLikeSymmetry('{\n "format": "distortkit-phonon-symmetry",\n "version": 1'));
+  assert.ok(!looksLikeSymmetry("nqpoint: 120"));
+  assert.throws(() => parseSymmetry({ format: "other" }), /not a DistortKit phonon-symmetry/);
+  assert.throws(() => parseSymmetry({ format: "distortkit-phonon-symmetry", version: 9, qpoints: [], stars: [] }), /version/);
+});
+
+test("a symmetry file is tied to the band structure it was made for", () => {
+  const sym = hfo2Sym();
+  assert.equal(matches(sym, hfo2()).ok, true);
+  const other = matches(sym, nacl());                       // 120 q-points, not 20
+  assert.equal(other.ok, false);
+  assert.match(other.reason, /different band\.yaml/);
+  const shifted = hfo2();
+  shifted.qpts[3 * 7] += 0.1;
+  assert.equal(matches(sym, shifted).ok, false);
+});
+
+test("mode lookup at X: irrep, child symmetry, and every symmetry the irrep allows", () => {
+  const sym = hfo2Sym();
+  assert.equal(sym.parent, "Fm-3m (#225)");
+  // the soft mode of fluorite HfO2: X2-, imaginary, leading to P4_2/nmc
+  const soft = modeInfo(sym, XQ, 0);
+  assert.equal(soft.status, "ok");
+  assert.equal(soft.label, "X₂⁻");
+  assert.ok(soft.imaginary && soft.band.freq < -1);
+  assert.equal(soft.sub.number, 137);
+  assert.ok(soft.clean && soft.enumerated);
+  assert.ok(describe(soft)[0].includes("P4₂/nmc (#137)"));
+  assert.ok(describe(soft).some((l) => /imaginary.*drive a transition/.test(l)));
+  // a stable mode: X3- (band 4) leads to P4/nmm but does not condense on its own
+  const x3 = modeInfo(sym, XQ, 3);
+  assert.equal(x3.label, "X₃⁻");
+  assert.equal(x3.sub.number, 129);
+  assert.ok(x3.irrep.subgroups.some((s) => s.number === 215));
+  assert.ok(describe(x3).some((l) => /stable/.test(l)));
+  // bands 2-3 are a degenerate doublet whose eigenvectors were adapted to the symmetry
+  const x5 = modeInfo(sym, XQ, 1);
+  assert.equal(x5.label, "X₅⁻");
+  assert.ok(x5.band.adapted);
+  assert.ok(describe(x5).some((l) => /2-fold degenerate/.test(l)));
+});
+
+test("q-points that were not analysed say why", () => {
+  const sym = hfo2Sym();
+  const w = modeInfo(sym, 9, 0);                             // W needs a 32-cell supercell
+  assert.equal(w.status, "skipped");
+  assert.match(describe(w)[0], /32-cell/);
+  assert.equal(modeInfo(sym, 99, 0), null);
+  assert.ok(sym.marks.includes(XQ) && !sym.marks.includes(9));
+});
+
+test("adapted eigenvectors replace the file's only where the level was degenerate", () => {
+  const sym = hfo2Sym(), d = hfo2();
+  assert.equal(adaptedEig(sym, XQ, 3, d.natom), null);       // non-degenerate: the file's own is used
+  const e = adaptedEig(sym, XQ, 1, d.natom);                 // a member of the degenerate X5- doublet
+  assert.equal(e.length, d.natom * 6);
+  let norm = 0;
+  for (const v of e) norm += v * v;
+  assert.ok(Math.abs(norm - 1) < 1e-3, `adapted eigenvector is normalised (${norm})`);
+  const s = buildStructure(d, { reps: [2, 1, 2], complete: false });
+  const fileP = modePattern(d, s, XQ, 1), adaptP = modePattern(d, s, XQ, 1, { eig: e });
+  let diff = 0, ref = 0;
+  for (let i = 0; i < fileP.re.length; i++) { diff += Math.abs(fileP.re[i] - adaptP.re[i]); ref += Math.abs(fileP.re[i]); }
+  assert.ok(diff > 0.05 * ref, "the adapted pattern differs from the file's arbitrary mix");
+  // overriding with the file's own eigenvector changes nothing
+  const own = new Float32Array(d.natom * 6);
+  for (let k = 0; k < own.length; k++) own[k] = d.eig[(XQ * d.nb + 3) * d.natom * 6 + k];
+  const same = modePattern(d, s, XQ, 3, { eig: own }), ref2 = modePattern(d, s, XQ, 3);
+  for (let i = 0; i < same.re.length; i++) assert.ok(Math.abs(same.re[i] - ref2.re[i]) < 1e-6 && Math.abs(same.im[i] - ref2.im[i]) < 1e-6);
+});
+
+test("symmetry data that fills in as q-points are analysed in the browser", () => {
+  const d = hfo2(), file = hfo2Sym();
+  const live = emptySymmetry(d, { mass_scale: true });
+  assert.equal(modeInfo(live, XQ, 0).status, "pending");
+  assert.deepEqual(live.marks, []);
+  // the answer for X arrives exactly as the worker sends it: the star, the star's irreps, and every band
+  const qp = file.qpoints[XQ], star = file.stars.get(qp.star.join(","));
+  addResult(live, XQ, { star: qp.star, star_info: star, bands: qp.bands });
+  assert.equal(live.parent, "Fm-3m (#225)");
+  const soft = modeInfo(live, XQ, 0);
+  assert.equal(soft.label, "X₂⁻");
+  assert.equal(soft.sub.number, 137);
+  assert.deepEqual(live.marks, [4, 5]);                       // the path passes X twice (the end of one segment, the start of the next)
+  assert.equal(modeInfo(live, 9, 0).status, "pending");       // other q-points still wait to be asked for
+  // a star that is too large comes back as a reason
+  addResult(live, 9, { skipped: "its star needs a 32-cell supercell (limit 16)" });
+  assert.equal(modeInfo(live, 9, 0).status, "skipped");
+  assert.equal(modeInfo(live, 10, 0).status, "skipped");       // W appears twice as well
+  assert.ok(!live.marks.includes(9));
 });

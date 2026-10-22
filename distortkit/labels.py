@@ -118,10 +118,8 @@ def label_irreps(ma, parent_number, P=None, p=None, only=None):
             continue
         nums, fp = [], []
         for iso in ma.isotropy_subgroups(ir):
-            try:
-                n = child_space_group(ma, iso).number
-            except ValueError:
-                n = 0
+            sg = ma.child_space_group(iso)                  # cached on the subgroup: identifying one costs seconds
+            n = sg.number if sg is not None else 0
             nums.append(n)
             fp.append((n, iso.fix_dim))
         fingerprint = tuple(sorted(fp))

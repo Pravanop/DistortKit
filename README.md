@@ -123,6 +123,7 @@ Everything the command line does is a function call: the CLI is a thin wrapper. 
 | `explain` | `distortkit.explain.report`, `.ladder`, `.cascade` |
 | `invariants` | `distortkit.invariants.compute` |
 | `modes`, `isotropy`, `distort` | `distortkit.ModeAnalysis` (irreps at one k-point) |
+| `phonons` | `distortkit.phonons.PhononSymmetry`, `.analyze_band_yaml`, `.read_band_yaml` |
 | `symmetrize`, `check` | `distortkit.symmetrize`, `distortkit.checks` |
 
 ```python
@@ -292,7 +293,8 @@ on the band structure, and the atoms move. It runs entirely in the browser (noth
 * views along a, b, c, a\*, b\*, c\*, x, y, z or any `[uvw]` / `(hkl)`, with an axes gizmo that turns with the crystal;
 * supercells fitted to the wavevector, displacement arrows, bonds, element colours;
 * export to PNG (transparent background if you like), GIF, MP4/WebM video and XYZ, plus the band plot as PNG;
-* imaginary (unstable) modes are flagged, and a per-mode list shows each mode's species composition.
+* imaginary (unstable) modes are flagged, and a per-mode list shows each mode's species composition;
+* a **Symmetry** section that, on request and in your browser, works out each mode's irrep and the child space group it leads to (the `phonons` command below, run locally with Python in the page; nothing is uploaded).
 
 To run it locally: `python3 viewer/tools/serve.py` and open <http://localhost:8123>. Its conventions (phase, mass weighting),
 tests and limits are in [viewer/README.md](viewer/README.md). It is independent of the analysis commands above for now; showing
@@ -425,6 +427,52 @@ GM4-, X5-, X3-) is induced by the others in exactly the measured direction while
 modes, so it says each is permitted by the other two, not which one drives. Free-energy coefficients are free: nothing
 here says how large a term is, whether the transition is first or second order, or which mode goes soft. Strain,
 gradient terms and external fields are not included. Examples: `examples/hfo2/relations/`.
+
+## Symmetry of phonons (`phonons`)
+
+Which irrep does a phonon belong to, and what symmetry does freezing it in lead to? Give `phonons` a phonopy `band.yaml`
+(written with `EIGENVECTORS = .TRUE.`); for every q-point and band it reports the irrep of the parent space group, the isotropy
+subgroup (child space group) that the mode's direction fits, and, per irrep, every child symmetry it can lead to.
+
+```bash
+python3 -m distortkit phonons examples/hfo2/fluorite_springs_band.yaml --qpoints 5     # the X point
+```
+
+```
+q-point 1 (X): (1/2, 0, 1/2)   star of k=(0, 1/2, 1/2), 4-cell supercell
+  band   freq (THz)  irrep        dim  child symmetry (direction of this mode)
+     1      -3.027  X2-            3  P4_2/nmc (#137)   (a,0,0)
+     2       1.716  X5-            6  Pmmn (#59)   (a,0,0,0,0,0)  [adapted]
+     4       5.538  X3-            3  P4/nmm (#129)   (a,0,0)
+     5       7.207  X1+            3  P4/mmm (#123)   (a,-0.081a,0)
+     6       7.518  X5+            6  P2_1/c (#14)   any direction in a 2-parameter subspace  [adapted]
+```
+
+The first line is the soft mode of cubic hafnia: X2- has an imaginary frequency, and freezing it in gives the tetragonal P4_2/nmc phase.
+
+(excerpt; the example is a spring model of fluorite HfO2, not DFT: the right geometry and symmetry, and a soft X2- mode tuned to about -3 THz, but not real frequencies.)
+
+* **The eigenvector is analysed as a displacement pattern.** It is turned into a real displacement field on the supercell
+  `ModeAnalysis` builds for the star of q and projected onto the irreps, exactly as `compare` does for a child structure; the
+  conventions (phonopy's phase includes the atomic positions; eigenvectors are divided by sqrt(mass)) are the ones used by the
+  [web viewer](#phonon-viewer-web).
+* **Degenerate levels are adapted.** The eigenvectors a phonon code writes for a degenerate level are an arbitrary mixture (a level can
+  even hold two different irreps), which says nothing about symmetry. `[adapted]` marks bands rotated within their level
+  into one irrep each, along the irrep's own axes where possible (the X5 doublets above); the rotated eigenvector is saved in the JSON.
+* **Checked independently.** Each predicted child space group is compared with what spglib finds for the structure displaced by that
+  mode (`tests/test_phonons.py`); all nine bands at X agree. At Γ the acoustic modes, which are rigid translations, are reported as changing nothing (spglib confirms the structure keeps Fm-3m).
+* **Limits.** Only q-points whose star fits in `--max-cells` primitive cells (default 16) are analysed; the others are listed as
+  skipped, with the reason (W of an fcc cell needs 32). Irreps larger than `--max-dim` (default 6) are assigned to modes but their
+  subgroups are not enumerated, because that can take minutes. For a degenerate multiplet the direction is only defined up to the
+  multiplet, so the list of subgroups of the irrep is the answer; which one is realised depends on which combination condenses.
+  Stable modes do not condense by themselves; only unstable ones (imaginary frequency) drive a transition.
+* **Known gap.** `spacegroup.identify` cannot yet name the trigonal (R3m, (a,a,a)-type) child of a cubic F-lattice parent; those
+  subgroups are listed as "unidentified" with their point group, and irrep labels at the zone centre and L of such parents are
+  missing for the same reason.
+
+The JSON (`--out`, default `<bandfile>_symmetry.json`) has the same content as plain data (stars with their irreps and subgroups; per
+q-point and band the irrep, weights, direction, subgroup and, for adapted bands, the eigenvector), ready for a viewer to load: the [web viewer](#phonon-viewer-web) can open it, but it does not need to, because it runs this same analysis itself, in the browser, for any q-point you ask about.
+`tools/make_fluorite_bands.py` regenerates the example file (needs phonopy).
 
 ## What each step does
 

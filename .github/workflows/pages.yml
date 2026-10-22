@@ -4,7 +4,7 @@ name: pages
 on:
   push:
     branches: [main]
-    paths: ["viewer/**", ".github/workflows/pages.yml"]
+    paths: ["viewer/**", "distortkit/**", ".github/workflows/pages.yml"]
   workflow_dispatch:
 
 permissions:
@@ -34,6 +34,8 @@ jobs:
           mkdir _site
           cp -r viewer/index.html viewer/css viewer/js viewer/vendor viewer/examples _site/
           touch _site/.nojekyll
+      - name: Pack DistortKit for the in-browser symmetry analysis
+        run: python3 viewer/tools/build_py_bundle.py _site/py/distortkit.zip
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

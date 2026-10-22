@@ -201,10 +201,15 @@ def _check_group(ops, tol=0.02):
                                  "(translations inconsistent): the structure is only approximately symmetric")
 
 
-def identify(ops, lattice=None, max_entry=(1, 2), dets=(1, 2, 3, 4)):
+def identify(ops, lattice=None, max_entry=(1, 3), dets=(1, 2, 3, 4)):
     """Identify the space group of ``ops`` = list of (R int 3x3, t float 3) in a *primitive* basis.
 
     ``lattice`` (3x3 rows) is only used to pick a reduced basis first. Returns SpaceGroupResult.
+
+    The conventional axes are searched among integer combinations of the primitive vectors with entries up to ``max_entry``
+    (tried in turn: first up to 1, then up to 3). Entries up to 3 are needed when a high-order axis is not along a short lattice
+    vector of the reduced basis: the trigonal (a,a,-a) subgroup of a cubic F lattice has its 3-fold axis along (-1,-1,3). A range
+    of exactly 2 was dropped: it never found anything the range of 3 does not, and its failing search cost seconds.
     """
     by_key, info = _std_index()
     rotsets = _rotsets()

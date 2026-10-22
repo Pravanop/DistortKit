@@ -12,7 +12,8 @@
   <div class="brand"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><circle cx="6" cy="12" r="3" fill="currentColor"/><circle cx="18" cy="12" r="3" fill="currentColor" opacity=".55"/><path d="M9 12h6" stroke="currentColor" stroke-width="2"/></svg>Phonon Viewer</div>
   <div class="grow"></div>
   <button id="theme" class="btn ghost" title="Toggle dark / light" aria-label="Toggle theme">◐</button>
-  <input id="file" type="file" hidden>
+  <input id="file" type="file" multiple hidden>
+  <input id="symfile" type="file" accept=".json" hidden>
 </header>
 
 <div class="app">
@@ -31,6 +32,7 @@
             <optgroup label="Bundled (spring models, from phonopy)">
               <option value="examples/nacl_springs.yaml">NaCl (spring model)</option>
               <option value="examples/graphene_springs.yaml">Graphene (spring model)</option>
+              <option value="examples/hfo2_fluorite_springs.yaml|examples/hfo2_fluorite_springs_symmetry.json">HfO₂ fluorite, with symmetry (spring model)</option>
             </optgroup>
             <optgroup label="Real DFT data (loaded from phononwebsite)">
               <option value="https://henriquemiranda.github.io/phononwebsite/data/localdb/graphene/data.json">Graphene</option>
@@ -57,6 +59,15 @@
         <label class="row">Band <input id="brange" type="range" min="1" max="1" value="1"><input id="bnum" type="number" min="1" value="1" class="num"></label>
         <label class="check"><input id="massscale" type="checkbox"> Divide by √mass <span class="muted small">(eigenvector → displacement)</span></label>
         <label class="check" title="phonopy writes eigenvectors of the dynamical matrix that includes the atomic positions in its phase. Untick for data whose eigenvectors use lattice translations only."><input id="basisphase" type="checkbox" checked> Atom positions in the Bloch phase <span class="muted small">(phonopy)</span></label>
+      </div>
+    </details>
+
+    <details open id="symsec">
+      <summary>Symmetry</summary>
+      <div class="sec">
+        <div id="symcard" class="symcard"></div>
+        <div class="row"><button id="opensym" class="btn small" title="A file written by `distortkit phonons`: results for many q-points at once">Open a precomputed symmetry file…</button></div>
+        <label class="check" id="adaptrow" hidden><input id="useadapted" type="checkbox" checked> Use symmetry-adapted modes <span class="muted small">(in degenerate levels, instead of the file's arbitrary mix)</span></label>
       </div>
     </details>
 
@@ -148,7 +159,7 @@
       <div class="sec help">
         <div><b>Rotate</b> drag · <b>roll</b> Alt-drag · <b>pan</b> Shift/right-drag · <b>zoom</b> wheel or pinch · <b>fit</b> double-click</div>
         <div><b>Space</b> play/pause · <b>←/→</b> q-point · <b>↑/↓</b> band · <b>1–6</b> look down a b c a* b* c* · <b>0</b> reset view</div>
-        <div>Band plot: click or drag to pick a mode.</div>
+        <div><b>Band plot:</b> click to pick a mode · drag a box to zoom (double-click, Esc or Reset zoom to restore) · Shift-drag to scrub along q</div>
       </div>
     </details>
     <div class="about">Part of <a href="https://github.com/Pravanop/DistortKit" target="_blank" rel="noopener">DistortKit</a> · reads <a href="https://henriquemiranda.github.io/phononwebsite/" target="_blank" rel="noopener">phononwebsite</a> files, independent of it · three.js and gifenc (MIT)</div>
@@ -160,7 +171,7 @@
       <div class="overlay tl chips" id="snap2">
         <button data-look="a" title="Look down a (again: opposite side)">a</button><button data-look="b">b</button><button data-look="c">c</button>
       </div>
-      <div class="overlay tr"><div id="chip" class="chip"></div></div>
+      <div class="overlay tr"><div id="atomlegend" class="atomlegend" aria-label="Atoms"></div><div id="chip" class="chip"></div></div>
       <div class="overlay bc transport">
         <button id="prevq" class="icon" title="Previous q-point (←)">⏮</button>
         <button id="play2" class="icon" title="Play / pause (Space)">⏸</button>
@@ -180,10 +191,12 @@
 <pre>BAND = AUTO
 EIGENVECTORS = .TRUE.</pre>
           <p>then run <code>phonopy -p band.conf</code>. The <code>band.yaml</code> it writes is the file to open.</p>
+          <p>Once a band structure is open, the <b>Symmetry</b> section can work out a mode's irrep and the symmetry it leads to. It runs in your browser, on request, for the q-point you are looking at.</p>
         </details>
         <div class="examples"><span class="muted small">No file handy? Try an example:</span>
           <button class="btn small" data-demo="examples/nacl_springs.yaml" data-label="NaCl">NaCl</button>
           <button class="btn small" data-demo="examples/graphene_springs.yaml" data-label="Graphene">Graphene</button>
+          <button class="btn small" data-demo="examples/hfo2_fluorite_springs.yaml|examples/hfo2_fluorite_springs_symmetry.json" data-label="HfO₂ fluorite">HfO₂ + symmetry</button>
           <button class="btn small" data-demo="https://henriquemiranda.github.io/phononwebsite/data/localdb/mos2_bulk/data.json" data-label="Bulk MoS₂">Bulk MoS₂ (DFT)</button>
         </div>
         <p class="muted small credit-line">DFT example data from <a href="https://henriquemiranda.github.io/phononwebsite/" target="_blank" rel="noopener">phononwebsite</a> (H. Miranda).</p>
@@ -196,6 +209,7 @@ EIGENVECTORS = .TRUE.</pre>
         <span id="legend" class="legend"></span>
         <span class="grow"></span>
         <span id="tip" class="tip"></span>
+        <button id="zoomreset" class="btn small" disabled title="Drag a box on the plot to zoom in. Double-click, Esc or this button restores the full view.">Reset zoom</button>
       </div>
       <div class="plotwrap"><canvas id="band"></canvas></div>
       <div class="modes" id="modespanel">

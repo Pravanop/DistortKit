@@ -1,4 +1,5 @@
-// Phonon band structure on a <canvas>: click or drag to pick a (q, band) mode, arrow keys to step, optional species colouring.
+// Phonon band structure on a <canvas>: click to pick a (q, band) mode, drag to zoom (double-click or Esc to reset), arrow keys to step,
+// Shift-drag to scrub along q, optional species colouring.
 // Imaginary (negative) frequencies are drawn below a dashed zero line, since they flag a structural instability.
 
 import { toUnit, UNITS } from "./physics.js";
@@ -18,6 +19,10 @@ export class BandPlot {
     this.data = null; this.unit = "THz"; this.sel = { q: 0, b: 0 }; this.hover = null;
     this.weights = null; // {names, w, colors}
     this.size = { w: 1, h: 1 };
+    this.marks = null;   // Set of q indices that have symmetry data (drawn as small triangles on the axis)
+    this.zoom = null;    // null, or {x0, x1, y0, y1}: path distance and THz of the visible window
+    this.rect = null;    // zoom box being dragged, in canvas pixels
+    this.onZoom = null;  // (zoomed: boolean) => void, so the page can enable its reset button
     this.attach();
   }
 
@@ -26,7 +31,22 @@ export class BandPlot {
     this.sel = { q: 0, b: 0 };
     this.hover = null;
     this.weights = null;
+    this.marks = null;
+    this.zoom = null;
+    this.onZoom?.(false);
     this.computeRange();
+    this.draw();
+  }
+
+  setMarks(list) { this.marks = list && list.length ? new Set(list) : null; this.draw(); }
+
+  get zoomed() { return !!this.zoom; }
+
+  resetZoom() {
+    if (!this.zoom) return;
+    this.zoom = null;
+    this.applyView();
+    this.onZoom?.(false);
     this.draw();
   }
 
@@ -52,13 +72,34 @@ export class BandPlot {
     const step = niceStep(hi - lo || 1);
     // acoustic modes at Gamma come out as -1e-6 THz: only a clearly negative branch counts as imaginary
     this.imaginary = lo < -0.02 * hi;
-    this.yRange = { lo: this.imaginary ? Math.floor(lo / step) * step : 0, hi: Math.ceil((hi * 1.03) / step) * step, step };
+    this.fullRange = { lo: this.imaginary ? Math.floor(lo / step) * step : 0, hi: Math.ceil((hi * 1.03) / step) * step, step };
+    this.applyView();
+  }
+
+  /** The visible window: the whole band structure, or the zoom box (y is kept in THz so a unit change keeps the zoom). */
+  applyView() {
+    const d = this.data;
+    if (!d) return;
+    this.xr = this.zoom ? { x0: this.zoom.x0, x1: this.zoom.x1 } : { x0: d.dist[0], x1: d.dist[d.nq - 1] };
+    if (this.zoom) {
+      const f = UNITS[this.unit].factor, lo = this.zoom.y0 * f, hi = this.zoom.y1 * f;
+      this.yRange = { lo, hi, step: niceStep(hi - lo || 1) };
+    } else this.yRange = this.fullRange;
   }
 
   // ---- geometry ----------------------------------------------------------------------------------------------------------
   xOf(i) {
-    const d = this.data.dist, x0 = d[0], x1 = d[this.data.nq - 1];
-    return M.l + ((d[i] - x0) / (x1 - x0 || 1)) * (this.size.w - M.l - M.r);
+    const { x0, x1 } = this.xr;
+    return M.l + ((this.data.dist[i] - x0) / (x1 - x0 || 1)) * (this.size.w - M.l - M.r);
+  }
+  /** Inverse mappings: canvas pixel -> path distance, and -> THz. */
+  xFromPx(px) {
+    const { x0, x1 } = this.xr;
+    return x0 + ((px - M.l) / (this.size.w - M.l - M.r)) * (x1 - x0);
+  }
+  thzFromPy(py) {
+    const { lo, hi } = this.yRange;
+    return (lo + ((this.size.h - M.b - py) / (this.size.h - M.t - M.b)) * (hi - lo)) / UNITS[this.unit].factor;
   }
   yOf(thz) {
     const { lo, hi } = this.yRange;
@@ -121,6 +162,7 @@ export class BandPlot {
     ctx.textAlign = "center"; ctx.textBaseline = "top";
     for (const t of d.ticks) {
       const x = this.xOf(t.index);
+      if (x < M.l - 0.5 || x > w - M.r + 0.5) continue;
       ctx.strokeStyle = muted; ctx.globalAlpha = 0.55; ctx.lineWidth = 1;
       ctx.beginPath(); ctx.moveTo(x, M.t); ctx.lineTo(x, h - M.b); ctx.stroke();
       ctx.globalAlpha = 1;
@@ -131,13 +173,21 @@ export class BandPlot {
     // frame and axis title
     ctx.strokeStyle = muted; ctx.lineWidth = 1;
     ctx.strokeRect(M.l, M.t, w - M.l - M.r, h - M.t - M.b);
+    if (this.marks) {                                             // q-points with symmetry data
+      ctx.fillStyle = accent;
+      for (const i of this.marks) {
+        const x = this.xOf(i);
+        if (x < M.l - 1 || x > w - M.r + 1) continue;
+        ctx.beginPath(); ctx.moveTo(x - 4.5, h - M.b); ctx.lineTo(x + 4.5, h - M.b); ctx.lineTo(x, h - M.b - 8); ctx.closePath(); ctx.fill();
+      }
+    }
     ctx.save();
     ctx.translate(14, M.t + (h - M.t - M.b) / 2); ctx.rotate(-Math.PI / 2);
     ctx.fillStyle = muted; ctx.textAlign = "center"; ctx.textBaseline = "middle";
     ctx.fillText(`Frequency (${UNITS[this.unit].label})`, 0, 0);
     ctx.restore();
     // zero line, dashed red when there are imaginary modes
-    if (this.imaginary) {
+    if (this.imaginary && lo < 0 && hi > 0) {
       ctx.setLineDash([5, 4]); ctx.strokeStyle = bad; ctx.lineWidth = 1.2;
       const y0 = this.yOf(0);
       ctx.beginPath(); ctx.moveTo(M.l, y0); ctx.lineTo(w - M.r, y0); ctx.stroke(); ctx.setLineDash([]);
@@ -176,39 +226,74 @@ export class BandPlot {
     ctx.restore();
 
     // selection marker
+    const inside = (x, y) => x >= M.l - 1 && x <= w - M.r + 1 && y >= M.t - 1 && y <= h - M.b + 1;
     const { q, b } = this.sel;
     const sx = this.xOf(q), sy = this.yOf(d.freq[q * d.nb + b]);
-    ctx.strokeStyle = accent; ctx.globalAlpha = 0.5; ctx.lineWidth = 1;
-    ctx.beginPath(); ctx.moveTo(sx, M.t); ctx.lineTo(sx, h - M.b); ctx.stroke(); ctx.globalAlpha = 1;
-    ctx.fillStyle = accent; ctx.strokeStyle = bgc; ctx.lineWidth = 2;
-    ctx.beginPath(); ctx.arc(sx, sy, 5.5, 0, 6.2832); ctx.stroke(); ctx.fill();
+    if (sx >= M.l - 1 && sx <= w - M.r + 1) {
+      ctx.strokeStyle = accent; ctx.globalAlpha = 0.5; ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(sx, M.t); ctx.lineTo(sx, h - M.b); ctx.stroke(); ctx.globalAlpha = 1;
+    }
+    if (inside(sx, sy)) {
+      ctx.fillStyle = accent; ctx.strokeStyle = bgc; ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.arc(sx, sy, 5.5, 0, 6.2832); ctx.stroke(); ctx.fill();
+    }
     if (this.hover && (this.hover.q !== q || this.hover.b !== b)) {
-      ctx.strokeStyle = accent; ctx.lineWidth = 1.5;
-      ctx.beginPath(); ctx.arc(this.xOf(this.hover.q), this.yOf(d.freq[this.hover.q * d.nb + this.hover.b]), 5, 0, 6.2832); ctx.stroke();
+      const hx = this.xOf(this.hover.q), hy = this.yOf(d.freq[this.hover.q * d.nb + this.hover.b]);
+      if (inside(hx, hy)) {
+        ctx.strokeStyle = accent; ctx.lineWidth = 1.5;
+        ctx.beginPath(); ctx.arc(hx, hy, 5, 0, 6.2832); ctx.stroke();
+      }
+    }
+    if (this.rect) {                                              // the zoom box being dragged
+      const { x0, y0, x1, y1 } = this.rect;
+      ctx.fillStyle = accent; ctx.globalAlpha = 0.12;
+      ctx.fillRect(Math.min(x0, x1), Math.min(y0, y1), Math.abs(x1 - x0), Math.abs(y1 - y0));
+      ctx.globalAlpha = 1; ctx.strokeStyle = accent; ctx.lineWidth = 1; ctx.setLineDash([4, 3]);
+      ctx.strokeRect(Math.min(x0, x1) + 0.5, Math.min(y0, y1) + 0.5, Math.abs(x1 - x0), Math.abs(y1 - y0));
+      ctx.setLineDash([]);
     }
   }
 
   // ---- interaction ------------------------------------------------------------------------------------------------------
   attach() {
     const c = this.canvas;
-    let drag = false;
+    let down = null;   // {x, y, shift, moved} while the button is held
     const pos = (e) => { const r = c.getBoundingClientRect(); return [e.clientX - r.left, e.clientY - r.top]; };
-    const pick = (e, keepBand) => {
-      const [x, y] = pos(e);
+    const pick = (x, y, keepBand) => {
       const q = this.nearestQ(x);
-      const b = keepBand ? this.sel.b : this.nearestBand(q, y);
-      this.select(q, b);
+      this.select(q, keepBand ? this.sel.b : this.nearestBand(q, y));
+    };
+    const clampX = (x) => Math.max(M.l, Math.min(this.size.w - M.r, x));
+    const clampY = (y) => Math.max(M.t, Math.min(this.size.h - M.b, y));
+    /** Turn the dragged box into a zoom window; a box that is thin in one direction zooms the other direction only. */
+    const applyBox = ({ x0, y0, x1, y1 }) => {
+      const [xa, xb] = [clampX(Math.min(x0, x1)), clampX(Math.max(x0, x1))], [ya, yb] = [clampY(Math.min(y0, y1)), clampY(Math.max(y0, y1))];
+      const z = this.zoom ? { ...this.zoom } : { x0: this.xr.x0, x1: this.xr.x1, y0: this.thzFromPy(M.t + (this.size.h - M.t - M.b)), y1: this.thzFromPy(M.t) };
+      if (xb - xa >= 6) { z.x0 = this.xFromPx(xa); z.x1 = this.xFromPx(xb); }
+      if (yb - ya >= 6) { z.y0 = this.thzFromPy(yb); z.y1 = this.thzFromPy(ya); }
+      const full = this.data.dist[this.data.nq - 1] - this.data.dist[0];
+      if (z.x1 - z.x0 < full / 400) return false;                 // not meaningfully narrower than one q step
+      this.zoom = z;
+      this.applyView();
+      this.onZoom?.(true);
+      return true;
     };
     c.addEventListener("pointerdown", (e) => {
-      if (!this.data) return;
+      if (!this.data || e.button > 0) return;
       c.setPointerCapture(e.pointerId);
-      drag = true; pick(e, false);
+      const [x, y] = pos(e);
+      down = { x, y, shift: e.shiftKey, moved: false };
       c.focus();
     });
     c.addEventListener("pointermove", (e) => {
       if (!this.data) return;
-      if (drag) { pick(e, true); return; }
       const [x, y] = pos(e);
+      if (down) {
+        if (down.shift) { pick(x, y, true); return; }              // Shift-drag scrubs along q, keeping the band
+        if (!down.moved && Math.hypot(x - down.x, y - down.y) > 4) down.moved = true;
+        if (down.moved) { this.rect = { x0: down.x, y0: down.y, x1: x, y1: y }; this.draw(); }
+        return;
+      }
       const q = this.nearestQ(x), b = this.nearestBand(q, y);
       this.hover = { q, b };
       const d = this.data, f = d.freq[q * d.nb + b];
@@ -217,7 +302,18 @@ export class BandPlot {
       this.tip.style.opacity = 1;
       this.draw();
     });
-    c.addEventListener("pointerup", () => { drag = false; });
+    c.addEventListener("pointerup", (e) => {
+      if (!down || !this.data) return;
+      const [x, y] = pos(e), d0 = down;
+      down = null;
+      const box = this.rect;
+      this.rect = null;
+      if (d0.shift) return;
+      if (d0.moved && box) { applyBox({ ...box, x1: x, y1: y }); this.draw(); }
+      else pick(x, y, false);                                      // a click (no drag) selects the nearest mode
+    });
+    c.addEventListener("pointercancel", () => { down = null; this.rect = null; this.draw(); });
+    c.addEventListener("dblclick", () => this.resetZoom());
     c.addEventListener("pointerleave", () => { this.hover = null; this.tip.style.opacity = 0; if (this.data) this.draw(); });
     c.addEventListener("keydown", (e) => {
       if (!this.data) return;
@@ -229,11 +325,14 @@ export class BandPlot {
       else if (e.key === "ArrowDown") b = Math.max(0, b - 1);
       else if (e.key === "Home") q = 0;
       else if (e.key === "End") q = d.nq - 1;
+      else if (e.key === "Escape") { this.resetZoom(); return; }
       else return;
       e.preventDefault();
       this.select(q, b);
     });
     c.tabIndex = 0;
+    c.style.cursor = "crosshair";
+    c.style.touchAction = "none";
   }
 
   /** Render to a standalone canvas for export. */
@@ -243,9 +342,9 @@ export class BandPlot {
     const scale = width / Math.max(560, this.size.w);
     const logicalW = width / scale, logicalH = height / scale;
     const ctx = out.getContext("2d");
-    const prevHover = this.hover; this.hover = null;
+    const prevHover = this.hover, prevRect = this.rect; this.hover = null; this.rect = null;
     this.draw(ctx, { w: logicalW, h: logicalH, scale, transparent });
-    this.hover = prevHover;
+    this.hover = prevHover; this.rect = prevRect;
     return out;
   }
 }

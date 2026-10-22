@@ -125,15 +125,17 @@ export function buildStructure(data, { reps = [1, 1, 1], wrap = true, complete =
  * Normalised so the atom that moves most has |u| = 1 at its peak. The overall phase of an eigenvector is arbitrary; it is
  * fixed so the largest component is real, which makes t = 0 the instant of maximum displacement.
  */
-export function modePattern(data, struct, qi, bi, { massScale = data.eigIsDynmat, basisPhase = data.phaseWithBasis } = {}) {
+export function modePattern(data, struct, qi, bi, { massScale = data.eigIsDynmat, basisPhase = data.phaseWithBasis, eig = null } = {}) {
   const { natom, nb } = data;
   const q = [data.qpts[qi * 3], data.qpts[qi * 3 + 1], data.qpts[qi * 3 + 2]];
-  const eigAt = (a, c) => ((qi * nb + bi) * natom + a) * 6 + c * 2;
+  // `eig`: an eigenvector to use instead of the file's (Float32Array natom*6 of re/im pairs), e.g. a symmetry-adapted one
+  const arr = eig ?? data.eig, base0 = eig ? 0 : (qi * nb + bi) * natom * 6;
+  const eigAt = (a, c) => base0 + a * 6 + c * 2;
   let best = 0, gauge = [1, 0];
   for (let a = 0; a < natom; a++)
     for (let c = 0; c < 3; c++) {
-      const o = eigAt(a, c), m = Math.hypot(data.eig[o], data.eig[o + 1]);
-      if (m > best + 1e-9) { best = m; gauge = m ? [data.eig[o] / m, -data.eig[o + 1] / m] : [1, 0]; }
+      const o = eigAt(a, c), m = Math.hypot(arr[o], arr[o + 1]);
+      if (m > best + 1e-9) { best = m; gauge = m ? [arr[o] / m, -arr[o + 1] / m] : [1, 0]; }
     }
   const n = struct.n;
   const re = new Float32Array(n * 3), im = new Float32Array(n * 3);
@@ -151,7 +153,7 @@ export function modePattern(data, struct, qi, bi, { massScale = data.eigIsDynmat
     let n2 = 0;
     for (let c = 0; c < 3; c++) {
       const o = eigAt(k, c);
-      const er = data.eig[o] * w, ei = data.eig[o + 1] * w;
+      const er = arr[o] * w, ei = arr[o + 1] * w;
       re[3 * i + c] = er * pr - ei * pi;
       im[3 * i + c] = er * pi + ei * pr;
       n2 += er * er + ei * ei;

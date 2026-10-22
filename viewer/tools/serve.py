@@ -10,7 +10,22 @@ import sys
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
 
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import build_py_bundle  # noqa: E402
+
+
 class NoCache(http.server.SimpleHTTPRequestHandler):
+    def do_GET(self):
+        if self.path.split("?")[0] == "/py/distortkit.zip":      # the DistortKit package for the in-browser analysis
+            data = build_py_bundle.build()
+            self.send_response(200)
+            self.send_header("Content-Type", "application/zip")
+            self.send_header("Content-Length", str(len(data)))
+            self.end_headers()
+            self.wfile.write(data)
+            return
+        super().do_GET()
+
     def end_headers(self):
         self.send_header("Cache-Control", "no-store")
         super().end_headers()
